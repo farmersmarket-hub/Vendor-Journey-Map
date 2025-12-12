@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendor Journey Map – The People's Market</title>
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a24;
+      --bg-card: #16161f;
+      --bg-elevated: #1e1e2a;
+      
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      
+      --border-subtle: rgba(255,255,255,0.06);
+      --border-default: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.15);
+      
+      --accent-cyan: #22d3ee;
+      --accent-cyan-dim: rgba(34,211,238,0.15);
+      --accent-blue: #3b82f6;
+      --accent-blue-dim: rgba(59,130,246,0.15);
+      --accent-violet: #8b5cf6;
+      --accent-violet-dim: rgba(139,92,246,0.15);
+      --accent-amber: #f59e0b;
+      --accent-amber-dim: rgba(245,158,11,0.15);
+      --accent-emerald: #10b981;
+      --accent-emerald-dim: rgba(16,185,129,0.15);
+      --accent-rose: #f43f5e;
+      --accent-rose-dim: rgba(244,63,94,0.15);
+      
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.6);
+      --shadow-glow-cyan: 0 0 40px rgba(34,211,238,0.15);
+      --shadow-glow-violet: 0 0 40px rgba(139,92,246,0.15);
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { font-size: 14px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container { max-width: 1360px; margin: 0 auto; padding: 24px; position: relative; z-index: 1; }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      margin-bottom: 24px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+    
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      border-radius: var(--radius-md);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .brand-text span {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    /* Filters */
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      border-color: var(--border-default);
+    }
+
+    .filter-btn.active {
+      color: var(--accent-cyan);
+      background: var(--accent-cyan-dim);
+      border-color: rgba(34,211,238,0.3);
+    }
+
+    /* Progress Timeline */
+    .timeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 16px 0 28px;
+    }
+
+    .timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .timeline-node {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-default);
+      transition: var(--transition-base);
+      position: relative;
+    }
+
+    .timeline-step:nth-child(1) .timeline-node { border-color: var(--accent-cyan); background: var(--accent-cyan-dim); }
+    .timeline-step:nth-child(3) .timeline-node { border-color: var(--accent-amber); background: var(--accent-amber-dim); }
+    .timeline-step:nth-child(5) .timeline-node { border-color: var(--accent-emerald); background: var(--accent-emerald-dim); }
+    .timeline-step:nth-child(7) .timeline-node { border-color: var(--accent-violet); background: var(--accent-violet-dim); }
+
+    .timeline-step:hover .timeline-node { transform: scale(1.1); }
+
+    .timeline-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline-connector {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--border-default), var(--border-subtle));
+      margin-bottom: 28px;
+    }
+
+    /* Main Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Phase Cards */
+    .phase {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition-base);
+    }
+
+    .phase:hover {
+      border-color: var(--border-default);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .phase.hidden { display: none; }
+
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .phase-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .phase-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .phase.prepare .phase-icon { background: var(--accent-cyan-dim); }
+    .phase.premarket .phase-icon { background: var(--accent-amber-dim); }
+    .phase.marketday .phase-icon { background: var(--accent-emerald-dim); }
+    .phase.postmarket .phase-icon { background: var(--accent-violet-dim); }
+
+    .phase-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .phase-meta {
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .quiz-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .quiz-btn:hover {
+      background: var(--accent-violet-dim);
+      border-color: var(--accent-violet);
+      color: var(--accent-violet);
+    }
+
+    .phase-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .phase-body.single { grid-template-columns: 1fr; }
+
+    /* Cards */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .card.span { grid-column: span 2; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .phase.prepare .card-num { background: var(--accent-cyan); color: var(--bg-primary); }
+    .phase.premarket .card-num { background: var(--accent-amber); color: var(--bg-primary); }
+    .phase.marketday .card-num { background: var(--accent-emerald); color: var(--bg-primary); }
+    .phase.postmarket .card-num { background: var(--accent-violet); color: var(--bg-primary); }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Lists */
+    .list { list-style: none; }
+
+    .list li {
+      position: relative;
+      padding: 6px 0 6px 18px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .list li:last-child { border-bottom: none; }
+
+    .list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+    }
+
+    .phase.premarket .list li::before { background: var(--accent-amber); }
+    .phase.marketday .list li::before { background: var(--accent-emerald); }
+    .phase.postmarket .list li::before { background: var(--accent-violet); }
+
+    .term {
+      color: var(--accent-cyan);
+      border-bottom: 1px dotted var(--accent-cyan);
+      cursor: help;
+    }
+
+    /* Alerts */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      margin-top: 10px;
+    }
+
+    .alert.warn {
+      background: var(--accent-amber-dim);
+      border: 1px solid rgba(245,158,11,0.25);
+      color: var(--accent-amber);
+    }
+
+    .alert.error {
+      background: var(--accent-rose-dim);
+      border: 1px solid rgba(244,63,94,0.25);
+      color: var(--accent-rose);
+    }
+
+    .alert.info {
+      background: var(--accent-blue-dim);
+      border: 1px solid rgba(59,130,246,0.25);
+      color: var(--accent-blue);
+    }
+
+    .alert-icon { flex-shrink: 0; font-size: 14px; }
+
+    /* Tools Section */
+    .tools {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .tools-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .tools-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tools-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      background: var(--accent-violet-dim);
+      color: var(--accent-violet);
+      border-radius: var(--radius-sm);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .tool-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      text-align: center;
+      transition: var(--transition-fast);
+    }
+
+    .tool-card:hover {
+      border-color: var(--border-default);
+      background: var(--bg-tertiary);
+    }
+
+    .tool-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .tool-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .tool-desc {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    .footer-arrow {
+      color: var(--accent-violet);
+      opacity: 0.6;
+    }
+
+    .footer-highlight {
+      color: var(--accent-cyan);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show { display: grid; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: var(--transition-fast);
+    }
+
+    .modal-close:hover {
+      background: var(--accent-rose-dim);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .quiz-q { margin-bottom: 20px; }
+
+    .quiz-q p {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .quiz-opt {
+      display: block;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .quiz-opt:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-default);
+      color: var(--text-primary);
+    }
+
+    .quiz-opt.correct {
+      background: var(--accent-emerald-dim);
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+    }
+
+    .quiz-opt.wrong {
+      background: var(--accent-rose-dim);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+    }
+
+    .quiz-result {
+      text-align: center;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 12px;
+    }
+
+    .quiz-result.pass {
+      background: var(--accent-emerald-dim);
+      color: var(--accent-emerald);
+    }
+
+    .quiz-result.fail {
+      background: var(--accent-amber-dim);
+      color: var(--accent-amber);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .phase-body { grid-template-columns: 1fr; }
+      .card.span { grid-column: span 1; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .header { flex-direction: column; align-items: stretch; }
+      .filters { justify-content: center; }
+      .timeline { display: none; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+    /* Selection */
+    ::selection { background: var(--accent-cyan-dim); color: var(--accent-cyan); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h1>Vendor Journey Map</h1>
+          <span>The People's Market</span>
+        </div>
+      </div>
+      <nav class="filters">
+        <button class="filter-btn active" onclick="filter('all')">All</button>
+        <button class="filter-btn" onclick="filter('prepare')">📝 Prepare</button>
+        <button class="filter-btn" onclick="filter('premarket')">📅 Pre-Market</button>
+        <button class="filter-btn" onclick="filter('marketday')">🏪 Market Day</button>
+        <button class="filter-btn" onclick="filter('postmarket')">📊 After</button>
+      </nav>
+    </header>
+
+    <div class="timeline">
+      <div class="timeline-step" onclick="filter('prepare')">
+        <div class="timeline-node">📝</div>
+        <div class="timeline-label">Prepare</div>
+      </div>
+      <div class="timeline-connector"></div>
+      <div class="timeline-step" onclick="filter('premarket')">
+        <div class="timeline-node">📅</div>
+        <div class="timeline-label">Pre-Market</div>
+      </div>
+      <div class="timeline-connector"></div>
+      <div class="timeline-step" onclick="filter('marketday')">
+        <div class="timeline-node">🏪</div>
+        <div class="timeline-label">Market Day</div>
+      </div>
+      <div class="timeline-connector"></div>
+      <div class="timeline-step" onclick="filter('postmarket')">
+        <div class="timeline-node">📊</div>
+        <div class="timeline-label">Review</div>
+      </div>
+    </div>
+
+    <main class="grid">
+      <!-- Prepare -->
+      <section class="phase prepare" data-phase="prepare">
+        <div class="phase-header">
+          <div class="phase-header-left">
+            <div class="phase-icon">📝</div>
+            <div>
+              <div class="phase-title">Preparing to Be a Vendor</div>
+              <div class="phase-meta">One-time setup • 3 steps</div>
+            </div>
+          </div>
+          <button class="quiz-btn" onclick="openQuiz('prepare')">🎯 Quiz</button>
+        </div>
+        <div class="phase-body">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">1</span>
+              <span class="card-title">Choose Vendor Type</span>
+            </div>
+            <ul class="list">
+              <li><span class="term" title="Grows/harvests agricultural products">Farmer</span> – produce sales</li>
+              <li><span class="term" title="Transforms raw ingredients">Value-added</span> – jams, pickles</li>
+              <li><span class="term" title="Resells packaged goods">Retailer</span> – packaged goods</li>
+              <li><span class="term" title="Ready-to-eat foods">Hot-food</span> – prepared meals</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">2</span>
+              <span class="card-title">Apply to Join</span>
+            </div>
+            <ul class="list">
+              <li>Submit <strong>Market Vendor Request Form</strong></li>
+              <li>Wait 3–5 days for approval</li>
+              <li>Receive <span class="term" title="Unique vendor code">PIN</span> & <span class="term" title="Record ID">Vendor ID</span></li>
+            </ul>
+          </div>
+          <div class="card span">
+            <div class="card-header">
+              <span class="card-num">3</span>
+              <span class="card-title">Upload Documents</span>
+            </div>
+            <ul class="list">
+              <li>Use <strong>Document Upload</strong> for licenses/certifications</li>
+              <li>Update when documents change or expire</li>
+            </ul>
+            <div class="alert warn">
+              <span class="alert-icon">⚠️</span>
+              <span>Complete within <strong>14 days</strong> or participation may be paused</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pre-Market -->
+      <section class="phase premarket" data-phase="premarket">
+        <div class="phase-header">
+          <div class="phase-header-left">
+            <div class="phase-icon">📅</div>
+            <div>
+              <div class="phase-title">Pre-Market Preparation</div>
+              <div class="phase-meta">Weekly • Before each market</div>
+            </div>
+          </div>
+          <button class="quiz-btn" onclick="openQuiz('premarket')">🎯 Quiz</button>
+        </div>
+        <div class="phase-body">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">1</span>
+              <span class="card-title">Complete Upcoming Market Form</span>
+            </div>
+            <ul class="list">
+              <li>Sent weekly via email/SMS</li>
+              <li>Confirm attendance & list products</li>
+              <li>Request equipment if needed</li>
+              <li><strong>Farmers:</strong> finalize by Wed night</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">📌</span>
+              <span class="card-title">What This Form Does</span>
+            </div>
+            <ul class="list">
+              <li>Confirms your attendance</li>
+              <li>Preloads products in Transaction Form</li>
+              <li>Informs logistics team</li>
+            </ul>
+            <div class="alert info">
+              <span class="alert-icon">💡</span>
+              <span>Check messages weekly for PGL updates</span>
+            </div>
+          </div>
+          <div class="card span">
+            <div class="alert error">
+              <span class="alert-icon">❗</span>
+              <span><strong>Critical:</strong> Without this form, Transaction Form won't work and you cannot participate</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Market Day -->
+      <section class="phase marketday" data-phase="marketday">
+        <div class="phase-header">
+          <div class="phase-header-left">
+            <div class="phase-icon">🏪</div>
+            <div>
+              <div class="phase-title">Market Day</div>
+              <div class="phase-meta">Day of • 3 parts</div>
+            </div>
+          </div>
+          <button class="quiz-btn" onclick="openQuiz('marketday')">🎯 Quiz</button>
+        </div>
+        <div class="phase-body">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">1</span>
+              <span class="card-title">Morning Setup</span>
+            </div>
+            <ul class="list">
+              <li>Arrive 10:00 AM – 12:30 PM</li>
+              <li>Check Wi-Fi/data connection</li>
+              <li>Open Transaction Form → enter PIN</li>
+              <li>Verify products in pick-lists</li>
+              <li>Check in at <strong>PGL Table</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">2</span>
+              <span class="card-title">During Market</span>
+            </div>
+            <ul class="list">
+              <li>Log <strong>every sale</strong> in Transaction Form</li>
+              <li>Scan attendee <strong>QR code</strong> (preferred)</li>
+              <li>Or enter <span class="term" title="REACH-12345">Neighbor ID</span></li>
+            </ul>
+            <div class="alert warn">
+              <span class="alert-icon">⚠️</span>
+              <span>Format: <code>REACH-12345</code> (uppercase, hyphen)</span>
+            </div>
+          </div>
+          <div class="card span">
+            <div class="card-header">
+              <span class="card-num">3</span>
+              <span class="card-title">Closing</span>
+            </div>
+            <ul class="list" style="display:grid;grid-template-columns:1fr 1fr;gap:0 20px;">
+              <li>Pack up table & inventory</li>
+              <li>Wait for success confirmation</li>
+              <li>Complete <strong>End of Market Invoice</strong></li>
+              <li>Visit <strong>PGL Check-out</strong> ✓</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Post-Market -->
+      <section class="phase postmarket" data-phase="postmarket">
+        <div class="phase-header">
+          <div class="phase-header-left">
+            <div class="phase-icon">📊</div>
+            <div>
+              <div class="phase-title">After Market</div>
+              <div class="phase-meta">Recommended • Before next week</div>
+            </div>
+          </div>
+          <button class="quiz-btn" onclick="openQuiz('postmarket')">🎯 Quiz</button>
+        </div>
+        <div class="phase-body">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">✓</span>
+              <span class="card-title">Recommended Actions</span>
+            </div>
+            <ul class="list">
+              <li>Resolve outstanding payments</li>
+              <li>Review dashboards for insights</li>
+              <li>Update contact details if changed</li>
+              <li>Note lessons for next market</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-num">↻</span>
+              <span class="card-title">Prepare for Next Week</span>
+            </div>
+            <ul class="list">
+              <li>Watch for new Upcoming Market Form</li>
+              <li>Check document expiration dates</li>
+              <li>Restock based on sales data</li>
+            </ul>
+            <div class="alert info">
+              <span class="alert-icon">🔄</span>
+              <span>Cycle repeats weekly</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="tools">
+      <div class="tools-header">
+        <div class="tools-title">🛠️ Optional: Helpful Tools</div>
+        <span class="tools-badge">Not Required</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <span class="tool-icon">💰</span>
+          <div class="tool-name">Vendor Wallet</div>
+          <div class="tool-desc">Track live balance as transactions come in during market hours</div>
+        </div>
+        <div class="tool-card">
+          <span class="tool-icon">📈</span>
+          <div class="tool-name">Transaction History</div>
+          <div class="tool-desc">Review past sales by date, product type, or payment method</div>
+        </div>
+        <div class="tool-card">
+          <span class="tool-icon">📊</span>
+          <div class="tool-name">Analytics</div>
+          <div class="tool-desc">Charts showing sales trends, peak hours, and top products</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>📝 Prepare</span>
+      <span class="footer-arrow">→</span>
+      <span>📅 Pre-Market</span>
+      <span class="footer-arrow">→</span>
+      <span>🏪 Market Day</span>
+      <span class="footer-arrow">→</span>
+      <span>📊 Review</span>
+      <span class="footer-arrow">↺</span>
+      <span class="footer-highlight">Repeat Weekly</span>
+    </footer>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Quiz</h3>
+        <button class="modal-close" onclick="closeQuiz()">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const quizData = {
+      prepare: {
+        title: '📝 Prepare Quiz',
+        questions: [
+          { q: 'How long to upload documents?', opts: ['7 days', '14 days', '30 days', 'No limit'], ans: 1 },
+          { q: 'What do you receive after approval?', opts: ['Email only', 'PIN & Vendor ID', 'Badge', 'Nothing'], ans: 1 }
+        ]
+      },
+      premarket: {
+        title: '📅 Pre-Market Quiz',
+        questions: [
+          { q: 'Farmers finalize products by?', opts: ['Monday', 'Tuesday', 'Wednesday night', 'Market day'], ans: 2 },
+          { q: 'No Upcoming Market Form means?', opts: ['Warning', 'Transaction Form fails', 'Nothing', 'Fine'], ans: 1 }
+        ]
+      },
+      marketday: {
+        title: '🏪 Market Day Quiz',
+        questions: [
+          { q: 'Correct Neighbor ID format?', opts: ['reach-12345', 'REACH 12345', 'REACH-12345', '12345'], ans: 2 },
+          { q: 'Before leaving you must?', opts: ['Pack up', 'Visit PGL Check-out', 'Email PGL', 'Nothing'], ans: 1 }
+        ]
+      },
+      postmarket: {
+        title: '📊 After Market Quiz',
+        questions: [
+          { q: 'What should you review?', opts: ['Sales only', 'Dashboards', 'Nothing', 'Email'], ans: 1 },
+          { q: 'Market cycle repeats?', opts: ['Daily', 'Weekly', 'Monthly', 'Yearly'], ans: 1 }
+        ]
+      }
+    };
+
+    let quiz, answers = [];
+
+    function filter(phase) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.phase').forEach(p => {
+        p.classList.toggle('hidden', phase !== 'all' && p.dataset.phase !== phase);
+      });
+    }
+
+    function openQuiz(key) {
+      quiz = quizData[key];
+      answers = [];
+      document.getElementById('modalTitle').textContent = quiz.title;
+      render();
+      document.getElementById('modal').classList.add('show');
+    }
+
+    function closeQuiz() {
+      document.getElementById('modal').classList.remove('show');
+    }
+
+    function render() {
+      let html = '';
+      quiz.questions.forEach((q, qi) => {
+        html += `<div class="quiz-q"><p>${qi + 1}. ${q.q}</p>`;
+        q.opts.forEach((o, oi) => {
+          let cls = '';
+          if (answers[qi] !== undefined) {
+            if (oi === q.ans) cls = 'correct';
+            else if (answers[qi] === oi) cls = 'wrong';
+          }
+          const dis = answers[qi] !== undefined ? 'style="pointer-events:none"' : '';
+          html += `<div class="quiz-opt ${cls}" ${dis} onclick="answer(${qi},${oi})">${o}</div>`;
+        });
+        html += '</div>';
+      });
+      if (answers.length === quiz.questions.length) {
+        const score = answers.filter((a, i) => a === quiz.questions[i].ans).length;
+        const pass = score === quiz.questions.length;
+        html += `<div class="quiz-result ${pass ? 'pass' : 'fail'}">${pass ? '🎉 Perfect!' : '📚 Review needed'} ${score}/${quiz.questions.length}</div>`;
+      }
+      document.getElementById('modalBody').innerHTML = html;
+    }
+
+    function answer(qi, oi) { answers[qi] = oi; render(); }
+
+    document.getElementById('modal').onclick = e => { if (e.target.id === 'modal') closeQuiz(); };
+  </script>
+</body>
+</html>
