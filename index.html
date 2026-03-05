@@ -33,6 +33,9 @@
     
     /* Main Layout */
     .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .main-layout.single-col { grid-template-columns: 1fr; }
+    .manager-journey-col, .sponsor-journey-col, .customer-journey-col, .trainee-journey-col { grid-template-columns: 1fr; }
+    .manager-journey-col .left-col, .sponsor-journey-col .left-col, .customer-journey-col .left-col, .trainee-journey-col .left-col { max-width: 100%; }
     
     /* Sections */
     .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
@@ -155,15 +158,448 @@
       .tools-grid { grid-template-columns: 1fr 1fr; }
       .legend { flex-direction: column; gap: 4px; }
     }
+
+    /* ===================== USER SELECTION SCREEN ===================== */
+    .user-selection-screen {
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .user-selection-screen.hidden { display: none; }
+
+    .selection-header {
+      text-align: center;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 24px 32px;
+      border-radius: var(--radius);
+      color: white;
+      width: 100%;
+      max-width: 900px;
+    }
+    .selection-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .selection-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .selection-lang-dropdown {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    /* User Type Grid */
+    .user-type-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .user-type-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+    }
+    .user-type-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    }
+    .user-type-card.selected {
+      border-color: var(--purple);
+      background: var(--purple-light);
+    }
+    .user-type-card .icon { font-size: 32px; margin-bottom: 8px; }
+    .user-type-card .title { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+    .user-type-card .desc { font-size: 10px; color: var(--muted); line-height: 1.3; }
+
+    /* Vendor color */
+    .user-type-card[data-type="vendor"].selected { background: var(--blue-light); border-color: var(--blue); }
+    /* Manager color */
+    .user-type-card[data-type="manager"].selected { background: var(--teal-light); border-color: var(--teal); }
+    /* Sponsor color */
+    .user-type-card[data-type="sponsor"].selected { background: var(--purple-light); border-color: var(--purple); }
+    /* Customer color */
+    .user-type-card[data-type="customer"].selected { background: var(--green-light); border-color: var(--green); }
+    /* Trainee color */
+    .user-type-card[data-type="trainee"].selected { background: var(--orange-light); border-color: var(--orange); }
+
+    /* Hybrid Role Section */
+    .hybrid-role-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: var(--shadow);
+    }
+    .hybrid-role-section h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hybrid-toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .hybrid-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 6px 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .hybrid-toggle:hover { background: #f1f5f9; }
+    .hybrid-toggle.active {
+      background: var(--purple-light);
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+    .hybrid-toggle input { display: none; }
+    .hybrid-check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      transition: all 0.2s;
+    }
+    .hybrid-toggle.active .hybrid-check {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: white;
+    }
+
+    /* Program Type Section */
+    .program-type-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: var(--shadow);
+    }
+    .program-type-section h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .program-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .program-btn {
+      padding: 8px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .program-btn:hover { border-color: var(--purple); }
+    .program-btn.selected {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: white;
+    }
+    .program-btn[data-program="market-program"].selected { background: var(--green); border-color: var(--green); }
+    .program-btn[data-program="market-event"].selected { background: var(--orange); border-color: var(--orange); }
+    .program-btn[data-program="csa"].selected { background: var(--teal); border-color: var(--teal); }
+    .program-btn[data-program="training"].selected { background: var(--purple); border-color: var(--purple); }
+    .program-btn[data-program="supply-chain"].selected { background: var(--blue); border-color: var(--blue); }
+
+    /* Start Journey Button */
+    .start-journey-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .start-journey-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+    }
+    .start-journey-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===================== ROLE TABS (for hybrids) ===================== */
+    .role-tabs {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .role-tabs.visible { display: flex; }
+    .role-tab {
+      padding: 6px 14px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .role-tab:hover { border-color: var(--purple); }
+    .role-tab.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: white;
+    }
+    .hybrid-badge {
+      margin-left: auto;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 9px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    /* Back to Selection Button */
+    .back-to-selection {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .back-to-selection:hover { background: var(--purple-light); }
+
+    /* ===================== FORM LINKS ===================== */
+    .form-link {
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px dashed var(--purple);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .form-link:hover {
+      color: #5b21b6;
+      border-bottom-style: solid;
+    }
+    .form-link .link-icon { font-size: 10px; }
+
+    /* ===================== JOURNEY SECTIONS (User Type Specific) ===================== */
+    .journey-content { display: none; }
+    .journey-content.visible { display: block; }
+
+    /* Manager Section Colors */
+    .section.manager .section-header { background: var(--teal-light); color: #0f766e; }
+    /* Sponsor Section Colors */
+    .section.sponsor .section-header { background: var(--purple-light); color: #5b21b6; }
+    /* Customer Section Colors */
+    .section.customer .section-header { background: var(--green-light); color: #065f46; }
+    /* Trainee Section Colors */
+    .section.trainee .section-header { background: var(--orange-light); color: #9a3412; }
+
+    /* Program Type Badges */
+    .badge.market-program { background: var(--green); color: white; }
+    .badge.market-event { background: var(--orange); color: white; }
+    .badge.csa-badge { background: var(--teal); color: white; }
+    .badge.training-badge { background: var(--purple); color: white; }
+    .badge.supply-chain-badge { background: var(--blue); color: white; }
+
+    /* User Type Indicator */
+    .user-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    /* Responsive for Selection Screen */
+    @media (max-width: 900px) {
+      .user-type-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .user-type-grid { grid-template-columns: repeat(2, 1fr); }
+      .hybrid-toggles { flex-direction: column; }
+      .program-buttons { flex-direction: column; }
+      .selection-header h1 { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- ===================== USER SELECTION SCREEN ===================== -->
+  <div class="user-selection-screen" id="userSelection">
+    <div class="selection-header">
+      <h1><span>🛒</span> <span data-i18n="welcomeTitle">Welcome to The People's Market</span></h1>
+      <p data-i18n="selectRolePrompt">Select your role to see your personalized journey map</p>
+      <div style="margin-top: 12px;">
+        <select class="lang-select" id="selectionLangSelect" onchange="setLanguage(this.value)" aria-label="Select language" style="background: rgba(255,255,255,0.95); border: none; padding: 6px 28px 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; color: #667eea; cursor: pointer;">
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="ro">🌏 Rohingya</option>
+          <option value="my">🇲🇲 မြန်မာ</option>
+          <option value="sw">🇰🇪 Kiswahili</option>
+          <option value="so">🇸🇴 Soomaali</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="vi">🇻🇳 Tiếng Việt</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 style="font-size: 14px; margin-bottom: 12px; color: var(--text);" data-i18n="selectUserType">Select Your User Type</h2>
+
+    <div class="user-type-grid">
+      <div class="user-type-card" data-type="vendor" onclick="selectUserType('vendor')" tabindex="0">
+        <div class="icon">🏪</div>
+        <div class="title" data-i18n="vendorType">Vendor</div>
+        <div class="desc" data-i18n="vendorTypeDesc">Farmer, VAP, Retailer, Hot Food, Educator, Aggregator</div>
+      </div>
+      <div class="user-type-card" data-type="manager" onclick="selectUserType('manager')" tabindex="0">
+        <div class="icon">📋</div>
+        <div class="title" data-i18n="managerType">Manager</div>
+        <div class="desc" data-i18n="managerTypeDesc">Market operations, vendor & attendee management</div>
+      </div>
+      <div class="user-type-card" data-type="sponsor" onclick="selectUserType('sponsor')" tabindex="0">
+        <div class="icon">💰</div>
+        <div class="title" data-i18n="sponsorType">Sponsor (Funder)</div>
+        <div class="desc" data-i18n="sponsorTypeDesc">University, Hospital, Foundation, Government</div>
+      </div>
+      <div class="user-type-card" data-type="customer" onclick="selectUserType('customer')" tabindex="0">
+        <div class="icon">🛍️</div>
+        <div class="title" data-i18n="customerType">Customer</div>
+        <div class="desc" data-i18n="customerTypeDesc">Registered (Neighbor ID), Guest, CSA Enrollee</div>
+      </div>
+      <div class="user-type-card" data-type="trainee" onclick="selectUserType('trainee')" tabindex="0">
+        <div class="icon">🎓</div>
+        <div class="title" data-i18n="traineeType">Trainee</div>
+        <div class="desc" data-i18n="traineeTypeDesc">Youth or Adult in training programs</div>
+      </div>
+    </div>
+
+    <!-- Hybrid Role Section -->
+    <div class="hybrid-role-section" id="hybridSection">
+      <h3>🔗 <span data-i18n="hybridRolesTitle">Do you have multiple roles?</span></h3>
+      <div class="hybrid-toggles" id="hybridToggles">
+        <label class="hybrid-toggle" data-hybrid="manager-vendor" onclick="toggleHybridRole('manager-vendor')">
+          <span class="hybrid-check">✓</span>
+          <span data-i18n="managerVendor">Manager-Vendor</span>
+        </label>
+        <label class="hybrid-toggle" data-hybrid="sponsor-manager" onclick="toggleHybridRole('sponsor-manager')">
+          <span class="hybrid-check">✓</span>
+          <span data-i18n="sponsorManager">Sponsor-Manager</span>
+        </label>
+        <label class="hybrid-toggle" data-hybrid="vendor-customer" onclick="toggleHybridRole('vendor-customer')">
+          <span class="hybrid-check">✓</span>
+          <span data-i18n="vendorCustomer">Vendor-Customer</span>
+        </label>
+        <label class="hybrid-toggle" data-hybrid="customer-trainee" onclick="toggleHybridRole('customer-trainee')">
+          <span class="hybrid-check">✓</span>
+          <span data-i18n="customerTrainee">Customer-Trainee</span>
+        </label>
+        <label class="hybrid-toggle" data-hybrid="vendor-trainee" onclick="toggleHybridRole('vendor-trainee')">
+          <span class="hybrid-check">✓</span>
+          <span data-i18n="vendorTrainee">Vendor-Trainee</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Program Type Section -->
+    <div class="program-type-section" id="programSection">
+      <h3>📂 <span data-i18n="selectProgram">Select Your Program</span></h3>
+      <div class="program-buttons">
+        <button class="program-btn" data-program="market-program" onclick="selectProgramType('market-program')">
+          🏪 <span data-i18n="marketProgram">Market Program (Weekly)</span>
+        </button>
+        <button class="program-btn" data-program="market-event" onclick="selectProgramType('market-event')">
+          🎪 <span data-i18n="marketEvent">Market Event (One-time)</span>
+        </button>
+        <button class="program-btn" data-program="csa" onclick="selectProgramType('csa')">
+          🥬 <span data-i18n="csaProgramBtn">CSA Program</span>
+        </button>
+        <button class="program-btn" data-program="training" onclick="selectProgramType('training')">
+          📚 <span data-i18n="trainingProgram">Training Program</span>
+        </button>
+        <button class="program-btn" data-program="supply-chain" onclick="selectProgramType('supply-chain')">
+          🚚 <span data-i18n="supplyChainProgram">Supply Chain</span>
+        </button>
+      </div>
+    </div>
+
+    <button class="start-journey-btn" id="startJourneyBtn" onclick="startJourney()" disabled>
+      <span data-i18n="viewJourneyMap">View My Journey Map</span> →
+    </button>
+  </div>
+
+  <!-- ===================== MAIN JOURNEY MAP CONTENT ===================== -->
+  <div class="container journey-content" id="journeyContent">
     <!-- Header -->
     <div class="header" role="banner">
       <div class="header-left">
-        <h1><span>🛒</span> <span data-i18n="title">Vendor Journey Map</span></h1>
-        <div class="subtitle" data-i18n="subtitle">The People's Market • Complete Guide</div>
+        <button class="back-to-selection" onclick="backToSelection()">← <span data-i18n="backToSelection">Back</span></button>
+        <h1><span id="headerIcon">🛒</span> <span data-i18n="title" id="headerTitle">Journey Map</span></h1>
+        <div class="subtitle" id="headerSubtitle">
+          <span data-i18n="subtitle">The People's Market • Complete Guide</span>
+          <span class="user-indicator" id="userIndicator" style="display: none;"></span>
+        </div>
       </div>
       <div class="lang-dropdown">
         <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
@@ -186,24 +622,31 @@
       </div>
     </div>
 
-    <!-- Main Two Column Layout -->
-    <div class="main-layout">
+    <!-- Role Tabs (for hybrid users) -->
+    <div class="role-tabs" id="roleTabs">
+      <button class="role-tab active" data-role="primary" onclick="switchRole('primary')" id="primaryRoleTab">Primary Role</button>
+      <button class="role-tab" data-role="secondary" onclick="switchRole('secondary')" id="secondaryRoleTab">Secondary Role</button>
+      <span class="hybrid-badge" id="hybridBadgeDisplay"></span>
+    </div>
+
+    <!-- Main Two Column Layout - VENDOR -->
+    <div class="main-layout vendor-layout" data-user-type="vendor">
       <!-- LEFT COLUMN -->
       <div class="left-col">
-        <!-- Getting Started - Modules A, B, C -->
-        <div class="section prepare" data-phase="prepare" style="margin-bottom:8px;">
+        <!-- Getting Started - Modules A, B, C (VENDOR) -->
+        <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📝</span> <span data-i18n="gettingStarted">Getting Started in the Homegrown Dashboard System</span></h2>
+            <h2><span class="icon">📝</span> <span data-i18n="vendorGettingStarted">Getting Started in the Homegrown Dashboard System</span></h2>
             <span class="badge step" data-i18n="steps3">3 steps</span>
             <span class="badge module">Module: A, B, C</span>
-            <button class="quiz-btn" onclick="openQuiz('prepare')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('vendor-prepare')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
               <div class="card-title"><span class="num">A</span> <span data-i18n="chooseType">Choose Your Vendor Type</span></div>
               <ul class="steps">
                 <li><span class="term" tabindex="0">Farmer<span class="tooltip" data-i18n="farmerTip">Grows/harvests agricultural products</span></span> – <span data-i18n="farmerDesc">sells produce directly</span></li>
-                <li><span class="term" tabindex="0"><span data-i18n="vap">Value-added Producer</span><span class="tooltip" data-i18n="vapTip">Transforms raw ingredients</span></span></li>
+                <li><span class="term" tabindex="0"><span data-i18n="vap">Value-added Producer</span><span class="tooltip" data-i18n="vapTip">Transforms raw ingredients into products</span></span></li>
                 <li><span class="term" tabindex="0"><span data-i18n="retailer">Retailer</span><span class="tooltip" data-i18n="retailerTip">Resells packaged goods</span></span></li>
                 <li><span class="term" tabindex="0"><span data-i18n="hotfood">Hot-food Vendor</span><span class="tooltip" data-i18n="hotfoodTip">Prepares ready-to-eat foods</span></span></li>
               </ul>
@@ -211,15 +654,15 @@
             <div class="card">
               <div class="card-title"><span class="num">B</span> <span data-i18n="applyVendor">Apply to Become a Vendor</span></div>
               <ul class="steps">
-                <li><span data-i18n="submit">Submit</span> <strong data-i18n="vendorRequestForm">Market Vendor Request Form</strong></li>
-                <li><span data-i18n="waitApproval">Wait 3–5 days for approval email</span></li>
-                <li><span data-i18n="receive">Receive your</span> <span class="term" tabindex="0">Vendor PIN<span class="tooltip">4-digit code (e.g., 1234)</span></span> & <span class="term" tabindex="0">Vendor ID<span class="tooltip">e.g., VND-12345</span></span></li>
+                <li><span data-i18n="submit">Submit</span> <a href="#vendor-request-form" class="form-link" data-form="vendor-request"><span data-i18n="vendorRequestForm">Market Vendor Request Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="waitApprovalDays">Wait 3–5 days for approval email</span></li>
+                <li><span data-i18n="receiveCredentialsBoth">Receive your <strong>Vendor PIN</strong> &amp; <strong>Vendor ID</strong></span></li>
               </ul>
             </div>
-            <div class="card span-2">
+            <div class="card">
               <div class="card-title"><span class="num">C</span> <span data-i18n="uploadDocs">Upload Required Documents</span></div>
               <ul class="steps">
-                <li><span data-i18n="useDocUpload">Use Document Upload in Vendor Portal for licenses/certifications</span></li>
+                <li><span data-i18n="useDocUploadPortal">Use Document Upload in Vendor Portal for licenses/certifications</span></li>
                 <li><span data-i18n="updateAnytime">Update anytime if documents change or expire</span></li>
               </ul>
               <div class="alert warn" role="alert"><span>⚠️</span> <span data-i18n="completeWarning">Complete within 14 days or participation may be paused</span></div>
@@ -227,36 +670,36 @@
           </div>
         </div>
 
-        <!-- Other Contracted Programs - H, I, J -->
-        <div class="section programs" data-phase="programs">
+        <!-- Vendor Other Programs - H, I, J, K -->
+        <div class="section programs" data-phase="programs" data-user-type="vendor">
           <div class="section-header">
-            <h2><span class="icon">🎯</span> <span data-i18n="otherPrograms">Participating in Other Contracted Programs</span></h2>
+            <h2><span class="icon">🎯</span> <span data-i18n="vendorOtherPrograms">Other Types of Programs</span></h2>
             <span class="badge step">CSA, Supply Chain, Trainings</span>
             <span class="badge module">Module: H, I, J</span>
             <button class="quiz-btn" onclick="openQuiz('programs')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content triple">
             <div class="card">
-              <div class="card-title"><span class="num">H</span> <span data-i18n="csaProgram">CSA Program</span></div>
+              <div class="card-title"><span class="num">I</span> <span data-i18n="csaProgram">CSA Program</span></div>
               <ul class="steps">
-                <li><span data-i18n="csaDesc1">Pre-sell seasonal shares</span></li>
-                <li><span data-i18n="csaDesc2">Weekly/bi-weekly deliveries</span></li>
-                <li><span data-i18n="csaDesc3">Build customer relationships</span></li>
+                <li><span data-i18n="csaVendorDesc">Restaurant partnerships</span></li>
+                <li><span data-i18n="csaDesc2">School &amp; institution sales</span></li>
+                <li><span data-i18n="csaDesc3">Bulk ordering options</span></li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title"><span class="num">I</span> <span data-i18n="supplyChain">Supply Chain</span></div>
+              <div class="card-title"><span class="num">J</span> <span data-i18n="supplyChain">Supply Chain</span></div>
               <ul class="steps">
-                <li><span data-i18n="supplyDesc1">Restaurant partnerships</span></li>
-                <li><span data-i18n="supplyDesc2">School & institution sales</span></li>
-                <li><span data-i18n="supplyDesc3">Bulk ordering options</span></li>
+                <li><span data-i18n="supplyVendorDesc">Farmers, VAPs, Aggregators, Retailers can participate</span></li>
+                <li><span data-i18n="supplyDesc2">Institutional sales</span></li>
+                <li><span data-i18n="supplyDesc3">Route-based deliveries</span></li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title"><span class="num">J</span> <span data-i18n="trainings">Trainings & More</span></div>
+              <div class="card-title"><span class="num">K</span> <span data-i18n="trainings">Trainings &amp; More</span></div>
               <ul class="steps">
-                <li><span data-i18n="trainDesc1">Food safety workshops</span></li>
-                <li><span data-i18n="trainDesc2">Business development</span></li>
+                <li><span data-i18n="trainVendorDesc">Food safety workshops</span></li>
+                <li><span data-i18n="trainDesc1">Business development</span></li>
                 <li><span data-i18n="trainDesc3">Certification programs</span></li>
               </ul>
             </div>
@@ -266,25 +709,501 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
-        <!-- Market Day Preparation - Modules D, E, F, G -->
-        <div class="section premarket" data-phase="premarket" style="margin-bottom:8px;">
+    <!-- ===================== MANAGER JOURNEY SECTIONS ===================== -->
+    <div class="main-layout manager-journey-col" data-user-type="manager" style="display: none;">
+      <div class="left-col">
+        <!-- Manager Setup -->
+        <div class="section manager" data-phase="prepare" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📅</span> <span data-i18n="marketDayPrep">Market Day Preparation: What to do</span></h2>
-            <span class="badge step" data-i18n="weekly">Weekly</span>
-            <span class="badge module">Module: D, E, F, G</span>
-            <button class="quiz-btn" onclick="openQuiz('premarket')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <h2><span class="icon">📋</span> <span data-i18n="managerSetup">Manager Setup & Contracts</span></h2>
+            <span class="badge step" data-i18n="stepsSetup">Setup</span>
+            <span class="badge module">Phase 1</span>
+            <button class="quiz-btn" onclick="openQuiz('manager-basics')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
-              <div class="card-title"><span class="num">D</span> <span data-i18n="completeForm">Complete Upcoming Market Form</span></div>
+              <div class="card-title"><span class="num">A</span> <span data-i18n="managerRegistration">Register as Manager</span></div>
               <ul class="steps">
-                <li><span data-i18n="dueBefore">Due before each market (sent weekly)</span></li>
-                <li><span data-i18n="confirmAttendance">Confirm attendance & list products</span></li>
+                <li><span data-i18n="completeManagerForm">Complete</span> <a href="#vendor-request-form" class="form-link" data-form="vendor-request"><span data-i18n="vendorRequestForm">Market Vendor Request Form</span> <span class="link-icon">↗</span></a> <span data-i18n="toGenerateManagerID">(to generate Manager ID)</span></li>
+                <li><span data-i18n="receiveManagerPIN">Receive Manager PIN & ID</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> <span data-i18n="contractSetup">Contract & Program Setup</span></div>
+              <ul class="steps">
+                <li><span data-i18n="completeContractForm">Complete</span> <a href="#contract-info-form" class="form-link" data-form="contract-info"><span data-i18n="contractInfoForm">Contract Information Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="setupProgramsUnderContract">Set up program(s) under contract</span></li>
+                <li><span data-i18n="defineFundingSources">Define funding sources</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manager Vendor Management -->
+        <div class="section manager" data-phase="prepare" data-user-type="manager" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">👥</span> <span data-i18n="vendorManagement">Vendor Management</span></h2>
+            <span class="badge step" data-i18n="ongoing">Ongoing</span>
+            <span class="badge module">Phase 2</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> <span data-i18n="reviewApplications">Review Vendor Applications</span></div>
+              <ul class="steps">
+                <li><span data-i18n="reviewVendorRequests">Review incoming vendor request forms</span></li>
+                <li><span data-i18n="approveOrWaitlist">Approve, deny, or waitlist vendors</span></li>
+                <li><span data-i18n="manuallyApprove">Manually approve/deny vendor applications</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">D</span> <span data-i18n="trackCompliance">Track Document Compliance</span></div>
+              <ul class="steps">
+                <li><span data-i18n="monitorDocUploads">Monitor vendor document uploads</span></li>
+                <li><span data-i18n="verifyLicenses">Verify licenses and certifications</span></li>
+                <li><span data-i18n="followUpExpiring">Follow up on expiring documents</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manager Pre-Market -->
+        <div class="section manager" data-phase="premarket" data-user-type="manager" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📅</span> <span data-i18n="managerPreMarket">Pre-Market Preparation</span></h2>
+            <span class="badge step" data-i18n="weekly">Weekly</span>
+            <span class="badge module">Phase 3</span>
+            <button class="quiz-btn" onclick="openQuiz('manager-forms')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">E</span> <span data-i18n="reviewSubmissions">Review Form Submissions</span></div>
+              <ul class="steps">
+                <li><span data-i18n="reviewUpcomingForms">Review Upcoming Market Form submissions</span></li>
+                <li><span data-i18n="confirmAttendees">Confirm vendor attendance</span></li>
+                <li><span data-i18n="planLogistics">Plan logistics (space, equipment)</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">F</span> <span data-i18n="personnelManagement">Personnel Management</span></div>
+              <ul class="steps">
+                <li><span data-i18n="assignRolesVia">Assign personnel roles via</span> <a href="#personnel-checkin-form" class="form-link" data-form="personnel-checkin"><span data-i18n="personnelCheckinForm">PGL Personnel Market Check-in and Out Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="trackStaffVolunteer">Track staff/volunteer time</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manager Market Day -->
+        <div class="section manager" data-phase="marketday" data-user-type="manager" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🏪</span> <span data-i18n="managerMarketDay">Market Day Operations</span></h2>
+            <span class="badge step" data-i18n="marketDay">Market Day</span>
+            <span class="badge module">Phase 4</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">G</span> <span data-i18n="setupCheckinStation">Set Up Check-in Station</span></div>
+              <ul class="steps">
+                <li><span data-i18n="prepareCheckinTable">Prepare check-in table</span></li>
+                <li><span data-i18n="haveFormsReady">Have forms ready on device</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">H</span> <span data-i18n="vendorCheckin">Vendor Check-in/Check-out</span></div>
+              <ul class="steps">
+                <li><span data-i18n="useVendorCheckinForm">Use</span> <a href="#vendor-checkin-form" class="form-link" data-form="vendor-checkin"><span data-i18n="vendorCheckinForm">Vendor Check-in and Check-out Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="checkVendorsIn">Check vendors in as they arrive</span></li>
+                <li><span data-i18n="checkVendorsOut">Check vendors out when they leave</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">I</span> <span data-i18n="attendeeManagement">Attendee Management</span></div>
+              <ul class="steps">
+                <li><span data-i18n="newAttendeesUse">New attendees: use</span> <a href="#attendee-registration-form" class="form-link" data-form="attendee-registration"><span data-i18n="attendeeRegistrationForm">Attendee Registration Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="returnAttendeesUse">Returning attendees: use</span> <a href="#return-attendee-form" class="form-link" data-form="return-attendee"><span data-i18n="returnAttendeeForm">Return Attendee Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="loadMobileWallets">Load mobile wallets with benefits</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">J</span> <span data-i18n="csaOperations">CSA Operations (if applicable)</span></div>
+              <ul class="steps">
+                <li><span data-i18n="enrollNewCSA">Enroll new CSA members via</span> <a href="#csa-enrollment-form" class="form-link" data-form="csa-enrollment"><span data-i18n="csaEnrollmentForm">CSA Enrollment Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="processPickups">Process pickups via</span> <a href="#csa-pickup-form" class="form-link" data-form="csa-pickup"><span data-i18n="csaPickupForm">CSA Pick-up Form</span> <span class="link-icon">↗</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manager Post-Market -->
+        <div class="section manager" data-phase="postmarket" data-user-type="manager" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📊</span> <span data-i18n="managerPostMarket">Post-Market & Payments</span></h2>
+            <span class="badge step" data-i18n="postMarket">Post-Market</span>
+            <span class="badge module">Phase 5-6</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">K</span> <span data-i18n="paymentReconciliation">Payment Reconciliation</span></div>
+              <ul class="steps">
+                <li><span data-i18n="completeReconciliationForm">Complete</span> <a href="#payment-reconciliation-form" class="form-link" data-form="payment-reconciliation"><span data-i18n="paymentReconciliationForm">End of Market Payment Reconciliation Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="reconcileWithVendors">Reconcile with each vendor</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">L</span> <span data-i18n="vendorPayment">Vendor Payment</span></div>
+              <ul class="steps">
+                <li><span data-i18n="payVendors">Pay vendors</span></li>
+                <li><span data-i18n="documentRemittance">Document via</span> <a href="#vendor-payment-form" class="form-link" data-form="vendor-payment"><span data-i18n="vendorPaymentForm">Vendor Payment Remittance Form</span> <span class="link-icon">↗</span></a></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">M</span> <span data-i18n="funderInvoicing">Funder Invoicing</span></div>
+              <ul class="steps">
+                <li><span data-i18n="generateInvoice">Generate invoice via</span> <a href="#funder-invoice-form" class="form-link" data-form="funder-invoice"><span data-i18n="funderInvoiceForm">Funder Payment Invoice Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="trackPaymentReceived">Track payment via</span> <a href="#funder-payment-received-form" class="form-link" data-form="funder-payment-received"><span data-i18n="funderPaymentReceivedForm">Funder Payment Received Form</span> <span class="link-icon">↗</span></a></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">N</span> <span data-i18n="inventoryAnalytics">Inventory & Analytics</span></div>
+              <ul class="steps">
+                <li><span data-i18n="manageEquipment">Manage equipment via</span> <a href="#item-inventory-form" class="form-link" data-form="item-inventory"><span data-i18n="itemInventoryForm">Item Inventory Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="monitorDashboards">Monitor dashboards and analytics</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SPONSOR JOURNEY SECTIONS ===================== -->
+    <div class="main-layout sponsor-journey-col" data-user-type="sponsor" style="display: none;">
+      <div class="left-col">
+        <!-- Sponsor Contract Setup -->
+        <div class="section sponsor" data-phase="prepare" data-user-type="sponsor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">💰</span> <span data-i18n="sponsorContractSetup">Contract Setup & Funding</span></h2>
+            <span class="badge step" data-i18n="stepsSetup">Setup</span>
+            <span class="badge module">Phase 1</span>
+            <button class="quiz-btn" onclick="openQuiz('sponsor-contract')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">A</span> <span data-i18n="decideToFund">Decide to Fund a Program</span></div>
+              <ul class="steps">
+                <li><span data-i18n="communicateDetails">Communicate details to manager and/or team</span></li>
+                <li><span data-i18n="defineContractTerms">Define contract terms and funding amount</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> <span data-i18n="completeContract">Complete Contract Form</span></div>
+              <ul class="steps">
+                <li><span data-i18n="completeOrReview">Complete/review</span> <a href="#contract-info-form" class="form-link" data-form="contract-info"><span data-i18n="contractInfoForm">Contract Information Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="triggerEmailInvite">This triggers email invitation to download app</span></li>
+                <li><span data-i18n="createProfile">Create profile once invited</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sponsor Monitoring -->
+        <div class="section sponsor" data-phase="programs" data-user-type="sponsor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📊</span> <span data-i18n="sponsorMonitoring">Ongoing Monitoring</span></h2>
+            <span class="badge step" data-i18n="ongoing">Ongoing</span>
+            <span class="badge module">Phase 2</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> <span data-i18n="receiveInvoices">Receive Manager Invoices</span></div>
+              <ul class="steps">
+                <li><span data-i18n="notifiedOfInvoices">Get notified when manager submits invoices</span></li>
+                <li><span data-i18n="reviewInvoices">Review invoices via system</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">D</span> <span data-i18n="processPayment">Process Payment</span></div>
+              <ul class="steps">
+                <li><span data-i18n="processViaInternal">Process payment via internal systems</span></li>
+                <li><span data-i18n="documentPaymentVia">Document remittance via</span> <a href="#sponsor-payment-form" class="form-link" data-form="sponsor-payment"><span data-i18n="sponsorPaymentForm">Payment Remittance Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="confirmExpectedDate">Confirm expected payment date</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sponsor Analytics & Decisions -->
+        <div class="section sponsor" data-phase="postmarket" data-user-type="sponsor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📈</span> <span data-i18n="sponsorAnalytics">Analytics & Contract Decisions</span></h2>
+            <span class="badge step" data-i18n="review">Review</span>
+            <span class="badge module">Phase 3</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">E</span> <span data-i18n="viewAnalytics">View Data Analytics</span></div>
+              <ul class="steps">
+                <li><span data-i18n="accessDashboards">Access dashboards (if authorized)</span></li>
+                <li><span data-i18n="reviewProgramPerformance">Review program performance</span></li>
+                <li><span data-i18n="monitorImpact">Monitor impact metrics</span></li>
+              </ul>
+              <div class="alert tip" role="note"><span>💡</span> <span data-i18n="someSponsorsMayBeExcluded">Some sponsors may have limited dashboard access</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">F</span> <span data-i18n="makeDecisions">Make Contract Decisions</span></div>
+              <ul class="steps">
+                <li><span data-i18n="modifyContract">Modify existing contract</span></li>
+                <li><span data-i18n="renewContract">Renew contract for next period</span></li>
+                <li><span data-i18n="cancelContract">Cancel contribution if needed</span></li>
+                <li><span data-i18n="useAmendmentForm">Use</span> <a href="#contract-amendment-form" class="form-link" data-form="contract-amendment"><span data-i18n="contractAmendmentForm">Contract Amendment Form</span> <span class="link-icon">↗</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CUSTOMER JOURNEY SECTIONS ===================== -->
+    <div class="main-layout customer-journey-col" data-user-type="customer" style="display: none;">
+      <div class="left-col">
+        <!-- Customer Registration -->
+        <div class="section customer" data-phase="prepare" data-user-type="customer" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🛍️</span> <span data-i18n="customerRegistration">Customer Registration</span></h2>
+            <span class="badge step" data-i18n="firstTime">First Time</span>
+            <span class="badge module">Phase 1</span>
+            <button class="quiz-btn" onclick="openQuiz('customer-registration')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">A</span> <span data-i18n="registerAtMarket">Register at Market</span></div>
+              <ul class="steps">
+                <li><span data-i18n="visitCheckinTable">Visit market check-in table</span></li>
+                <li><span data-i18n="completeRegistration">Complete registration to receive</span> <span class="term" tabindex="0">Neighbor ID<span class="tooltip">e.g., REACH-12345</span></span></li>
+                <li><span data-i18n="provideBasicInfo">Provide basic information</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> <span data-i18n="activateMobileWallet">Activate Mobile Wallet</span></div>
+              <ul class="steps">
+                <li><span data-i18n="receiveEmailPrompt">Receive email prompt to download app</span></li>
+                <li><span data-i18n="createProfileWithID">Create profile with virtual ID card</span></li>
+                <li><span data-i18n="virtualIDhasQR">Virtual ID has QR code and link</span></li>
+                <li><span data-i18n="mobileWalletActivated">Mobile wallet activated automatically</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Market Day -->
+        <div class="section customer" data-phase="marketday" data-user-type="customer" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🏪</span> <span data-i18n="customerMarketDay">Shopping at the Market</span></h2>
+            <span class="badge step" data-i18n="marketDay">Market Day</span>
+            <span class="badge module">Phase 2</span>
+            <button class="quiz-btn" onclick="openQuiz('customer-benefits')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> <span data-i18n="returnToMarket">Return to Market</span></div>
+              <ul class="steps">
+                <li><span data-i18n="checkInToReload">Check in at market to reload wallet</span></li>
+                <li><span data-i18n="viewBenefitBalance">View benefit balance via mobile wallet link</span></li>
+                <li><span data-i18n="realTimeBalances">Balances update in real-time</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">D</span> <span data-i18n="makePurchases">Make Purchases</span></div>
+              <ul class="steps">
+                <li><span data-i18n="shopFromVendors">Shop from participating vendors</span></li>
+                <li><span data-i18n="presentQRcode">Present your QR code to vendor</span></li>
+                <li><span data-i18n="vendorScansForTransaction">Vendor scans to access Transaction Form</span></li>
+              </ul>
+              <div class="alert tip" role="note"><span>📱</span> <span data-i18n="keepPhoneCharged">Keep your phone charged for easy QR access!</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer CSA -->
+        <div class="section customer" data-phase="programs" data-user-type="customer" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🥬</span> <span data-i18n="customerCSA">CSA Enrollment (Optional)</span></h2>
+            <span class="badge step" data-i18n="optional">Optional</span>
+            <span class="badge module">Phase 3</span>
+          </div>
+          <div class="section-content single">
+            <div class="card">
+              <div class="card-title"><span class="num">E</span> <span data-i18n="enrollInCSA">Enroll in CSA Program</span></div>
+              <ul class="steps">
+                <li><span data-i18n="signUpVia">Sign up via</span> <a href="#csa-enrollment-form" class="form-link" data-form="csa-enrollment"><span data-i18n="csaEnrollmentForm">CSA Enrollment Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="pickUpShareVia">Pick up your share via</span> <a href="#csa-pickup-form" class="form-link" data-form="csa-pickup"><span data-i18n="csaPickupForm">CSA Pick-up Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="enjoyWeeklyDeliveries">Enjoy weekly/bi-weekly produce shares</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Types Info -->
+        <div class="section customer" data-phase="prepare" data-user-type="customer" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">ℹ️</span> <span data-i18n="customerTypes">Customer Types</span></h2>
+            <span class="badge step" data-i18n="info">Info</span>
+          </div>
+          <div class="section-content triple">
+            <div class="card">
+              <div class="card-title">👤 <span data-i18n="registeredCustomer">Registered Customer</span></div>
+              <ul class="steps">
+                <li><span data-i18n="hasNeighborID">Has a Neighbor ID</span></li>
+                <li><span data-i18n="hasMobileWallet">Has mobile wallet</span></li>
+                <li><span data-i18n="canUseBenefits">Can use SNAP and other benefits</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title">👥 <span data-i18n="guestCustomer">Guest Customer</span></div>
+              <ul class="steps">
+                <li><span data-i18n="noNeighborID">No Neighbor ID</span></li>
+                <li><span data-i18n="manualEntry">Vendor enters info manually</span></li>
+                <li><span data-i18n="limitedBenefits">May have limited benefits</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title">🥬 <span data-i18n="csaEnrollee">CSA Enrollee</span></div>
+              <ul class="steps">
+                <li><span data-i18n="mayOrMayNotHaveID">May or may not have Neighbor ID</span></li>
+                <li><span data-i18n="enrolledInCSA">Enrolled in CSA program</span></li>
+                <li><span data-i18n="receivesRegularShares">Receives regular produce shares</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TRAINEE JOURNEY SECTIONS ===================== -->
+    <div class="main-layout trainee-journey-col" data-user-type="trainee" style="display: none;">
+      <div class="left-col">
+        <!-- Trainee Enrollment -->
+        <div class="section trainee" data-phase="prepare" data-user-type="trainee" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🎓</span> <span data-i18n="traineeEnrollment">Training Enrollment</span></h2>
+            <span class="badge step" data-i18n="stepsEnroll">Enroll</span>
+            <span class="badge module">Phase 1</span>
+            <button class="quiz-btn" onclick="openQuiz('trainee-enrollment')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">A</span> <span data-i18n="learnAboutPrograms">Learn About Training Programs</span></div>
+              <ul class="steps">
+                <li><span data-i18n="exploreCourses">Explore available courses</span></li>
+                <li><span data-i18n="reviewRequirements">Review requirements and schedules</span></li>
+                <li><span data-i18n="contactEducators">Contact educators for details</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> <span data-i18n="enrollInTraining">Enroll in Training</span></div>
+              <ul class="steps">
+                <li><span data-i18n="completeEnrollmentForm">Complete</span> <a href="#course-registration-form" class="form-link" data-form="course-registration"><span data-i18n="courseRegistrationForm">Course Registration Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="receiveTraineeID">Receive Trainee ID</span></li>
+                <li><span data-i18n="getProgramID">Get assigned to program (Program ID)</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainee Participation -->
+        <div class="section trainee" data-phase="programs" data-user-type="trainee" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📚</span> <span data-i18n="traineeParticipation">Training Participation</span></h2>
+            <span class="badge step" data-i18n="ongoing">Ongoing</span>
+            <span class="badge module">Phase 2</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> <span data-i18n="attendClasses">Attend Classes/Workshops</span></div>
+              <ul class="steps">
+                <li><span data-i18n="attendScheduledSessions">Attend scheduled sessions</span></li>
+                <li><span data-i18n="completeAssignments">Complete assignments</span></li>
+                <li><span data-i18n="participateInActivities">Participate in hands-on activities</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">D</span> <span data-i18n="volunteerHours">Volunteer Hours (if applicable)</span></div>
+              <ul class="steps">
+                <li><span data-i18n="volunteerWithManager">Volunteer with market/CSA manager</span></li>
+                <li><span data-i18n="logHoursVia">Log hours via</span> <a href="#personnel-checkin-form" class="form-link" data-form="personnel-checkin"><span data-i18n="managerCheckinForm">Manager Check-in Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="gainExperience">Gain practical experience</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainee Completion -->
+        <div class="section trainee" data-phase="postmarket" data-user-type="trainee" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">🏆</span> <span data-i18n="traineeCompletion">Training Completion</span></h2>
+            <span class="badge step" data-i18n="completion">Completion</span>
+            <span class="badge module">Phase 3</span>
+          </div>
+          <div class="section-content single">
+            <div class="card">
+              <div class="card-title"><span class="num">E</span> <span data-i18n="completeRequirements">Complete Requirements</span></div>
+              <ul class="steps">
+                <li><span data-i18n="finishAllModules">Finish all required modules</span></li>
+                <li><span data-i18n="passAssessments">Pass any assessments</span></li>
+                <li><span data-i18n="completeVolunteerHours">Complete volunteer hours (if required)</span></li>
+                <li><span data-i18n="receiveCertification">Receive certification</span></li>
+              </ul>
+              <div class="alert tip" role="note"><span>🎓</span> <span data-i18n="traineeNote">Trainees may also shop at the market as customers!</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainee Types -->
+        <div class="section trainee" data-phase="prepare" data-user-type="trainee" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">ℹ️</span> <span data-i18n="traineeTypes">Trainee Types</span></h2>
+            <span class="badge step" data-i18n="info">Info</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title">👦 <span data-i18n="youthTrainee">Youth Trainee</span></div>
+              <ul class="steps">
+                <li><span data-i18n="youthDescription">Young people learning agricultural/food skills</span></li>
+                <li><span data-i18n="mayVolunteer">May volunteer at market</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title">👨 <span data-i18n="adultTrainee">Adult Trainee</span></div>
+              <ul class="steps">
+                <li><span data-i18n="adultDescription">Adults in workforce development</span></li>
+                <li><span data-i18n="mayBecomeVendor">May transition to vendor status</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== VENDOR RIGHT COLUMN (in separate main-layout) ===================== -->
+    <div class="main-layout vendor-right-layout" data-user-type="vendor">
+      <div class="left-col" style="display:none;"></div>
+      <div class="right-col">
+        <!-- Market Day Preparation - Modules D, E, F, G -->
+        <div class="section premarket" data-phase="premarket" data-user-type="vendor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2><span class="icon">📅</span> <span data-i18n="vendorPreMarket">Market Day Preparation: What to Do</span></h2>
+            <span class="badge step" data-i18n="weekly">Weekly</span>
+            <span class="badge module">Module: D, E, F, G</span>
+            <button class="quiz-btn" onclick="openQuiz('vendor-premarket')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">D</span> <span data-i18n="completeUpcomingForm">Complete Upcoming Market Form</span></div>
+              <ul class="steps">
+                <li><span data-i18n="submitWeeklyForm">Submit</span> <a href="#upcoming-market-form" class="form-link" data-form="upcoming-market"><span data-i18n="upcomingMarketForm">Upcoming Market Form</span> <span class="link-icon">↗</span></a> <span data-i18n="sentWeekly">(sent weekly)</span></li>
+                <li><span data-i18n="confirmAttendance">Confirm attendance &amp; list products</span></li>
                 <li><span data-i18n="requestEquipment">Request any equipment needed</span></li>
-                <li><strong data-i18n="farmers">Farmers:</strong> <span data-i18n="finalizeWed">finalize products by Wed night</span></li>
               </ul>
             </div>
             <div class="card">
@@ -297,18 +1216,24 @@
               <div class="alert tip" role="note"><span>💡</span> <span data-i18n="checkEmailTip">Check email/texts weekly for PGL updates</span></div>
             </div>
             <div class="card span-2">
+              <div class="card-title"><span class="num">F &amp; G</span> <span data-i18n="prepareForMarket">Prepare for Market Day</span></div>
+              <ul class="steps">
+                <li><strong data-i18n="farmers">Farmers:</strong> <span data-i18n="finalizeWed">finalize products by Wednesday night</span></li>
+                <li><span data-i18n="chargeDevices">Charge all devices; bring backup battery</span></li>
+                <li><span data-i18n="prepareInventory">Prepare inventory and signage</span></li>
+                <li><span data-i18n="deadlineFriday">Due before each market (sent weekly)</span></li>
+              </ul>
               <div class="alert error" role="alert"><span>❗</span> <strong data-i18n="critical">Critical:</strong> <span data-i18n="criticalWarning">Without the Upcoming Market Form, you cannot participate!</span></div>
-              <div class="alert tip" role="note" style="margin-top:4px;"><span>🔋</span> <span data-i18n="batteryTip">Bring devices charged; consider a backup battery</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Additional Resources - Modules K, L, M, N -->
+        <!-- Optional Modules - L, M, N, X -->
         <div class="section resources" data-phase="postmarket">
           <div class="section-header">
-            <h2><span class="icon">📊</span> <span data-i18n="additionalResources">Additional Resources (Optional)</span></h2>
+            <h2><span class="icon">📊</span> <span data-i18n="additionalResources">Optional Modules: Additional Resources for Helping You Make the Most of the Homegrown System</span></h2>
             <span class="badge step" data-i18n="resourceTypes">Inventory, Visualizations, Tips</span>
-            <span class="badge module">Module: K, L, M, N</span>
+            <span class="badge module">Module: L, M, N, X</span>
             <button class="quiz-btn" onclick="openQuiz('postmarket')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
@@ -335,40 +1260,40 @@
       </div>
     </div>
 
-    <!-- Market Day Full Width Section -->
-    <div class="section marketday marketday-full" data-phase="marketday">
+    <!-- Market Day Full Width Section - VENDOR -->
+    <div class="section marketday marketday-full" data-phase="marketday" data-user-type="vendor">
       <div class="section-header">
-        <h2><span class="icon">🏪</span> <span data-i18n="marketDayTitle">Market Day</span></h2>
+        <h2><span class="icon">🏪</span> <span data-i18n="vendorMarketDay">Vendor Market Day Operations</span></h2>
         <span class="badge step" data-i18n="parts3">3 parts</span>
-        <span class="badge module" data-i18n="operations">Operations</span>
-        <button class="quiz-btn" onclick="openQuiz('marketday')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+        <span class="badge" style="background:rgba(0,0,0,0.12);">Operations</span>
+        <span class="badge module">Module: I–N</span>
+        <button class="quiz-btn" onclick="openQuiz('vendor-marketday')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
       </div>
-      <div class="marketday-grid">
+      <div class="marketday-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="card">
-          <div class="card-title"><span class="num">1</span> <span data-i18n="morningSetup">Morning Setup (10AM–12:30PM)</span></div>
+          <div class="card-title"><span class="num">I</span> <span data-i18n="checkInManager">Check-in at Manager Table</span></div>
           <ul class="steps">
-            <li><span data-i18n="arrive">Arrive & set up your table</span></li>
+            <li><span data-i18n="arrive">Arrive &amp; set up your table</span></li>
             <li><span data-i18n="checkWifi">Check Wi-Fi/data connection</span></li>
-            <li><span data-i18n="openForm">Open Transaction Form → enter Vendor PIN</span></li>
+            <li><span data-i18n="openTxForm">Open Transaction Form → enter Vendor PIN</span></li>
             <li><span data-i18n="verifyProducts">Verify products appear in pick-lists</span></li>
-            <li><span data-i18n="checkIn">Check in at PGL Table</span></li>
+            <li><span data-i18n="checkInPGL">Check in at PGL Table</span></li>
           </ul>
         </div>
         <div class="card">
-          <div class="card-title"><span class="num">2</span> <span data-i18n="duringMarket">During Market (Log Every Sale!)</span></div>
+          <div class="card-title"><span class="num">J</span> <span data-i18n="processSales">During Market (Log Every Sale!)</span></div>
           <ul class="steps">
-            <li><span data-i18n="useTransaction">Use Transaction Form for each sale</span></li>
-            <li><span data-i18n="preferQR">Prefer scanning attendee's QR code</span></li>
-            <li><span data-i18n="orEnterNeighbor">Or enter Neighbor ID manually</span></li>
+            <li><span data-i18n="useTransactionForm">Use</span> <a href="#transaction-form" class="form-link" data-form="transaction"><span data-i18n="transactionForm">Transaction Form</span> <span class="link-icon">↗</span></a> <span data-i18n="forEachSale">for each sale</span></li>
+            <li><span data-i18n="scanQR">Prefer scanning attendee's QR code</span></li>
+            <li><span data-i18n="orManualEntry">Or enter Neighbor ID manually</span></li>
           </ul>
           <div class="alert warn" role="alert"><span>⚠️</span> <span data-i18n="neighborFormat">Neighbor ID format:</span> <code style="background:#e2e8f0;padding:1px 4px;border-radius:3px;">REACH-12345</code></div>
           <div class="alert tip" style="margin-top:4px;"><span>📱</span> <span data-i18n="qrTip">QR scanning is faster!</span></div>
         </div>
         <div class="card">
-          <div class="card-title"><span class="num">3</span> <span data-i18n="afterMarketEnds">After Market Ends</span></div>
+          <div class="card-title"><span class="num">K &amp; L</span> <span data-i18n="endOfMarket">End of Market &amp; Check-Out</span></div>
           <ul class="steps">
-            <li><span data-i18n="packUp">Pack up table & inventory</span></li>
-            <li><span data-i18n="completeInvoice">Complete End of Market Invoice Form</span></li>
+            <li><span data-i18n="completeInvoiceForm">Complete</span> <a href="#vendor-invoice-form" class="form-link" data-form="vendor-invoice"><span data-i18n="vendorInvoiceForm">End of Market Vendor Invoice Form</span> <span class="link-icon">↗</span></a></li>
             <li><span data-i18n="waitSuccess">Wait for "submitted successfully" message</span></li>
             <li><span data-i18n="visitCheckout">Visit PGL Check-out Table (required!)</span></li>
           </ul>
@@ -384,46 +1309,21 @@
         <span class="learning-badge" data-i18n="notRequired">Not Required</span>
       </div>
       <div class="learning-content">
-        <div class="tools-grid">
-          <div class="tool-card" onclick="openTool('wallet')" tabindex="0">
-            <div class="tool-icon">💰</div>
-            <div class="tool-title" data-i18n="walletTitle">Vendor Wallet View</div>
-            <div class="tool-desc" data-i18n="walletDesc">See live balance as transactions come in.</div>
-          </div>
+        <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr);">
           <div class="tool-card" onclick="openTool('simulation')" tabindex="0">
             <div class="tool-icon">🎮</div>
             <div class="tool-title" data-i18n="simTitle">Simulation Environment</div>
-            <div class="tool-desc" data-i18n="simDesc">Practice forms safely before market day.</div>
-          </div>
-          <div class="tool-card" onclick="openTool('enotes')" tabindex="0">
-            <div class="tool-icon">📝</div>
-            <div class="tool-title" data-i18n="enotesTitle">eNotes / Recipes</div>
-            <div class="tool-desc" data-i18n="enotesDesc">Digital notes and product info sheets.</div>
-          </div>
-          <div class="tool-card" onclick="openTool('transactions')" tabindex="0">
-            <div class="tool-icon">📈</div>
-            <div class="tool-title" data-i18n="transTitle">Transaction Summaries</div>
-            <div class="tool-desc" data-i18n="transDesc">Review past sales by date or product.</div>
+            <div class="tool-desc" data-i18n="simDesc">Practice what you learned in the Homegrown simulation environment.</div>
           </div>
           <div class="tool-card" onclick="openTool('examples')" tabindex="0">
-            <div class="tool-icon">👁️</div>
-            <div class="tool-title" data-i18n="examplesTitle">View Example Outputs</div>
-            <div class="tool-desc" data-i18n="examplesDesc">See sample receipts and reports.</div>
-          </div>
-          <div class="tool-card" onclick="openTool('analytics')" tabindex="0">
-            <div class="tool-icon">📊</div>
-            <div class="tool-title" data-i18n="analyticsTitle">Visual Analytics</div>
-            <div class="tool-desc" data-i18n="analyticsDesc">Charts showing sales trends.</div>
+            <div class="tool-icon">📄</div>
+            <div class="tool-title" data-i18n="paperworkTitle">Paperwork Practice</div>
+            <div class="tool-desc" data-i18n="paperworkDesc">Review annotated example receipts, invoices and other Homegrown tools for documenting transaction related information.</div>
           </div>
           <div class="tool-card" onclick="openTool('casestudies')" tabindex="0">
             <div class="tool-icon">📖</div>
             <div class="tool-title" data-i18n="caseTitle">Case Studies</div>
-            <div class="tool-desc" data-i18n="caseDesc">Learn from successful vendors.</div>
-          </div>
-          <div class="tool-card" onclick="openQuiz('tips')" tabindex="0">
-            <div class="tool-icon">💡</div>
-            <div class="tool-title" data-i18n="quizTipsTitle">Quiz Tips</div>
-            <div class="tool-desc" data-i18n="quizTipsDesc">Test knowledge and get hints.</div>
+            <div class="tool-desc" data-i18n="caseDesc">Learn from example vendors about how they used the Homegrown system.</div>
           </div>
         </div>
         <div class="learning-board">
@@ -439,7 +1339,7 @@
 
     <!-- Legend -->
     <div class="legend" role="navigation" aria-label="Journey cycle">
-      <div class="legend-title">📌 <span data-i18n="symbolsLegend">Symbols / Legend:</span></div>
+      <div class="legend-title">📌 <span data-i18n="symbolsLegend">Legend: What each Symbol means</span></div>
       <span class="legend-item prepare">📝 <span data-i18n="prepare">Prepare</span></span>
       <span class="legend-arrow">→</span>
       <span class="legend-item premarket">📅 <span data-i18n="premarket">Pre-Market</span></span>
@@ -528,7 +1428,216 @@
         quizTipsTitle: "Quiz Tips", quizTipsDesc: "Test knowledge and get hints.",
         learningBoard: "Your Learning Board", videoTutorials: "Video Tutorials", faq: "FAQ & Common Issues",
         support: "Support Contacts", achievements: "Achievements", myProgress: "My Progress",
-        symbolsLegend: "Symbols / Legend:", repeatWeekly: "Repeat Weekly"
+        symbolsLegend: "Symbols / Legend:", repeatWeekly: "Repeat Weekly",
+        // New User Selection Screen
+        welcomeTitle: "Welcome to The People's Market",
+        selectRolePrompt: "Select your role to see your personalized journey map",
+        selectUserType: "Select Your User Type",
+        vendorType: "Vendor", vendorTypeDesc: "Farmer, VAP, Retailer, Hot Food, Educator, Aggregator",
+        managerType: "Manager", managerTypeDesc: "Market operations, vendor & attendee management",
+        sponsorType: "Sponsor (Funder)", sponsorTypeDesc: "University, Hospital, Foundation, Government",
+        customerType: "Customer", customerTypeDesc: "Registered (Neighbor ID), Guest, CSA Enrollee",
+        traineeType: "Trainee", traineeTypeDesc: "Youth or Adult in training programs",
+        hybridRolesTitle: "Do you have multiple roles?",
+        managerVendor: "Manager-Vendor", sponsorManager: "Sponsor-Manager",
+        vendorCustomer: "Vendor-Customer", customerTrainee: "Customer-Trainee", vendorTrainee: "Vendor-Trainee",
+        selectProgram: "Select Your Program",
+        marketProgram: "Market Program (Weekly)", marketEvent: "Market Event (One-time)",
+        csaProgramBtn: "CSA Program", trainingProgram: "Training Program", supplyChainProgram: "Supply Chain",
+        viewJourneyMap: "View My Journey Map", backToSelection: "Back",
+        // Vendor specific
+        vendorGettingStarted: "Vendor Registration (One-Time)", steps5: "5 steps",
+        educator: "Educator", educatorTip: "Provides educational services/workshops",
+        aggregator: "Aggregator", aggregatorTip: "Collects and distributes from multiple sources",
+        hybridVendorTypes: "Hybrid vendor types available: Farmer-Educator, VAP-Educator, Farmer-Aggregator, VAP-Aggregator, Educator-Aggregator",
+        applyPGLREACH: "Apply to participate in PGL-REACH contract for The People's Market and/or REACH CSA",
+        receiveCredentials: "Receive Credentials", receiveVendorID: "Receive your",
+        submitW9: "Submit W-9 via", vendorDocUploadForm: "Vendor Document Upload Form",
+        uploadLicenses: "Upload licenses and certifications",
+        completeTraining: "Complete Self-Paced Training",
+        reviewJourneyMap: "Review this Journey Map thoroughly",
+        completeQuizzes: "Complete the quizzes in each section",
+        familiarizeForms: "Familiarize yourself with forms and processes",
+        trainingNote: "This Journey Map serves as your self-paced training guide!",
+        vendorPreMarket: "Vendor Pre-Market (Weekly)",
+        completeUpcomingForm: "Complete Upcoming Market Form",
+        submitWeeklyForm: "Submit", upcomingMarketForm: "Upcoming Market Form",
+        deadlineFriday: "Due by Friday 10 AM each week",
+        setItemsPrices: "Set your items and prices for the week",
+        prepareForMarket: "Prepare for Market Day",
+        chargeDevices: "Charge all devices; bring backup battery",
+        prepareInventory: "Prepare inventory and signage",
+        vendorMarketDay: "Vendor Market Day Operations", parts4: "4 parts",
+        checkInManager: "Check-in at Manager Table",
+        goToCheckIn: "Go to check-in table",
+        managerCheckIn: "Manager checks you in via", vendorCheckinForm: "Vendor Check-in Form",
+        processSales: "Process Sales", useTransactionForm: "Use", transactionForm: "Transaction Form",
+        scanQR: "Scan attendee's QR code (preferred)",
+        orManualEntry: "Or enter Neighbor ID manually for guests",
+        endOfMarket: "End of Market",
+        completeInvoiceForm: "Complete", vendorInvoiceForm: "End of Market Vendor Invoice Form",
+        reconcileManager: "Complete payment reconciliation with manager",
+        checkOut: "Check-out & Pack Up", confirmCheckout: "Confirm check-out with manager",
+        vendorOtherPrograms: "Other Programs for Vendors",
+        csaVendorDesc: "Contribute produce if Farmer or VAP",
+        supplyVendorDesc: "Farmers, VAPs, Aggregators, Retailers can participate",
+        trainVendorDesc: "Educators can conduct trainings",
+        // Manager specific
+        managerSetup: "Manager Setup & Contracts", stepsSetup: "Setup",
+        managerRegistration: "Register as Manager",
+        completeManagerForm: "Complete", toGenerateManagerID: "(to generate Manager ID)",
+        receiveManagerPIN: "Receive Manager PIN & ID",
+        contractSetup: "Contract & Program Setup",
+        completeContractForm: "Complete", contractInfoForm: "Contract Information Form",
+        setupProgramsUnderContract: "Set up program(s) under contract",
+        defineFundingSources: "Define funding sources",
+        vendorManagement: "Vendor Management",
+        reviewApplications: "Review Vendor Applications",
+        reviewVendorRequests: "Review incoming vendor request forms",
+        approveOrWaitlist: "Approve, deny, or waitlist vendors",
+        manuallyApprove: "Manually approve/deny vendor applications",
+        trackCompliance: "Track Document Compliance",
+        monitorDocUploads: "Monitor vendor document uploads",
+        verifyLicenses: "Verify licenses and certifications",
+        followUpExpiring: "Follow up on expiring documents",
+        managerPreMarket: "Pre-Market Preparation",
+        reviewSubmissions: "Review Form Submissions",
+        reviewUpcomingForms: "Review Upcoming Market Form submissions",
+        confirmAttendees: "Confirm vendor attendance",
+        planLogistics: "Plan logistics (space, equipment)",
+        personnelManagement: "Personnel Management",
+        assignRolesVia: "Assign personnel roles via",
+        personnelCheckinForm: "PGL Personnel Market Check-in and Out Form",
+        trackStaffVolunteer: "Track staff/volunteer time",
+        managerMarketDay: "Market Day Operations",
+        setupCheckinStation: "Set Up Check-in Station",
+        prepareCheckinTable: "Prepare check-in table",
+        haveFormsReady: "Have forms ready on device",
+        vendorCheckin: "Vendor Check-in/Check-out",
+        useVendorCheckinForm: "Use", checkVendorsIn: "Check vendors in as they arrive",
+        checkVendorsOut: "Check vendors out when they leave",
+        attendeeManagement: "Attendee Management",
+        newAttendeesUse: "New attendees: use", attendeeRegistrationForm: "Attendee Registration Form",
+        returnAttendeesUse: "Returning attendees: use", returnAttendeeForm: "Return Attendee Form",
+        loadMobileWallets: "Load mobile wallets with benefits",
+        csaOperations: "CSA Operations (if applicable)",
+        enrollNewCSA: "Enroll new CSA members via", csaEnrollmentForm: "CSA Enrollment Form",
+        processPickups: "Process pickups via", csaPickupForm: "CSA Pick-up Form",
+        managerPostMarket: "Post-Market & Payments",
+        paymentReconciliation: "Payment Reconciliation",
+        completeReconciliationForm: "Complete", paymentReconciliationForm: "End of Market Payment Reconciliation Form",
+        reconcileWithVendors: "Reconcile with each vendor",
+        vendorPayment: "Vendor Payment", payVendors: "Pay vendors",
+        documentRemittance: "Document via", vendorPaymentForm: "Vendor Payment Remittance Form",
+        funderInvoicing: "Funder Invoicing",
+        generateInvoice: "Generate invoice via", funderInvoiceForm: "Funder Payment Invoice Form",
+        trackPaymentReceived: "Track payment via", funderPaymentReceivedForm: "Funder Payment Received Form",
+        inventoryAnalytics: "Inventory & Analytics",
+        manageEquipment: "Manage equipment via", itemInventoryForm: "Item Inventory Form",
+        monitorDashboards: "Monitor dashboards and analytics",
+        // Sponsor specific
+        sponsorContractSetup: "Contract Setup & Funding",
+        decideToFund: "Decide to Fund a Program",
+        communicateDetails: "Communicate details to manager and/or team",
+        defineContractTerms: "Define contract terms and funding amount",
+        completeContract: "Complete Contract Form",
+        completeOrReview: "Complete/review",
+        triggerEmailInvite: "This triggers email invitation to download app",
+        createProfile: "Create profile once invited",
+        sponsorMonitoring: "Ongoing Monitoring",
+        receiveInvoices: "Receive Manager Invoices",
+        notifiedOfInvoices: "Get notified when manager submits invoices",
+        reviewInvoices: "Review invoices via system",
+        processPayment: "Process Payment",
+        processViaInternal: "Process payment via internal systems",
+        documentPaymentVia: "Document remittance via", sponsorPaymentForm: "Payment Remittance Form",
+        confirmExpectedDate: "Confirm expected payment date",
+        sponsorAnalytics: "Analytics & Contract Decisions",
+        viewAnalytics: "View Data Analytics",
+        accessDashboards: "Access dashboards (if authorized)",
+        reviewProgramPerformance: "Review program performance",
+        monitorImpact: "Monitor impact metrics",
+        someSponsorsMayBeExcluded: "Some sponsors may have limited dashboard access",
+        makeDecisions: "Make Contract Decisions",
+        modifyContract: "Modify existing contract",
+        renewContract: "Renew contract for next period",
+        cancelContract: "Cancel contribution if needed",
+        useAmendmentForm: "Use", contractAmendmentForm: "Contract Amendment Form",
+        // Customer specific
+        customerRegistration: "Customer Registration", firstTime: "First Time",
+        registerAtMarket: "Register at Market",
+        visitCheckinTable: "Visit market check-in table",
+        completeRegistration: "Complete registration to receive",
+        provideBasicInfo: "Provide basic information",
+        activateMobileWallet: "Activate Mobile Wallet",
+        receiveEmailPrompt: "Receive email prompt to download app",
+        createProfileWithID: "Create profile with virtual ID card",
+        virtualIDhasQR: "Virtual ID has QR code and link",
+        mobileWalletActivated: "Mobile wallet activated automatically",
+        customerMarketDay: "Shopping at the Market",
+        returnToMarket: "Return to Market",
+        checkInToReload: "Check in at market to reload wallet",
+        viewBenefitBalance: "View benefit balance via mobile wallet link",
+        realTimeBalances: "Balances update in real-time",
+        makePurchases: "Make Purchases",
+        shopFromVendors: "Shop from participating vendors",
+        presentQRcode: "Present your QR code to vendor",
+        vendorScansForTransaction: "Vendor scans to access Transaction Form",
+        keepPhoneCharged: "Keep your phone charged for easy QR access!",
+        customerCSA: "CSA Enrollment (Optional)", optional: "Optional",
+        enrollInCSA: "Enroll in CSA Program",
+        signUpVia: "Sign up via", pickUpShareVia: "Pick up your share via",
+        enjoyWeeklyDeliveries: "Enjoy weekly/bi-weekly produce shares",
+        customerTypes: "Customer Types",
+        registeredCustomer: "Registered Customer",
+        hasNeighborID: "Has a Neighbor ID", hasMobileWallet: "Has mobile wallet",
+        canUseBenefits: "Can use SNAP and other benefits",
+        guestCustomer: "Guest Customer",
+        noNeighborID: "No Neighbor ID", manualEntry: "Vendor enters info manually",
+        limitedBenefits: "May have limited benefits",
+        csaEnrollee: "CSA Enrollee",
+        mayOrMayNotHaveID: "May or may not have Neighbor ID",
+        enrolledInCSA: "Enrolled in CSA program",
+        receivesRegularShares: "Receives regular produce shares",
+        // Trainee specific
+        traineeEnrollment: "Training Enrollment", stepsEnroll: "Enroll",
+        learnAboutPrograms: "Learn About Training Programs",
+        exploreCourses: "Explore available courses",
+        reviewRequirements: "Review requirements and schedules",
+        contactEducators: "Contact educators for details",
+        enrollInTraining: "Enroll in Training",
+        completeEnrollmentForm: "Complete", courseRegistrationForm: "Course Registration Form",
+        receiveTraineeID: "Receive Trainee ID",
+        getProgramID: "Get assigned to program (Program ID)",
+        traineeParticipation: "Training Participation",
+        attendClasses: "Attend Classes/Workshops",
+        attendScheduledSessions: "Attend scheduled sessions",
+        completeAssignments: "Complete assignments",
+        participateInActivities: "Participate in hands-on activities",
+        volunteerHours: "Volunteer Hours (if applicable)",
+        volunteerWithManager: "Volunteer with market/CSA manager",
+        logHoursVia: "Log hours via", managerCheckinForm: "Manager Check-in Form",
+        gainExperience: "Gain practical experience",
+        traineeCompletion: "Training Completion", completion: "Completion",
+        completeRequirements: "Complete Requirements",
+        finishAllModules: "Finish all required modules",
+        passAssessments: "Pass any assessments",
+        completeVolunteerHours: "Complete volunteer hours (if required)",
+        receiveCertification: "Receive certification",
+        traineeNote: "Trainees may also shop at the market as customers!",
+        traineeTypes: "Trainee Types", info: "Info",
+        youthTrainee: "Youth Trainee",
+        youthDescription: "Young people learning agricultural/food skills",
+        mayVolunteer: "May volunteer at market",
+        adultTrainee: "Adult Trainee",
+        adultDescription: "Adults in workforce development",
+        mayBecomeVendor: "May transition to vendor status",
+        // Journey titles
+        vendorJourneyTitle: "Vendor Journey Map",
+        managerJourneyTitle: "Manager Journey Map",
+        sponsorJourneyTitle: "Sponsor Journey Map",
+        customerJourneyTitle: "Customer Journey Map",
+        traineeJourneyTitle: "Trainee Journey Map"
       },
       es: {
         title: "Mapa del Viaje del Vendedor", subtitle: "El Mercado del Pueblo • Guía Completa",
@@ -581,7 +1690,35 @@
         quizTipsTitle: "Consejos de Prueba", quizTipsDesc: "Pruebe conocimientos y obtenga pistas.",
         learningBoard: "Su Tablero de Aprendizaje", videoTutorials: "Tutoriales en Video", faq: "Preguntas Frecuentes y Problemas Comunes",
         support: "Contactos de Soporte", achievements: "Logros", myProgress: "Mi Progreso",
-        symbolsLegend: "Símbolos / Leyenda:", repeatWeekly: "Repetir Semanalmente"
+        symbolsLegend: "Símbolos / Leyenda:", repeatWeekly: "Repetir Semanalmente",
+        // New User Selection Screen
+        welcomeTitle: "Bienvenido al Mercado del Pueblo",
+        selectRolePrompt: "Seleccione su rol para ver su mapa de viaje personalizado",
+        selectUserType: "Seleccione su Tipo de Usuario",
+        vendorType: "Vendedor", vendorTypeDesc: "Agricultor, VAP, Minorista, Comida Caliente, Educador, Agregador",
+        managerType: "Gerente", managerTypeDesc: "Operaciones del mercado, gestión de vendedores y asistentes",
+        sponsorType: "Patrocinador", sponsorTypeDesc: "Universidad, Hospital, Fundación, Gobierno",
+        customerType: "Cliente", customerTypeDesc: "Registrado (ID de Vecino), Invitado, Inscrito en CSA",
+        traineeType: "Aprendiz", traineeTypeDesc: "Joven o Adulto en programas de capacitación",
+        hybridRolesTitle: "¿Tiene múltiples roles?",
+        managerVendor: "Gerente-Vendedor", sponsorManager: "Patrocinador-Gerente",
+        vendorCustomer: "Vendedor-Cliente", customerTrainee: "Cliente-Aprendiz", vendorTrainee: "Vendedor-Aprendiz",
+        selectProgram: "Seleccione su Programa",
+        marketProgram: "Programa de Mercado (Semanal)", marketEvent: "Evento de Mercado (Único)",
+        csaProgramBtn: "Programa CSA", trainingProgram: "Programa de Capacitación", supplyChainProgram: "Cadena de Suministro",
+        viewJourneyMap: "Ver Mi Mapa de Viaje", backToSelection: "Volver",
+        vendorGettingStarted: "Registro de Vendedor (Una vez)", steps5: "5 pasos",
+        educator: "Educador", educatorTip: "Proporciona servicios educativos/talleres",
+        aggregator: "Agregador", aggregatorTip: "Recolecta y distribuye de múltiples fuentes",
+        managerSetup: "Configuración del Gerente y Contratos",
+        sponsorContractSetup: "Configuración del Contrato y Financiamiento",
+        customerRegistration: "Registro de Cliente",
+        traineeEnrollment: "Inscripción de Aprendiz",
+        vendorJourneyTitle: "Mapa de Viaje del Vendedor",
+        managerJourneyTitle: "Mapa de Viaje del Gerente",
+        sponsorJourneyTitle: "Mapa de Viaje del Patrocinador",
+        customerJourneyTitle: "Mapa de Viaje del Cliente",
+        traineeJourneyTitle: "Mapa de Viaje del Aprendiz"
       },
       ro: {
         title: "Fendor Zoroni Mep", subtitle: "Manúiçça Bazar • Fura Gaid",
@@ -634,7 +1771,13 @@
         quizTipsTitle: "Quiz Tips", quizTipsDesc: "Gyán test goró o hint fáo.",
         learningBoard: "Tuáñr Hikkíbar Board", videoTutorials: "Video Tutorial", faq: "FAQ o Common Somossá",
         support: "Support Contact", achievements: "Sáfolyo", myProgress: "Aañr Progress",
-        symbolsLegend: "Cínno / Legend:", repeatWeekly: "Hóptay Hóptay"
+        symbolsLegend: "Cínno / Legend:", repeatWeekly: "Hóptay Hóptay",
+        welcomeTitle: "Manúiçça Bazar te Swágot",
+        selectRolePrompt: "Tuáñr role báso tuáñr journey map dekhibar lagi",
+        selectUserType: "Tuáñr User Type Báso",
+        vendorType: "Fendor", managerType: "Manager", sponsorType: "Sponsor",
+        customerType: "Gráhok", traineeType: "Shikkhárthi",
+        viewJourneyMap: "Aañr Journey Map Dekho", backToSelection: "Fírot"
       },
       my: {
         title: "ရောင်းချသူ ခရီးစဉ်မြေပုံ", subtitle: "ပြည်သူ့ဈေး • လမ်းညွှန်အပြည့်အစုံ",
@@ -687,7 +1830,13 @@
         quizTipsTitle: "မေးခွန်း အကြံပြုချက်များ", quizTipsDesc: "ဗဟုသုတ စမ်းသပ်ပြီး အကြံပြုချက်များ ရယူပါ။",
         learningBoard: "သင့် သင်ယူမှု ဘုတ်", videoTutorials: "ဗီဒီယို သင်ခန်းစာများ", faq: "မကြာခဏမေးလေ့ရှိသောမေးခွန်းများနှင့် ဖြစ်ရလေ့ရှိသော ပြဿနာများ",
         support: "ပံ့ပိုးကူညီရေး ဆက်သွယ်ရန်", achievements: "အောင်မြင်မှုများ", myProgress: "ကျွန်ုပ်၏ တိုးတက်မှု",
-        symbolsLegend: "သင်္ကေတများ:", repeatWeekly: "အပတ်စဉ် ထပ်လုပ်ပါ"
+        symbolsLegend: "သင်္ကေတများ:", repeatWeekly: "အပတ်စဉ် ထပ်လုပ်ပါ",
+        welcomeTitle: "ပြည်သူ့ဈေးသို့ ကြိုဆိုပါသည်",
+        selectRolePrompt: "သင့်အခန်းကဏ္ဍကို ရွေးချယ်ပါ",
+        selectUserType: "သင့်အသုံးပြုသူအမျိုးအစား ရွေးပါ",
+        vendorType: "ရောင်းချသူ", managerType: "မန်နေဂျာ", sponsorType: "ပံ့ပိုးသူ",
+        customerType: "ဖောက်သည်", traineeType: "သင်တန်းသား",
+        viewJourneyMap: "ခရီးစဉ်မြေပုံ ကြည့်ရန်", backToSelection: "နောက်သို့"
       },
       sw: {
         title: "Ramani ya Safari ya Muuzaji", subtitle: "Soko la Watu • Mwongozo Kamili",
@@ -740,7 +1889,13 @@
         quizTipsTitle: "Vidokezo vya Jaribio", quizTipsDesc: "Jaribu maarifa na upate vidokezo.",
         learningBoard: "Bodi Yako ya Kujifunza", videoTutorials: "Mafunzo ya Video", faq: "Maswali Yanayoulizwa Mara kwa Mara na Matatizo ya Kawaida",
         support: "Mawasiliano ya Msaada", achievements: "Mafanikio", myProgress: "Maendeleo Yangu",
-        symbolsLegend: "Alama / Ufafanuzi:", repeatWeekly: "Rudia Kila Wiki"
+        symbolsLegend: "Alama / Ufafanuzi:", repeatWeekly: "Rudia Kila Wiki",
+        welcomeTitle: "Karibu Soko la Watu",
+        selectRolePrompt: "Chagua jukumu lako kuona ramani yako ya safari",
+        selectUserType: "Chagua Aina Yako ya Mtumiaji",
+        vendorType: "Muuzaji", managerType: "Meneja", sponsorType: "Mfadhili",
+        customerType: "Mteja", traineeType: "Mwanafunzi",
+        viewJourneyMap: "Tazama Ramani ya Safari", backToSelection: "Rudi"
       },
       so: {
         title: "Khariidadda Safarka Iibiyaha", subtitle: "Suuqa Dadka • Hagaha Buuxa",
@@ -793,7 +1948,13 @@
         quizTipsTitle: "Talooyin Imtixaanka", quizTipsDesc: "Tijaabi aqoonta oo hel tilmaamo.",
         learningBoard: "Guddiga Barashadaada", videoTutorials: "Tababarro Video ah", faq: "Su'aalaha Inta Badan La Weydiiyo & Dhibaatooyinka Caadiga ah",
         support: "Xiriirka Taageerada", achievements: "Guulaha", myProgress: "Horumarkayga",
-        symbolsLegend: "Calaamadaha / Sharaxaadda:", repeatWeekly: "Ku celi Toddobaadlaha"
+        symbolsLegend: "Calaamadaha / Sharaxaadda:", repeatWeekly: "Ku celi Toddobaadlaha",
+        welcomeTitle: "Ku soo dhawoow Suuqa Dadka",
+        selectRolePrompt: "Dooro doorkaaga si aad u aragto khariidadaada safarka",
+        selectUserType: "Dooro Noocaaga Isticmaalaha",
+        vendorType: "Iibiyaha", managerType: "Maamulaha", sponsorType: "Maalgeliyaha",
+        customerType: "Macmiilka", traineeType: "Tababaruhu",
+        viewJourneyMap: "Arag Khariidadda Safarka", backToSelection: "Dib u noqo"
       },
       ar: {
         title: "خريطة رحلة البائع", subtitle: "سوق الشعب • الدليل الكامل",
@@ -846,7 +2007,13 @@
         quizTipsTitle: "نصائح الاختبار", quizTipsDesc: "اختبر المعرفة واحصل على تلميحات.",
         learningBoard: "لوحة التعلم الخاصة بك", videoTutorials: "دروس فيديو", faq: "الأسئلة الشائعة والمشاكل المتكررة",
         support: "جهات اتصال الدعم", achievements: "الإنجازات", myProgress: "تقدمي",
-        symbolsLegend: "الرموز / الدليل:", repeatWeekly: "كرر أسبوعياً"
+        symbolsLegend: "الرموز / الدليل:", repeatWeekly: "كرر أسبوعياً",
+        welcomeTitle: "مرحباً بكم في سوق الشعب",
+        selectRolePrompt: "اختر دورك لرؤية خريطة رحلتك الشخصية",
+        selectUserType: "اختر نوع المستخدم",
+        vendorType: "بائع", managerType: "مدير", sponsorType: "ممول",
+        customerType: "عميل", traineeType: "متدرب",
+        viewJourneyMap: "عرض خريطة الرحلة", backToSelection: "رجوع"
       },
       vi: {
         title: "Bản Đồ Hành Trình Người Bán", subtitle: "Chợ Nhân Dân • Hướng Dẫn Đầy Đủ",
@@ -899,15 +2066,240 @@
         quizTipsTitle: "Mẹo Câu Hỏi", quizTipsDesc: "Kiểm tra kiến thức và nhận gợi ý.",
         learningBoard: "Bảng Học Tập Của Bạn", videoTutorials: "Video Hướng Dẫn", faq: "Câu Hỏi Thường Gặp và Vấn Đề Phổ Biến",
         support: "Liên Hệ Hỗ Trợ", achievements: "Thành Tích", myProgress: "Tiến Độ Của Tôi",
-        symbolsLegend: "Ký Hiệu / Chú Giải:", repeatWeekly: "Lặp Lại Hàng Tuần"
+        symbolsLegend: "Ký Hiệu / Chú Giải:", repeatWeekly: "Lặp Lại Hàng Tuần",
+        welcomeTitle: "Chào Mừng Đến Chợ Nhân Dân",
+        selectRolePrompt: "Chọn vai trò để xem bản đồ hành trình cá nhân",
+        selectUserType: "Chọn Loại Người Dùng",
+        vendorType: "Người Bán", managerType: "Quản Lý", sponsorType: "Nhà Tài Trợ",
+        customerType: "Khách Hàng", traineeType: "Học Viên",
+        viewJourneyMap: "Xem Bản Đồ Hành Trình", backToSelection: "Quay Lại"
       }
     };
 
     let currentLanguage = 'en';
 
+    // ===================== USER TYPE STATE MANAGEMENT =====================
+    let currentUserType = null;      // 'vendor', 'manager', 'sponsor', 'customer', 'trainee'
+    let hybridRoles = [];            // ['manager-vendor', 'sponsor-manager', etc.]
+    let currentProgramType = null;   // 'market-program', 'market-event', 'csa', 'training', 'supply-chain'
+    let activeHybridTab = 'primary'; // 'primary' or 'secondary'
+
+    // User Type Selection
+    function selectUserType(type) {
+      currentUserType = type;
+      // Update UI
+      document.querySelectorAll('.user-type-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      document.querySelector(`.user-type-card[data-type="${type}"]`).classList.add('selected');
+      updateStartButton();
+      updateHybridOptions();
+    }
+
+    // Toggle Hybrid Role
+    function toggleHybridRole(role) {
+      const toggle = document.querySelector(`.hybrid-toggle[data-hybrid="${role}"]`);
+      if (hybridRoles.includes(role)) {
+        hybridRoles = hybridRoles.filter(r => r !== role);
+        toggle.classList.remove('active');
+      } else {
+        hybridRoles.push(role);
+        toggle.classList.add('active');
+      }
+      updateStartButton();
+    }
+
+    // Update hybrid options based on selected user type
+    function updateHybridOptions() {
+      const toggles = document.querySelectorAll('.hybrid-toggle');
+      toggles.forEach(toggle => {
+        const hybrid = toggle.dataset.hybrid;
+        let isRelevant = false;
+
+        // Show relevant hybrid options based on user type
+        if (currentUserType === 'manager' && (hybrid === 'manager-vendor' || hybrid === 'sponsor-manager')) {
+          isRelevant = true;
+        } else if (currentUserType === 'vendor' && (hybrid === 'manager-vendor' || hybrid === 'vendor-customer' || hybrid === 'vendor-trainee')) {
+          isRelevant = true;
+        } else if (currentUserType === 'sponsor' && hybrid === 'sponsor-manager') {
+          isRelevant = true;
+        } else if (currentUserType === 'customer' && (hybrid === 'vendor-customer' || hybrid === 'customer-trainee')) {
+          isRelevant = true;
+        } else if (currentUserType === 'trainee' && (hybrid === 'customer-trainee' || hybrid === 'vendor-trainee')) {
+          isRelevant = true;
+        }
+
+        toggle.style.display = isRelevant ? 'flex' : 'none';
+        if (!isRelevant && hybridRoles.includes(hybrid)) {
+          hybridRoles = hybridRoles.filter(r => r !== hybrid);
+          toggle.classList.remove('active');
+        }
+      });
+    }
+
+    // Select Program Type
+    function selectProgramType(program) {
+      currentProgramType = program;
+      document.querySelectorAll('.program-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      document.querySelector(`.program-btn[data-program="${program}"]`).classList.add('selected');
+      updateStartButton();
+    }
+
+    // Update Start Button State
+    function updateStartButton() {
+      const btn = document.getElementById('startJourneyBtn');
+      btn.disabled = !(currentUserType && currentProgramType);
+    }
+
+    // Start Journey - Show the journey map
+    function startJourney() {
+      if (!currentUserType || !currentProgramType) return;
+
+      // Hide selection screen, show journey content
+      document.getElementById('userSelection').classList.add('hidden');
+      document.getElementById('journeyContent').classList.add('visible');
+
+      // Update header based on user type
+      updateHeader();
+
+      // Show/hide sections based on user type
+      showUserTypeSections();
+
+      // Setup hybrid tabs if needed
+      setupHybridTabs();
+    }
+
+    // Back to Selection Screen
+    function backToSelection() {
+      document.getElementById('userSelection').classList.remove('hidden');
+      document.getElementById('journeyContent').classList.remove('visible');
+      document.getElementById('roleTabs').classList.remove('visible');
+    }
+
+    // Update Header Based on User Type
+    function updateHeader() {
+      const icons = {
+        vendor: '🏪',
+        manager: '📋',
+        sponsor: '💰',
+        customer: '🛍️',
+        trainee: '🎓'
+      };
+      const titles = {
+        vendor: 'Vendor Journey Map',
+        manager: 'Manager Journey Map',
+        sponsor: 'Sponsor Journey Map',
+        customer: 'Customer Journey Map',
+        trainee: 'Trainee Journey Map'
+      };
+
+      document.getElementById('headerIcon').textContent = icons[currentUserType] || '🛒';
+      document.getElementById('headerTitle').textContent = translations[currentLanguage]?.[`${currentUserType}JourneyTitle`] || titles[currentUserType] || 'Journey Map';
+
+      // Show user indicator
+      const indicator = document.getElementById('userIndicator');
+      indicator.style.display = 'inline-flex';
+      indicator.innerHTML = `• ${currentUserType.charAt(0).toUpperCase() + currentUserType.slice(1)}${hybridRoles.length > 0 ? ' + ' + getSecondaryRole() : ''}`;
+    }
+
+    // Get Secondary Role from Hybrid
+    function getSecondaryRole() {
+      if (hybridRoles.length === 0) return '';
+      const hybrid = hybridRoles[0];
+      const parts = hybrid.split('-');
+      return parts.find(p => p !== currentUserType) || '';
+    }
+
+    // Show Sections for Selected User Type
+    function showUserTypeSections() {
+      // Hide all user-type-specific columns first
+      document.querySelectorAll('[data-user-type]').forEach(el => {
+        if (el.classList.contains('user-type-card')) return; // Skip selection cards
+
+        const userType = el.dataset.userType;
+        if (userType === currentUserType) {
+          el.style.display = '';
+        } else if (hybridRoles.some(h => h.includes(userType))) {
+          // Show secondary role sections but initially hidden (for tabs)
+          el.style.display = 'none';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      // Show the main layout columns for vendor (they contain the original content structure)
+      if (currentUserType === 'vendor') {
+        document.querySelectorAll('.left-col, .right-col').forEach(el => {
+          el.style.display = '';
+        });
+      }
+    }
+
+    // Setup Hybrid Tabs
+    function setupHybridTabs() {
+      const roleTabs = document.getElementById('roleTabs');
+      if (hybridRoles.length > 0) {
+        roleTabs.classList.add('visible');
+
+        const primaryTab = document.getElementById('primaryRoleTab');
+        const secondaryTab = document.getElementById('secondaryRoleTab');
+        const badge = document.getElementById('hybridBadgeDisplay');
+
+        // Set tab labels
+        primaryTab.textContent = currentUserType.charAt(0).toUpperCase() + currentUserType.slice(1);
+        const secondaryRole = getSecondaryRole();
+        secondaryTab.textContent = secondaryRole.charAt(0).toUpperCase() + secondaryRole.slice(1);
+
+        // Set badge
+        badge.textContent = `Hybrid: ${currentUserType.charAt(0).toUpperCase() + currentUserType.slice(1)}-${secondaryRole.charAt(0).toUpperCase() + secondaryRole.slice(1)}`;
+
+        activeHybridTab = 'primary';
+        primaryTab.classList.add('active');
+        secondaryTab.classList.remove('active');
+      } else {
+        roleTabs.classList.remove('visible');
+      }
+    }
+
+    // Switch Role Tab
+    function switchRole(tab) {
+      activeHybridTab = tab;
+      const primaryTab = document.getElementById('primaryRoleTab');
+      const secondaryTab = document.getElementById('secondaryRoleTab');
+
+      if (tab === 'primary') {
+        primaryTab.classList.add('active');
+        secondaryTab.classList.remove('active');
+        showUserTypeSections();
+      } else {
+        primaryTab.classList.remove('active');
+        secondaryTab.classList.add('active');
+
+        // Show secondary role sections
+        const secondaryRole = getSecondaryRole();
+        document.querySelectorAll('[data-user-type]').forEach(el => {
+          if (el.classList.contains('user-type-card')) return;
+
+          const userType = el.dataset.userType;
+          if (userType === secondaryRole) {
+            el.style.display = '';
+          } else {
+            el.style.display = 'none';
+          }
+        });
+      }
+    }
+
     function setLanguage(lang) {
       currentLanguage = lang;
-      document.getElementById('langSelect').value = lang;
+      // Sync both language selectors
+      const langSelect = document.getElementById('langSelect');
+      const selectionLangSelect = document.getElementById('selectionLangSelect');
+      if (langSelect) langSelect.value = lang;
+      if (selectionLangSelect) selectionLangSelect.value = lang;
+
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const text = translations[lang]?.[key] || translations.en[key];
@@ -926,17 +2318,32 @@
       });
       event.target.closest('.filter-btn').classList.add('active');
       event.target.closest('.filter-btn').setAttribute('aria-selected', 'true');
-      
+
       document.querySelectorAll('.section').forEach(section => {
         const sectionPhase = section.dataset.phase;
-        const shouldShow = phase === 'all' || sectionPhase === phase || 
+        const sectionUserType = section.dataset.userType;
+
+        // Check if this section belongs to current user type or secondary role
+        const isUserTypeMatch = !sectionUserType ||
+          sectionUserType === currentUserType ||
+          (activeHybridTab === 'secondary' && sectionUserType === getSecondaryRole()) ||
+          (activeHybridTab === 'primary' && hybridRoles.some(h => h.includes(sectionUserType)));
+
+        const isPhaseMatch = phase === 'all' || sectionPhase === phase ||
           (phase === 'postmarket' && sectionPhase === 'programs');
-        section.classList.toggle('hidden', !shouldShow);
+
+        // Only show if both user type and phase match
+        if (currentUserType) {
+          section.classList.toggle('hidden', !(isUserTypeMatch && isPhaseMatch));
+        } else {
+          section.classList.toggle('hidden', !isPhaseMatch);
+        }
       });
     }
 
     // ===================== QUIZZES =====================
     const quizzes = {
+      // Legacy quizzes (backwards compatible)
       prepare: {
         title: "📝 Getting Started Quiz (A-C)",
         questions: [
@@ -980,6 +2387,81 @@
         questions: [
           { q: "Best market day prep?", opts: ["Wing it", "Complete forms & charge devices", "Arrive late"], ans: 1, exp: "Complete forms early and charge devices." },
           { q: "Where to practice safely?", opts: ["Live system", "Simulation Environment", "Paper"], ans: 1, exp: "Use the Simulation Environment." }
+        ]
+      },
+      // NEW: Vendor-specific quizzes
+      'vendor-prepare': {
+        title: "🏪 Vendor Registration Quiz",
+        questions: [
+          { q: "Which of these is a valid vendor type?", opts: ["Distributor", "Educator", "Wholesaler"], ans: 1, exp: "Educator is one of the 6 vendor types (Farmer, VAP, Hot Food, Retailer, Educator, Aggregator)." },
+          { q: "What form do vendors submit to apply?", opts: ["Registration Form", "Market Vendor Request Form", "Application Form"], ans: 1, exp: "Submit the Market Vendor Request Form to apply." },
+          { q: "What documents must vendors upload?", opts: ["Just ID", "W-9 and licenses", "Nothing"], ans: 1, exp: "Vendors must upload W-9 and relevant licenses/certifications." }
+        ]
+      },
+      'vendor-premarket': {
+        title: "📅 Vendor Pre-Market Quiz",
+        questions: [
+          { q: "When is the Upcoming Market Form due?", opts: ["Saturday morning", "Friday 10 AM", "Thursday night"], ans: 1, exp: "The form is due by Friday 10 AM each week." },
+          { q: "What does the Upcoming Market Form preload?", opts: ["Nothing", "Products into Transaction Form", "Payment info"], ans: 1, exp: "It preloads your products into the Transaction Form." }
+        ]
+      },
+      'vendor-marketday': {
+        title: "🏪 Vendor Market Day Quiz",
+        questions: [
+          { q: "What's the first thing to do at the market?", opts: ["Start selling", "Check in at manager table", "Set prices"], ans: 1, exp: "Always check in at the manager table first." },
+          { q: "How should you process transactions?", opts: ["Cash only", "Transaction Form (scan QR)", "Paper receipts"], ans: 1, exp: "Use the Transaction Form, preferably by scanning the customer's QR code." },
+          { q: "What form do you complete after your last sale?", opts: ["Check-out Form", "End of Market Vendor Invoice Form", "Summary Form"], ans: 1, exp: "Complete the End of Market Vendor Invoice Form immediately after your last transaction." }
+        ]
+      },
+      // NEW: Manager quizzes
+      'manager-basics': {
+        title: "📋 Manager Fundamentals Quiz",
+        questions: [
+          { q: "What form sets up a new contract?", opts: ["Vendor Form", "Contract Information Form", "Setup Form"], ans: 1, exp: "Use the Contract Information Form to set up contracts and programs." },
+          { q: "Who can approve vendor applications?", opts: ["Vendors", "Managers", "Customers"], ans: 1, exp: "Managers manually approve, deny, or waitlist vendor applications." },
+          { q: "How do managers track staff/volunteer time?", opts: ["Email", "Personnel Check-in Form", "Text message"], ans: 1, exp: "Use the PGL Personnel Market Check-in and Out Form." }
+        ]
+      },
+      'manager-forms': {
+        title: "📋 Manager Forms Quiz",
+        questions: [
+          { q: "Which form is used for new attendees?", opts: ["Return Form", "Attendee Registration Form", "Check-in Form"], ans: 1, exp: "Use the Attendee Registration Form for new attendees." },
+          { q: "Which form is used for returning attendees?", opts: ["Registration Form", "Return Attendee Form", "Wallet Form"], ans: 1, exp: "Use the Return Attendee Form for checking in and loading wallets." },
+          { q: "What form generates funder invoices?", opts: ["Vendor Invoice", "Funder Payment Invoice Form", "Receipt Form"], ans: 1, exp: "Use the Funder Payment Invoice Form to generate invoices for sponsors." }
+        ]
+      },
+      // NEW: Sponsor quiz
+      'sponsor-contract': {
+        title: "💰 Sponsor/Funder Quiz",
+        questions: [
+          { q: "What triggers an email invitation to sponsors?", opts: ["Payment", "Contract Form completion", "Manager approval"], ans: 1, exp: "Completing a new Contract Information Form triggers an email invitation." },
+          { q: "How do sponsors document their payments?", opts: ["Email receipt", "Payment Remittance Form", "Bank transfer"], ans: 1, exp: "Sponsors document payments via the designated Payment Remittance Form." },
+          { q: "What form is used to modify a contract?", opts: ["New Contract Form", "Contract Amendment Form", "Update Form"], ans: 1, exp: "Use the Contract Amendment Form to modify, renew, or cancel contributions." }
+        ]
+      },
+      // NEW: Customer quizzes
+      'customer-registration': {
+        title: "🛍️ Customer Registration Quiz",
+        questions: [
+          { q: "What do registered customers receive?", opts: ["Cash", "Neighbor ID", "Badge"], ans: 1, exp: "Registered customers receive a Neighbor ID (e.g., REACH-12345)." },
+          { q: "What does the virtual ID card include?", opts: ["Photo only", "QR code and link", "Barcode"], ans: 1, exp: "The virtual ID card includes a QR code and a link to view balances." },
+          { q: "How do customers check their benefit balance?", opts: ["Call support", "Via mobile wallet link", "Email"], ans: 1, exp: "Use the hyperlink on your virtual ID card to view real-time benefit balances." }
+        ]
+      },
+      'customer-benefits': {
+        title: "🛍️ Customer Benefits Quiz",
+        questions: [
+          { q: "How do you make a purchase at the market?", opts: ["Cash only", "Present QR code to vendor", "Fill out form"], ans: 1, exp: "Present your QR code to the vendor who will scan it for the Transaction Form." },
+          { q: "What's the difference between registered and guest customers?", opts: ["None", "Neighbor ID and wallet", "Price discounts"], ans: 1, exp: "Registered customers have a Neighbor ID and mobile wallet; guests may have limited benefits." }
+        ]
+      },
+      // NEW: Trainee quiz
+      'trainee-enrollment': {
+        title: "🎓 Trainee Quiz",
+        questions: [
+          { q: "What form do trainees use to enroll?", opts: ["Vendor Form", "Course Registration Form", "Application Form"], ans: 1, exp: "Enroll via the Course Registration Form." },
+          { q: "How do trainees log volunteer hours?", opts: ["Email", "Manager Check-in Form", "Paper sign-in"], ans: 1, exp: "Log hours via the Manager Check-in Form." },
+          { q: "Can trainees also be customers?", opts: ["No", "Yes", "Only after graduation"], ans: 1, exp: "Yes! Trainees may also shop at the market as customers." }
         ]
       }
     };
