@@ -3,146 +3,522 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vendor Journey Map – The People's Market</title>
+  <title>PMDS Training Center – The People's Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f8fafc; --text: #1e293b; --muted: #64748b; --card: #ffffff; --border: #e2e8f0;
-      --blue: #3b82f6; --blue-light: #dbeafe; --yellow: #f59e0b; --yellow-light: #fef3c7;
-      --green: #10b981; --green-light: #d1fae5; --orange: #f97316; --orange-light: #ffedd5;
-      --purple: #8b5cf6; --purple-light: #ede9fe; --red: #ef4444; --red-light: #fef2f2;
-      --teal: #14b8a6; --teal-light: #ccfbf1; --radius: 10px; --shadow: 0 2px 4px rgba(0,0,0,0.08);
+      --primary: #3d4a3a;
+      --primary-dark: #2d3a2a;
+      --primary-light: #4d5a4a;
+      --accent: #c85a38;
+      --accent-hover: #b84a28;
+      --bg: #ffffff;
+      --bg-alt: #f7f7f5;
+      --text: #2d3a2a;
+      --text-muted: #6b7280;
+      --border: #e5e5e5;
+      --card: #ffffff;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.4; font-size: 12px; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 8px; }
-    
-    /* Header */
-    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: var(--radius); padding: 10px 14px; color: white; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .header-left h1 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-    .header-left .subtitle { font-size: 10px; opacity: 0.9; }
-    
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; font-size: 15px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Top Navigation Bar */
+    .top-nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+    .top-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .nav-brand-icon { width: 32px; height: 32px; background: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+    .nav-brand-text { font-weight: 700; font-size: 15px; }
+    .nav-brand-text span { font-weight: 400; color: var(--text-muted); }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-link { padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; transition: all 0.2s; border: none; background: none; cursor: pointer; }
+    .nav-link:hover { background: var(--bg-alt); }
+    .nav-link.active { background: var(--primary); color: white; }
+
+    /* Header / Hero Section */
+    .header { background: var(--primary); padding: 48px 0; color: white; margin-bottom: 0; }
+    .header .container { max-width: 1200px; }
+    .header-breadcrumb { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px; }
+    .header-left h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .header-left .subtitle { font-size: 16px; opacity: 0.9; max-width: 500px; line-height: 1.5; }
+
     /* Language Dropdown */
-    .lang-dropdown { position: relative; }
-    .lang-select { background: rgba(255,255,255,0.95); border: none; padding: 6px 28px 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; color: #667eea; cursor: pointer; appearance: none; min-width: 140px; }
-    .lang-select:focus { outline: 2px solid white; }
-    .lang-dropdown::after { content: "▼"; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 8px; color: #667eea; pointer-events: none; }
+    .lang-dropdown { position: relative; margin-top: 24px; }
+    .lang-select { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 10px 36px 10px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; color: white; cursor: pointer; appearance: none; min-width: 160px; }
+    .lang-select option { color: var(--text); background: white; }
+    .lang-select:focus { outline: 2px solid rgba(255,255,255,0.5); outline-offset: 2px; }
+    .lang-dropdown::after { content: "▼"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 10px; color: white; pointer-events: none; }
+
+    /* Section Tabs */
+    .section-tabs { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0; margin-bottom: 32px; }
+    .section-tabs .container { display: flex; gap: 0; }
+    .tab-btn { padding: 16px 24px; font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .filter-btn { background: var(--bg-alt); border: 1px solid var(--border); color: var(--text); padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
     
-    .filters { display: flex; gap: 4px; flex-wrap: wrap; }
-    .filter-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 10px; display: flex; align-items: center; gap: 3px; transition: all 0.2s; }
-    .filter-btn:hover, .filter-btn.active { background: white; color: #667eea; }
-    
-    /* Main Layout */
-    .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-    .main-layout.single-col { grid-template-columns: 1fr; }
-    .manager-journey-col, .sponsor-journey-col, .customer-journey-col, .trainee-journey-col { grid-template-columns: 1fr; }
+    /* Main Layout - Single column for consistency across all user types */
+    .main-layout { display: block; margin-bottom: 24px; }
+    .main-layout.single-col { display: block; }
+    .left-col, .right-col { display: block; }
+    .manager-journey-col, .sponsor-journey-col, .customer-journey-col, .trainee-journey-col, .vendor-layout, .vendor-right-layout { display: block; }
     .manager-journey-col .left-col, .sponsor-journey-col .left-col, .customer-journey-col .left-col, .trainee-journey-col .left-col { max-width: 100%; }
-    
+
+    /* Content Section Label */
+    .content-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
+    .content-title { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .content-desc { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; }
+
     /* Sections */
-    .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .section { background: var(--card); border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
     .section.hidden { display: none; }
-    .section-header { padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
-    .section-header h2 { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; flex: 1; min-width: 180px; }
-    .section-header .icon { font-size: 14px; }
-    .badge { font-size: 8px; padding: 2px 5px; border-radius: 6px; font-weight: 700; white-space: nowrap; }
-    .badge.module { background: rgba(0,0,0,0.12); }
-    .badge.step { background: rgba(0,0,0,0.08); }
-    
-    .section.prepare .section-header { background: var(--blue-light); color: #1e40af; }
-    .section.premarket .section-header { background: var(--yellow-light); color: #92400e; }
-    .section.marketday .section-header { background: var(--green-light); color: #065f46; }
-    .section.programs .section-header { background: var(--teal-light); color: #0f766e; }
-    .section.resources .section-header { background: var(--purple-light); color: #5b21b6; }
-    
-    .quiz-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 4px 7px; border-radius: 8px; cursor: pointer; font-size: 9px; font-weight: 600; display: flex; align-items: center; gap: 2px; transition: transform 0.2s; }
-    .quiz-btn:hover { transform: scale(1.05); }
-    
-    .section-content { padding: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .section-header { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border); background: var(--bg-alt); }
+    .section-header h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px; color: var(--text); }
+    .section-header .icon { font-size: 20px; }
+    .badge { font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+    .badge.module { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); }
+    .badge.step { background: var(--primary); color: white; }
+
+    .section.prepare .section-header { background: var(--bg-alt); }
+    .section.premarket .section-header { background: var(--bg-alt); }
+    .section.marketday .section-header { background: var(--bg-alt); }
+    .section.programs .section-header { background: var(--bg-alt); }
+    .section.resources .section-header { background: var(--bg-alt); }
+
+    .quiz-btn { background: var(--accent); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .quiz-btn:hover { background: var(--accent-hover); }
+
+    .section-content { padding: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .section-content.single { grid-template-columns: 1fr; }
-    .section-content.triple { grid-template-columns: 1fr 1fr 1fr; }
-    
+    .section-content.triple { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 768px) {
+      .section-content { grid-template-columns: 1fr; }
+      .section-content.triple { grid-template-columns: 1fr; }
+    }
+
     /* Cards */
-    .card { background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; }
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: all 0.2s; }
+    .card:hover { border-color: #ccc; box-shadow: var(--shadow); }
     .card.span-2 { grid-column: span 2; }
     .card.span-3 { grid-column: span 3; }
-    .card-title { font-weight: 700; font-size: 10px; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; color: #374151; }
-    .card-title .num { background: var(--purple); color: white; width: 14px; height: 14px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    @media (max-width: 768px) {
+      .card.span-2, .card.span-3 { grid-column: span 1; }
+    }
+    .card-title { font-weight: 600; font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: var(--text); }
+    .card-title .num { background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 600; }
     
     /* Steps */
-    .steps { list-style: none; font-size: 10px; }
-    .steps li { padding: 2px 0; padding-left: 10px; position: relative; border-bottom: 1px solid #f1f5f9; }
+    .steps { list-style: none; font-size: 14px; }
+    .steps li { padding: 8px 0; padding-left: 20px; position: relative; border-bottom: 1px solid var(--border); color: var(--text); }
     .steps li:last-child { border: none; }
-    .steps li::before { content: "→"; position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 8px; }
-    
+    .steps li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: bold; font-size: 14px; }
+
     /* Alerts */
-    .alert { display: flex; gap: 4px; padding: 4px 6px; border-radius: 4px; font-size: 9px; margin-top: 4px; align-items: flex-start; }
-    .alert.tip { background: #f0f9ff; border: 1px solid #bae6fd; }
-    .alert.warn { background: #fffbeb; border: 1px solid #fcd34d; }
-    .alert.error { background: #fef2f2; border: 1px solid #fca5a5; }
-    
+    .alert { display: flex; gap: 10px; padding: 12px 16px; border-radius: var(--radius); font-size: 13px; margin-top: 12px; align-items: flex-start; }
+    .alert.tip { background: #f0f7f4; border: 1px solid #c6ddd4; color: var(--primary); }
+    .alert.warn { background: #fef9e7; border: 1px solid #f5e6b8; color: #8b6914; }
+    .alert.error { background: #fdf2f2; border: 1px solid #f5c6c6; color: #991b1b; }
+
     /* Tooltips */
-    .term { border-bottom: 1px dotted var(--purple); cursor: help; font-weight: 600; color: var(--purple); position: relative; }
-    .tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 4px 8px; border-radius: 4px; font-size: 9px; white-space: nowrap; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-weight: normal; }
+    .term { border-bottom: 1px dotted var(--primary); cursor: help; font-weight: 600; color: var(--primary); position: relative; }
+    .tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--primary-dark); color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-weight: normal; }
     .term:hover .tooltip { opacity: 1; }
-    
+
     /* Market Day Full Width */
-    .marketday-full { margin-bottom: 8px; }
-    .marketday-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; }
-    
+    .marketday-full { margin-bottom: 24px; }
+    .marketday-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 24px; }
+    @media (max-width: 900px) {
+      .marketday-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .marketday-grid { grid-template-columns: 1fr; }
+    }
+
     /* Learning Section */
-    .learning-section { background: linear-gradient(135deg, #faf5ff, #f3e8ff); border: 2px dashed var(--purple); border-radius: var(--radius); padding: 10px; margin-bottom: 8px; }
-    .learning-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
-    .learning-header h2 { font-size: 13px; color: #5b21b6; display: flex; align-items: center; gap: 5px; }
-    .learning-badge { background: var(--purple); color: white; font-size: 8px; padding: 2px 6px; border-radius: 6px; text-transform: uppercase; }
-    .learning-content { display: grid; grid-template-columns: 3fr 1fr; gap: 10px; }
-    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-    .tool-card { background: white; border-radius: 6px; padding: 8px 6px; box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-    .tool-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.12); }
-    .tool-icon { font-size: 18px; margin-bottom: 2px; }
-    .tool-title { font-weight: 700; font-size: 9px; margin-bottom: 2px; }
-    .tool-desc { font-size: 8px; color: var(--muted); line-height: 1.2; }
-    
+    .learning-section { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; }
+    .learning-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .learning-header h2 { font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 10px; font-weight: 600; }
+    .learning-badge { background: var(--primary); color: white; font-size: 11px; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; font-weight: 500; letter-spacing: 0.5px; }
+    .learning-content { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+    .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .tool-card { background: white; border-radius: var(--radius); padding: 24px 20px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: all 0.2s; }
+    .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+    .tool-icon { font-size: 32px; margin-bottom: 12px; }
+    .tool-title { font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text); }
+    .tool-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
     /* Learning Board */
-    .learning-board { background: white; border-radius: 6px; padding: 8px; box-shadow: var(--shadow); }
-    .learning-board h3 { font-size: 11px; margin-bottom: 6px; color: #5b21b6; display: flex; align-items: center; gap: 4px; }
-    .board-item { font-size: 9px; padding: 5px 6px; background: #faf5ff; border-radius: 4px; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; cursor: pointer; transition: background 0.2s; }
-    .board-item:hover { background: #ede9fe; }
+    .learning-board { background: white; border-radius: var(--radius); padding: 20px; border: 1px solid var(--border); }
+    .learning-board h3 { font-size: 16px; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .board-item { font-size: 14px; padding: 12px 14px; background: var(--bg-alt); border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s; }
+    .board-item:hover { background: #e8e8e6; }
     
     /* Legend */
-    .legend { background: var(--card); border-radius: var(--radius); padding: 8px 12px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
-    .legend-title { font-weight: 700; font-size: 10px; display: flex; align-items: center; gap: 4px; }
-    .legend-item { display: flex; align-items: center; gap: 3px; font-size: 9px; padding: 3px 6px; border-radius: 8px; }
-    .legend-item.prepare { background: var(--blue-light); color: #1e40af; }
-    .legend-item.premarket { background: var(--yellow-light); color: #92400e; }
-    .legend-item.marketday { background: var(--green-light); color: #065f46; }
-    .legend-item.review { background: var(--orange-light); color: #9a3412; }
-    .legend-arrow { color: var(--purple); font-weight: bold; font-size: 12px; }
-    .legend-repeat { color: var(--purple); font-weight: 700; font-size: 10px; }
-    
+    .legend { background: var(--bg-alt); border-radius: var(--radius-lg); padding: 20px 32px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+    .legend-title { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 8px 14px; border-radius: 6px; font-weight: 500; }
+    .legend-item.prepare { background: #e8f4ea; color: var(--primary); }
+    .legend-item.premarket { background: #fef3e2; color: #8b5a00; }
+    .legend-item.marketday { background: #e8f4ea; color: var(--primary); }
+    .legend-item.review { background: #fce8e4; color: var(--accent); }
+    .legend-arrow { color: var(--text-muted); font-weight: bold; font-size: 16px; }
+    .legend-repeat { color: var(--primary); font-weight: 600; font-size: 13px; }
+
     /* Modal */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 12px; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
     .modal-overlay.show { display: flex; }
-    .modal { background: white; border-radius: var(--radius); max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-    .modal-header { padding: 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 1; }
-    .modal-header h3 { font-size: 14px; }
-    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; }
-    .modal-body { padding: 12px; }
-    .modal-body ul { margin: 8px 0; padding-left: 16px; font-size: 11px; }
-    .modal-body li { margin-bottom: 4px; }
-    .modal-body p { font-size: 11px; margin-bottom: 8px; }
-    
+    .modal { background: white; border-radius: var(--radius-lg); max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 1; }
+    .modal-header h3 { font-size: 18px; font-weight: 600; color: var(--text); }
+    .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); line-height: 1; transition: color 0.2s; }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 24px; }
+    .modal-body ul { margin: 12px 0; padding-left: 20px; font-size: 14px; }
+    .modal-body li { margin-bottom: 8px; line-height: 1.5; }
+    .modal-body p { font-size: 14px; margin-bottom: 12px; line-height: 1.6; }
+
     /* Quiz */
-    .quiz-question { margin-bottom: 12px; }
-    .quiz-question p { font-weight: 600; margin-bottom: 6px; font-size: 12px; }
-    .quiz-option { display: block; padding: 8px 10px; border: 2px solid var(--border); border-radius: 6px; margin-bottom: 4px; cursor: pointer; font-size: 11px; transition: all 0.2s; }
-    .quiz-option:hover:not(.correct):not(.incorrect) { border-color: var(--purple); background: var(--purple-light); }
-    .quiz-option.correct { border-color: var(--green); background: var(--green-light); }
-    .quiz-option.incorrect { border-color: var(--red); background: var(--red-light); }
+    .quiz-question { margin-bottom: 24px; }
+    .quiz-question p { font-weight: 600; margin-bottom: 12px; font-size: 15px; color: var(--text); }
+    .quiz-option { display: block; padding: 14px 18px; border: 2px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .quiz-option:hover:not(.correct):not(.incorrect) { border-color: var(--primary); background: #f0f4f0; }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; }
+    .quiz-option.incorrect { border-color: #ef4444; background: #fef2f2; }
     .quiz-option.disabled { pointer-events: none; }
-    .quiz-result { padding: 10px; border-radius: 6px; text-align: center; font-weight: 600; margin-top: 10px; font-size: 12px; }
-    .quiz-result.success { background: var(--green-light); color: #065f46; }
-    .quiz-result.fail { background: var(--red-light); color: #991b1b; }
-    .quiz-retry { background: var(--purple); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-top: 8px; }
-    
+    .quiz-result { padding: 16px; border-radius: var(--radius); text-align: center; font-weight: 600; margin-top: 16px; font-size: 15px; }
+    .quiz-result.success { background: #f0fdf4; color: #166534; }
+    .quiz-result.fail { background: #fef2f2; color: #991b1b; }
+    .quiz-retry { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: var(--radius); cursor: pointer; font-size: 14px; margin-top: 12px; font-weight: 500; transition: background 0.2s; }
+    .quiz-retry:hover { background: var(--accent-hover); }
+
+    /* ===================== LEARNING-FOCUSED JOURNEY COMPONENTS ===================== */
+
+    /* Journey Progress Bar */
+    .journey-progress {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 32px;
+      margin-bottom: 32px;
+    }
+    .journey-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .journey-progress-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .journey-progress-stats {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .journey-progress-stats strong {
+      color: var(--primary);
+    }
+    .progress-bar-container {
+      background: var(--border);
+      border-radius: 8px;
+      height: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      height: 100%;
+      border-radius: 8px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+    .progress-phases {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .progress-phase {
+      flex: 1;
+      text-align: center;
+      padding: 12px 8px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .progress-phase:hover {
+      border-color: var(--primary);
+    }
+    .progress-phase.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .progress-phase.completed {
+      background: #e8f5e9;
+      border-color: #4caf50;
+    }
+    .progress-phase.completed::before {
+      content: "✓ ";
+      color: #4caf50;
+    }
+    .progress-phase.active.completed {
+      background: var(--primary);
+    }
+    .progress-phase.active.completed::before {
+      color: white;
+    }
+    .progress-phase-name {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .progress-phase-status {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+    @media (max-width: 768px) {
+      .progress-phases { flex-wrap: wrap; }
+      .progress-phase { flex: 1 1 45%; }
+    }
+
+    /* Learning Objectives Box */
+    .learning-objectives {
+      background: linear-gradient(135deg, #f0f7f4 0%, #e8f4f0 100%);
+      border: 1px solid #c6ddd4;
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .learning-objectives-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .learning-objectives-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .learning-objectives-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .learning-objectives-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .learning-objectives-list li {
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .learning-objectives-list li::before {
+      content: "•";
+      position: absolute;
+      left: 8px;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Phase Summary / Key Takeaways */
+    .phase-summary {
+      background: linear-gradient(135deg, #fff9e6 0%, #fef3d5 100%);
+      border: 1px solid #f5e6b8;
+      border-left: 4px solid #d4a012;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .phase-summary-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .phase-summary-icon {
+      width: 32px;
+      height: 32px;
+      background: #d4a012;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+    }
+    .phase-summary-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #8b6914;
+    }
+    .phase-summary-content {
+      font-size: 14px;
+      color: #5c4a0e;
+      line-height: 1.6;
+    }
+    .phase-summary-content strong {
+      color: #8b6914;
+    }
+
+    /* Emotional Journey Indicator */
+    .emotional-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    .emotional-indicator.excited {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .emotional-indicator.focused {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    .emotional-indicator.confident {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+    .emotional-indicator.accomplished {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    /* Milestone Checkpoint */
+    .milestone-checkpoint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px 24px;
+      background: linear-gradient(90deg, transparent, var(--bg-alt), transparent);
+      margin: 24px 0;
+    }
+    .milestone-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--primary), var(--border), transparent);
+    }
+    .milestone-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .milestone-badge.reached {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Phase Completion Checkbox */
+    .phase-complete-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+    .phase-complete-toggle:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .phase-complete-toggle.completed {
+      background: #e8f5e9;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+    .phase-complete-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .phase-complete-toggle.completed .phase-complete-checkbox {
+      background: #4caf50;
+      border-color: #4caf50;
+      color: white;
+    }
+
+    /* Quick Tips Sidebar */
+    .quick-tip {
+      background: #f0f7ff;
+      border: 1px solid #b3d4fc;
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #1565c0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .quick-tip-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: #1565c0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
     /* Responsive */
     @media (max-width: 900px) {
       .main-layout { grid-template-columns: 1fr; }
@@ -152,384 +528,472 @@
       .learning-content { grid-template-columns: 1fr; }
       .tools-grid { grid-template-columns: repeat(2, 1fr); }
       .filters { justify-content: center; }
-      .header { flex-direction: column; text-align: center; }
+      .header .container { text-align: center; }
+      .header-left h1 { font-size: 32px; }
+      .nav-links { display: none; }
     }
     @media (max-width: 500px) {
-      .tools-grid { grid-template-columns: 1fr 1fr; }
-      .legend { flex-direction: column; gap: 4px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .legend { flex-direction: column; gap: 8px; padding: 16px; }
+      .header-left h1 { font-size: 28px; }
     }
 
     /* ===================== USER SELECTION SCREEN ===================== */
     .user-selection-screen {
       min-height: 100vh;
-      padding: 20px;
       display: flex;
       flex-direction: column;
-      align-items: center;
     }
     .user-selection-screen.hidden { display: none; }
 
     .selection-header {
-      text-align: center;
-      margin-bottom: 24px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 24px 32px;
-      border-radius: var(--radius);
+      background: var(--primary);
+      padding: 48px 0;
       color: white;
       width: 100%;
-      max-width: 900px;
+    }
+    .selection-header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
     .selection-header h1 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 8px;
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      gap: 12px;
+      letter-spacing: -0.5px;
     }
     .selection-header p {
-      font-size: 14px;
+      font-size: 16px;
       opacity: 0.9;
+      max-width: 500px;
     }
     .selection-lang-dropdown {
-      position: absolute;
-      top: 20px;
-      right: 20px;
+      margin-top: 24px;
+    }
+
+    .selection-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      width: 100%;
+    }
+
+    .selection-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .selection-main-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .selection-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
     }
 
     /* User Type Grid */
     .user-type-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 40px;
       width: 100%;
-      max-width: 900px;
     }
     .user-type-card {
       background: var(--card);
       border: 2px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 12px;
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: var(--shadow);
     }
     .user-type-card:hover {
-      border-color: var(--purple);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
     }
     .user-type-card.selected {
-      border-color: var(--purple);
-      background: var(--purple-light);
+      border-color: var(--primary);
+      background: #f0f4f0;
     }
-    .user-type-card .icon { font-size: 32px; margin-bottom: 8px; }
-    .user-type-card .title { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
-    .user-type-card .desc { font-size: 10px; color: var(--muted); line-height: 1.3; }
+    .user-type-card .icon { font-size: 40px; margin-bottom: 16px; }
+    .user-type-card .title { font-weight: 600; font-size: 15px; margin-bottom: 8px; color: var(--text); }
+    .user-type-card .desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
 
-    /* Vendor color */
-    .user-type-card[data-type="vendor"].selected { background: var(--blue-light); border-color: var(--blue); }
-    /* Manager color */
-    .user-type-card[data-type="manager"].selected { background: var(--teal-light); border-color: var(--teal); }
-    /* Sponsor color */
-    .user-type-card[data-type="sponsor"].selected { background: var(--purple-light); border-color: var(--purple); }
-    /* Customer color */
-    .user-type-card[data-type="customer"].selected { background: var(--green-light); border-color: var(--green); }
-    /* Trainee color */
-    .user-type-card[data-type="trainee"].selected { background: var(--orange-light); border-color: var(--orange); }
+    /* Unified selected state */
+    .user-type-card.selected { background: #f0f4f0; border-color: var(--primary); }
 
     /* Hybrid Role Section */
     .hybrid-role-section {
       background: var(--card);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 16px;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
       width: 100%;
-      max-width: 900px;
-      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
     .hybrid-role-section h3 {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      color: var(--text);
     }
     .hybrid-toggles {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
     .hybrid-toggle {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      padding: 6px 12px;
-      background: #f8fafc;
+      gap: 10px;
+      font-size: 14px;
+      padding: 12px 18px;
+      background: var(--bg-alt);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: var(--radius);
       cursor: pointer;
       transition: all 0.2s;
+      font-weight: 500;
     }
-    .hybrid-toggle:hover { background: #f1f5f9; }
+    .hybrid-toggle:hover { border-color: var(--primary); }
     .hybrid-toggle.active {
-      background: var(--purple-light);
-      border-color: var(--purple);
-      color: var(--purple);
+      background: #f0f4f0;
+      border-color: var(--primary);
+      color: var(--primary);
     }
     .hybrid-toggle input { display: none; }
     .hybrid-check {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       border: 2px solid var(--border);
       border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 12px;
       transition: all 0.2s;
     }
     .hybrid-toggle.active .hybrid-check {
-      background: var(--purple);
-      border-color: var(--purple);
+      background: var(--primary);
+      border-color: var(--primary);
       color: white;
     }
 
     /* Program Type Section */
     .program-type-section {
       background: var(--card);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 20px;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
       width: 100%;
-      max-width: 900px;
-      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
     .program-type-section h3 {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      color: var(--text);
     }
     .program-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 12px;
     }
     .program-btn {
-      padding: 8px 14px;
+      padding: 12px 20px;
       border: 2px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       background: white;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
+      color: var(--text);
     }
-    .program-btn:hover { border-color: var(--purple); }
+    .program-btn:hover { border-color: var(--primary); }
     .program-btn.selected {
-      background: var(--purple);
-      border-color: var(--purple);
+      background: var(--primary);
+      border-color: var(--primary);
       color: white;
     }
-    .program-btn[data-program="market-program"].selected { background: var(--green); border-color: var(--green); }
-    .program-btn[data-program="market-event"].selected { background: var(--orange); border-color: var(--orange); }
-    .program-btn[data-program="csa"].selected { background: var(--teal); border-color: var(--teal); }
-    .program-btn[data-program="training"].selected { background: var(--purple); border-color: var(--purple); }
-    .program-btn[data-program="supply-chain"].selected { background: var(--blue); border-color: var(--blue); }
 
     /* Start Journey Button */
     .start-journey-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--accent);
       color: white;
       border: none;
-      padding: 14px 40px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 700;
+      padding: 16px 40px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
     .start-journey-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+      background: var(--accent-hover);
     }
     .start-journey-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 16px 40px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 12px;
+    }
+    .btn-secondary:hover { border-color: var(--primary); }
 
     /* ===================== ROLE TABS (for hybrids) ===================== */
     .role-tabs {
       display: none;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      padding: 8px 12px;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px 20px;
       background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
     }
     .role-tabs.visible { display: flex; }
     .role-tab {
-      padding: 6px 14px;
+      padding: 10px 20px;
       border: 2px solid var(--border);
-      border-radius: 20px;
+      border-radius: var(--radius);
       background: white;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       transition: all 0.2s;
     }
-    .role-tab:hover { border-color: var(--purple); }
+    .role-tab:hover { border-color: var(--primary); }
     .role-tab.active {
-      background: var(--purple);
-      border-color: var(--purple);
+      background: var(--primary);
+      border-color: var(--primary);
       color: white;
     }
     .hybrid-badge {
       margin-left: auto;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: var(--primary);
       color: white;
-      font-size: 9px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 600;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      font-weight: 500;
     }
 
     /* Back to Selection Button */
     .back-to-selection {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       background: none;
       border: none;
-      color: var(--purple);
-      font-size: 11px;
-      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      transition: background 0.2s;
+      padding: 8px 0;
+      transition: color 0.2s;
+      margin-bottom: 8px;
     }
-    .back-to-selection:hover { background: var(--purple-light); }
+    .back-to-selection:hover { color: white; }
 
     /* ===================== FORM LINKS ===================== */
     .form-link {
-      color: var(--purple);
+      color: var(--accent);
       text-decoration: none;
       font-weight: 600;
-      border-bottom: 1px dashed var(--purple);
+      border-bottom: 1px dashed var(--accent);
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 2px;
+      gap: 4px;
     }
     .form-link:hover {
-      color: #5b21b6;
+      color: var(--accent-hover);
       border-bottom-style: solid;
     }
-    .form-link .link-icon { font-size: 10px; }
+    .form-link .link-icon { font-size: 12px; }
 
     /* ===================== JOURNEY SECTIONS (User Type Specific) ===================== */
     .journey-content { display: none; }
     .journey-content.visible { display: block; }
 
-    /* Manager Section Colors */
-    .section.manager .section-header { background: var(--teal-light); color: #0f766e; }
-    /* Sponsor Section Colors */
-    .section.sponsor .section-header { background: var(--purple-light); color: #5b21b6; }
-    /* Customer Section Colors */
-    .section.customer .section-header { background: var(--green-light); color: #065f46; }
-    /* Trainee Section Colors */
-    .section.trainee .section-header { background: var(--orange-light); color: #9a3412; }
+    /* All section headers use consistent styling */
+    .section.manager .section-header,
+    .section.sponsor .section-header,
+    .section.customer .section-header,
+    .section.trainee .section-header { background: var(--bg-alt); }
 
     /* Program Type Badges */
-    .badge.market-program { background: var(--green); color: white; }
-    .badge.market-event { background: var(--orange); color: white; }
-    .badge.csa-badge { background: var(--teal); color: white; }
-    .badge.training-badge { background: var(--purple); color: white; }
-    .badge.supply-chain-badge { background: var(--blue); color: white; }
+    .badge.market-program,
+    .badge.market-event,
+    .badge.csa-badge,
+    .badge.training-badge,
+    .badge.supply-chain-badge { background: var(--primary); color: white; }
 
     /* User Type Indicator */
     .user-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--purple);
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      margin-left: 12px;
     }
+
+    /* Document Card Style (like screenshot) */
+    .doc-card {
+      display: flex;
+      gap: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .doc-card-thumb {
+      width: 160px;
+      height: 200px;
+      background: var(--primary);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+    .doc-card-thumb .thumb-icon { font-size: 48px; margin-bottom: 12px; }
+    .doc-card-thumb .thumb-label { font-size: 12px; opacity: 0.8; }
+    .doc-card-content { flex: 1; }
+    .doc-card-content h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+    .doc-card-content p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+    .doc-card-meta { display: flex; gap: 24px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .doc-card-actions { display: flex; gap: 12px; }
 
     /* Responsive for Selection Screen */
     @media (max-width: 900px) {
       .user-type-grid { grid-template-columns: repeat(3, 1fr); }
+      .doc-card { flex-direction: column; }
+      .doc-card-thumb { width: 100%; height: 120px; }
     }
     @media (max-width: 600px) {
       .user-type-grid { grid-template-columns: repeat(2, 1fr); }
       .hybrid-toggles { flex-direction: column; }
       .program-buttons { flex-direction: column; }
-      .selection-header h1 { font-size: 20px; }
+      .selection-header h1 { font-size: 28px; }
+      .user-type-card { padding: 20px 16px; }
+      .user-type-card .icon { font-size: 32px; }
     }
   </style>
 </head>
 <body>
+  <!-- ===================== TOP NAVIGATION BAR ===================== -->
+  <nav class="top-nav">
+    <div class="container">
+      <a href="#" class="nav-brand">
+        <div class="nav-brand-icon">P</div>
+        <div class="nav-brand-text">PMDS <span>Training Center</span></div>
+      </a>
+      <div class="nav-links">
+        <button class="nav-link active">Documents</button>
+        <button class="nav-link">Forms</button>
+        <button class="nav-link">Journey Maps</button>
+        <button class="nav-link">Back to Main Site</button>
+      </div>
+    </div>
+  </nav>
+
   <!-- ===================== USER SELECTION SCREEN ===================== -->
   <div class="user-selection-screen" id="userSelection">
     <div class="selection-header">
-      <h1><span>🛒</span> <span data-i18n="welcomeTitle">Welcome to The People's Market</span></h1>
-      <p data-i18n="selectRolePrompt">Select your role to see your personalized journey map</p>
-      <div style="margin-top: 12px;">
-        <select class="lang-select" id="selectionLangSelect" onchange="setLanguage(this.value)" aria-label="Select language" style="background: rgba(255,255,255,0.95); border: none; padding: 6px 28px 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; color: #667eea; cursor: pointer;">
-          <option value="en">🇺🇸 English</option>
-          <option value="es">🇪🇸 Español</option>
-          <option value="ro">🌏 Rohingya</option>
-          <option value="my">🇲🇲 မြန်မာ</option>
-          <option value="sw">🇰🇪 Kiswahili</option>
-          <option value="so">🇸🇴 Soomaali</option>
-          <option value="ar">🇸🇦 العربية</option>
-          <option value="vi">🇻🇳 Tiếng Việt</option>
-        </select>
+      <div class="container">
+        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px;">PMDS / TRAINING CENTER</p>
+        <h1><span data-i18n="welcomeTitle">Training Center</span></h1>
+        <p data-i18n="selectRolePrompt">Documentation, interactive form walkthroughs, and role-based journey maps for The People's Market Dashboard System.</p>
+        <div class="selection-lang-dropdown lang-dropdown">
+          <select class="lang-select" id="selectionLangSelect" onchange="setLanguage(this.value)" aria-label="Select language">
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="ro">🌏 Rohingya</option>
+            <option value="my">🇲🇲 မြန်မာ</option>
+            <option value="sw">🇰🇪 Kiswahili</option>
+            <option value="so">🇸🇴 Soomaali</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="vi">🇻🇳 Tiếng Việt</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <h2 style="font-size: 14px; margin-bottom: 12px; color: var(--text);" data-i18n="selectUserType">Select Your User Type</h2>
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      <div class="container">
+        <button class="tab-btn active">Documents</button>
+        <button class="tab-btn">Interactive Forms</button>
+        <button class="tab-btn">Journey Maps</button>
+      </div>
+    </div>
 
-    <div class="user-type-grid">
+    <div class="selection-content">
+      <p class="selection-section-title">SELECT YOUR ROLE</p>
+      <h2 class="selection-main-title" data-i18n="selectUserType">Choose Your User Type</h2>
+      <p class="selection-desc">Select your role to access your personalized journey map and documentation.</p>
+
+      <div class="user-type-grid">
       <div class="user-type-card" data-type="vendor" onclick="selectUserType('vendor')" tabindex="0">
-        <div class="icon">🏪</div>
         <div class="title" data-i18n="vendorType">Vendor</div>
         <div class="desc" data-i18n="vendorTypeDesc">Farmer, VAP, Retailer, Hot Food, Educator, Aggregator</div>
       </div>
       <div class="user-type-card" data-type="manager" onclick="selectUserType('manager')" tabindex="0">
-        <div class="icon">📋</div>
         <div class="title" data-i18n="managerType">Manager</div>
         <div class="desc" data-i18n="managerTypeDesc">Market operations, vendor & attendee management</div>
       </div>
       <div class="user-type-card" data-type="sponsor" onclick="selectUserType('sponsor')" tabindex="0">
-        <div class="icon">💰</div>
         <div class="title" data-i18n="sponsorType">Sponsor (Funder)</div>
         <div class="desc" data-i18n="sponsorTypeDesc">University, Hospital, Foundation, Government</div>
       </div>
       <div class="user-type-card" data-type="customer" onclick="selectUserType('customer')" tabindex="0">
-        <div class="icon">🛍️</div>
         <div class="title" data-i18n="customerType">Customer</div>
         <div class="desc" data-i18n="customerTypeDesc">Registered (Neighbor ID), Guest, CSA Enrollee</div>
       </div>
       <div class="user-type-card" data-type="trainee" onclick="selectUserType('trainee')" tabindex="0">
-        <div class="icon">🎓</div>
         <div class="title" data-i18n="traineeType">Trainee</div>
         <div class="desc" data-i18n="traineeTypeDesc">Youth or Adult in training programs</div>
       </div>
@@ -537,7 +1001,7 @@
 
     <!-- Hybrid Role Section -->
     <div class="hybrid-role-section" id="hybridSection">
-      <h3>🔗 <span data-i18n="hybridRolesTitle">Do you have multiple roles?</span></h3>
+      <h3><span data-i18n="hybridRolesTitle">Do you have multiple roles?</span></h3>
       <div class="hybrid-toggles" id="hybridToggles">
         <label class="hybrid-toggle" data-hybrid="manager-vendor" onclick="toggleHybridRole('manager-vendor')">
           <span class="hybrid-check">✓</span>
@@ -564,61 +1028,97 @@
 
     <!-- Program Type Section -->
     <div class="program-type-section" id="programSection">
-      <h3>📂 <span data-i18n="selectProgram">Select Your Program</span></h3>
+      <h3><span data-i18n="selectProgram">Select Your Program</span></h3>
       <div class="program-buttons">
         <button class="program-btn" data-program="market-program" onclick="selectProgramType('market-program')">
-          🏪 <span data-i18n="marketProgram">Market Program (Weekly)</span>
+          <span data-i18n="marketProgram">Market Program (Weekly)</span>
         </button>
         <button class="program-btn" data-program="market-event" onclick="selectProgramType('market-event')">
-          🎪 <span data-i18n="marketEvent">Market Event (One-time)</span>
+          <span data-i18n="marketEvent">Market Event (One-time)</span>
         </button>
         <button class="program-btn" data-program="csa" onclick="selectProgramType('csa')">
-          🥬 <span data-i18n="csaProgramBtn">CSA Program</span>
+          <span data-i18n="csaProgramBtn">CSA Program</span>
         </button>
         <button class="program-btn" data-program="training" onclick="selectProgramType('training')">
-          📚 <span data-i18n="trainingProgram">Training Program</span>
+          <span data-i18n="trainingProgram">Training Program</span>
         </button>
         <button class="program-btn" data-program="supply-chain" onclick="selectProgramType('supply-chain')">
-          🚚 <span data-i18n="supplyChainProgram">Supply Chain</span>
+          <span data-i18n="supplyChainProgram">Supply Chain</span>
         </button>
       </div>
     </div>
 
-    <button class="start-journey-btn" id="startJourneyBtn" onclick="startJourney()" disabled>
-      <span data-i18n="viewJourneyMap">View My Journey Map</span> →
-    </button>
+      <div style="margin-top: 16px;">
+        <button class="start-journey-btn" id="startJourneyBtn" onclick="startJourney()" disabled>
+          <span data-i18n="viewJourneyMap">View My Journey Map</span> →
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- ===================== MAIN JOURNEY MAP CONTENT ===================== -->
-  <div class="container journey-content" id="journeyContent">
+  <div class="journey-content" id="journeyContent">
     <!-- Header -->
     <div class="header" role="banner">
-      <div class="header-left">
-        <button class="back-to-selection" onclick="backToSelection()">← <span data-i18n="backToSelection">Back</span></button>
-        <h1><span id="headerIcon">🛒</span> <span data-i18n="title" id="headerTitle">Journey Map</span></h1>
-        <div class="subtitle" id="headerSubtitle">
-          <span data-i18n="subtitle">The People's Market • Complete Guide</span>
-          <span class="user-indicator" id="userIndicator" style="display: none;"></span>
+      <div class="container">
+        <div class="header-left">
+          <button class="back-to-selection" onclick="backToSelection()">← <span data-i18n="backToSelection">Back to Training Center</span></button>
+          <h1><span id="headerIcon"></span><span data-i18n="title" id="headerTitle">Journey Map</span></h1>
+          <div class="subtitle" id="headerSubtitle">
+            <span data-i18n="subtitle">Complete guide for The People's Market Dashboard System</span>
+            <span class="user-indicator" id="userIndicator" style="display: none;"></span>
+          </div>
+        </div>
+        <div class="lang-dropdown">
+          <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="ro">🌏 Rohingya</option>
+            <option value="my">🇲🇲 မြန်မာ</option>
+            <option value="sw">🇰🇪 Kiswahili</option>
+            <option value="so">🇸🇴 Soomaali</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="vi">🇻🇳 Tiếng Việt</option>
+          </select>
         </div>
       </div>
-      <div class="lang-dropdown">
-        <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)" aria-label="Select language">
-          <option value="en">🇺🇸 English</option>
-          <option value="es">🇪🇸 Español (Spanish)</option>
-          <option value="ro">🌏 Rohingya</option>
-          <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
-          <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
-          <option value="so">🇸🇴 Soomaali (Somali)</option>
-          <option value="ar">🇸🇦 العربية (Arabic)</option>
-          <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
-        </select>
-      </div>
+    </div>
+
+    <div class="container" style="padding-top: 32px;">
       <div class="filters" role="tablist" aria-label="Filter sections">
-        <button class="filter-btn active" onclick="filterSections('all')" role="tab" aria-selected="true">📋 <span data-i18n="all">All</span></button>
-        <button class="filter-btn" onclick="filterSections('prepare')" role="tab">📝 <span data-i18n="prepare">Prepare</span></button>
-        <button class="filter-btn" onclick="filterSections('premarket')" role="tab">📅 <span data-i18n="premarket">Pre-Market</span></button>
-        <button class="filter-btn" onclick="filterSections('marketday')" role="tab">🏪 <span data-i18n="marketday">Market Day</span></button>
-        <button class="filter-btn" onclick="filterSections('postmarket')" role="tab">📊 <span data-i18n="aftermarket">After Market</span></button>
+        <button class="filter-btn active" onclick="filterSections('all', event)" role="tab" aria-selected="true">All Phases</button>
+        <button class="filter-btn" onclick="filterSections('prepare', event)" role="tab">Prepare</button>
+        <button class="filter-btn" onclick="filterSections('premarket', event)" role="tab">Pre-Market</button>
+        <button class="filter-btn" onclick="filterSections('marketday', event)" role="tab">Market Day</button>
+        <button class="filter-btn" onclick="filterSections('postmarket', event)" role="tab">After Market</button>
+      </div>
+
+    <!-- Journey Progress Bar -->
+    <div class="journey-progress" id="journeyProgress">
+      <div class="journey-progress-header">
+        <div class="journey-progress-title" data-i18n="yourLearningProgress">Your Learning Progress</div>
+        <div class="journey-progress-stats"><strong id="progressPercent">0%</strong> <span data-i18n="complete">Complete</span></div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+      <div class="progress-phases" id="progressPhases">
+        <div class="progress-phase active" data-phase="prepare" onclick="filterSections('prepare', event)">
+          <div class="progress-phase-name" data-i18n="prepare">Prepare</div>
+          <div class="progress-phase-status" data-i18n="gettingStartedShort">Getting Started</div>
+        </div>
+        <div class="progress-phase" data-phase="premarket" onclick="filterSections('premarket', event)">
+          <div class="progress-phase-name" data-i18n="premarket">Pre-Market</div>
+          <div class="progress-phase-status" data-i18n="weeklySetup">Weekly Setup</div>
+        </div>
+        <div class="progress-phase" data-phase="marketday" onclick="filterSections('marketday', event)">
+          <div class="progress-phase-name" data-i18n="marketday">Market Day</div>
+          <div class="progress-phase-status" data-i18n="operations">Operations</div>
+        </div>
+        <div class="progress-phase" data-phase="postmarket" onclick="filterSections('postmarket', event)">
+          <div class="progress-phase-name" data-i18n="aftermarket">After Market</div>
+          <div class="progress-phase-status" data-i18n="reviewRepeat">Review & Repeat</div>
+        </div>
       </div>
     </div>
 
@@ -629,17 +1129,34 @@
       <span class="hybrid-badge" id="hybridBadgeDisplay"></span>
     </div>
 
-    <!-- Main Two Column Layout - VENDOR -->
+    <!-- VENDOR SECTIONS -->
     <div class="main-layout vendor-layout" data-user-type="vendor">
-      <!-- LEFT COLUMN -->
-      <div class="left-col">
+        <!-- Learning Objectives for Prepare Phase -->
+        <div class="learning-objectives" data-phase="prepare" data-user-type="vendor">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">1</div>
+            <div class="learning-objectives-title" data-i18n="learnInPhase">What You'll Learn in This Phase</div>
+            <span class="emotional-indicator excited" data-i18n="startingJourney">Starting Your Journey</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li data-i18n="vendorLearn1">Understand the different vendor types and choose the right one for you</li>
+            <li data-i18n="vendorLearn2">Complete the application process and receive your credentials</li>
+            <li data-i18n="vendorLearn3">Learn what documents are required and how to upload them</li>
+            <li data-i18n="vendorLearn4">Know the timeline and requirements to stay active</li>
+          </ul>
+        </div>
+
         <!-- Getting Started - Modules A, B, C (VENDOR) -->
         <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📝</span> <span data-i18n="vendorGettingStarted">Getting Started in the Homegrown Dashboard System</span></h2>
+            <h2><span data-i18n="vendorGettingStarted">Getting Started in the Homegrown Dashboard System</span></h2>
             <span class="badge step" data-i18n="steps3">3 steps</span>
             <span class="badge module">Module: A, B, C</span>
-            <button class="quiz-btn" onclick="openQuiz('vendor-prepare')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('vendor-prepare')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'vendor-prepare')" data-phase-id="vendor-prepare">
+              <span class="phase-complete-checkbox"></span>
+              <span data-i18n="markComplete">Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -658,6 +1175,10 @@
                 <li><span data-i18n="waitApprovalDays">Wait 3–5 days for approval email</span></li>
                 <li><span data-i18n="receiveCredentialsBoth">Receive your <strong>Vendor PIN</strong> &amp; <strong>Vendor ID</strong></span></li>
               </ul>
+              <div class="quick-tip">
+                <div class="quick-tip-icon">i</div>
+                <span data-i18n="pinSecureTip">Keep your PIN secure and memorable - you'll need it every market day to log transactions!</span>
+              </div>
             </div>
             <div class="card">
               <div class="card-title"><span class="num">C</span> <span data-i18n="uploadDocs">Upload Required Documents</span></div>
@@ -665,18 +1186,35 @@
                 <li><span data-i18n="useDocUploadPortal">Use Document Upload in Vendor Portal for licenses/certifications</span></li>
                 <li><span data-i18n="updateAnytime">Update anytime if documents change or expire</span></li>
               </ul>
-              <div class="alert warn" role="alert"><span>⚠️</span> <span data-i18n="completeWarning">Complete within 14 days or participation may be paused</span></div>
+              <div class="alert warn" role="alert"> <span data-i18n="completeWarning">Complete within 14 days or participation may be paused</span></div>
             </div>
           </div>
+          <!-- Phase Summary -->
+          <div class="phase-summary">
+            <div class="phase-summary-header">
+              <div class="phase-summary-icon">!</div>
+              <div class="phase-summary-title" data-i18n="keyTakeaways">Key Takeaways</div>
+            </div>
+            <div class="phase-summary-content">
+              <strong data-i18n="remember">Remember:</strong> <span data-i18n="vendorTakeaway">Choose your vendor type carefully, complete your application, and upload all required documents within 14 days. Your Vendor PIN and Vendor ID are essential for all market operations.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone: Registration Complete -->
+        <div class="milestone-checkpoint" data-phase="prepare" data-user-type="vendor">
+          <div class="milestone-line"></div>
+          <div class="milestone-badge" id="milestone-vendor-prepare" data-i18n="milestoneRegComplete">Milestone: Registration Complete</div>
+          <div class="milestone-line"></div>
         </div>
 
         <!-- Vendor Other Programs - H, I, J, K -->
         <div class="section programs" data-phase="programs" data-user-type="vendor">
           <div class="section-header">
-            <h2><span class="icon">🎯</span> <span data-i18n="vendorOtherPrograms">Other Types of Programs</span></h2>
+            <h2><span data-i18n="vendorOtherPrograms">Other Types of Programs</span></h2>
             <span class="badge step">CSA, Supply Chain, Trainings</span>
             <span class="badge module">Module: H, I, J</span>
-            <button class="quiz-btn" onclick="openQuiz('programs')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('programs')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content triple">
             <div class="card">
@@ -704,23 +1242,40 @@
               </ul>
             </div>
             <div class="card span-3">
-              <div class="alert tip" role="note"><span>💡</span> <span data-i18n="programsTip">These programs have separate enrollment – ask PGL staff for details</span></div>
+              <div class="alert tip" role="note"> <span data-i18n="programsTip">These programs have separate enrollment – ask PGL staff for details</span></div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- ===================== MANAGER JOURNEY SECTIONS ===================== -->
     <div class="main-layout manager-journey-col" data-user-type="manager" style="display: none;">
-      <div class="left-col">
+        <!-- Learning Objectives for Manager -->
+        <div class="learning-objectives" data-phase="prepare" data-user-type="manager">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">1</div>
+            <div class="learning-objectives-title" data-i18n="learnAsManager">What You'll Learn as a Manager</div>
+            <span class="emotional-indicator focused" data-i18n="buildingFoundation">Building Your Foundation</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li data-i18n="managerLearn1">Set up your manager account and understand the contract process</li>
+            <li data-i18n="managerLearn2">Learn how to review and manage vendor applications</li>
+            <li data-i18n="managerLearn3">Master pre-market preparation and logistics planning</li>
+            <li data-i18n="managerLearn4">Handle market day operations including check-ins and payments</li>
+          </ul>
+        </div>
+
         <!-- Manager Setup -->
         <div class="section manager" data-phase="prepare" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📋</span> <span data-i18n="managerSetup">Manager Setup & Contracts</span></h2>
+            <h2><span data-i18n="managerSetup">Manager Setup & Contracts</span></h2>
             <span class="badge step" data-i18n="stepsSetup">Setup</span>
             <span class="badge module">Phase 1</span>
-            <button class="quiz-btn" onclick="openQuiz('manager-basics')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('manager-basics')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'manager-prepare')" data-phase-id="manager-prepare">
+              <span class="phase-complete-checkbox"></span>
+              <span>Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -744,7 +1299,7 @@
         <!-- Manager Vendor Management -->
         <div class="section manager" data-phase="prepare" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">👥</span> <span data-i18n="vendorManagement">Vendor Management</span></h2>
+            <h2><span data-i18n="vendorManagement">Vendor Management</span></h2>
             <span class="badge step" data-i18n="ongoing">Ongoing</span>
             <span class="badge module">Phase 2</span>
           </div>
@@ -771,10 +1326,10 @@
         <!-- Manager Pre-Market -->
         <div class="section manager" data-phase="premarket" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📅</span> <span data-i18n="managerPreMarket">Pre-Market Preparation</span></h2>
+            <h2><span data-i18n="managerPreMarket">Pre-Market Preparation</span></h2>
             <span class="badge step" data-i18n="weekly">Weekly</span>
             <span class="badge module">Phase 3</span>
-            <button class="quiz-btn" onclick="openQuiz('manager-forms')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('manager-forms')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -798,7 +1353,7 @@
         <!-- Manager Market Day -->
         <div class="section manager" data-phase="marketday" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🏪</span> <span data-i18n="managerMarketDay">Market Day Operations</span></h2>
+            <h2><span data-i18n="managerMarketDay">Market Day Operations</span></h2>
             <span class="badge step" data-i18n="marketDay">Market Day</span>
             <span class="badge module">Phase 4</span>
           </div>
@@ -839,7 +1394,7 @@
         <!-- Manager Post-Market -->
         <div class="section manager" data-phase="postmarket" data-user-type="manager" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📊</span> <span data-i18n="managerPostMarket">Post-Market & Payments</span></h2>
+            <h2><span data-i18n="managerPostMarket">Post-Market & Payments</span></h2>
             <span class="badge step" data-i18n="postMarket">Post-Market</span>
             <span class="badge module">Phase 5-6</span>
           </div>
@@ -874,19 +1429,36 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- ===================== SPONSOR JOURNEY SECTIONS ===================== -->
     <div class="main-layout sponsor-journey-col" data-user-type="sponsor" style="display: none;">
-      <div class="left-col">
+        <!-- Learning Objectives for Sponsor -->
+        <div class="learning-objectives" data-phase="prepare" data-user-type="sponsor">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">1</div>
+            <div class="learning-objectives-title" data-i18n="learnAsSponsor">What You'll Learn as a Sponsor</div>
+            <span class="emotional-indicator confident" data-i18n="makingImpact">Making an Impact</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li data-i18n="sponsorLearn1">Understand the funding and contract setup process</li>
+            <li data-i18n="sponsorLearn2">Learn how to monitor program performance and invoices</li>
+            <li data-i18n="sponsorLearn3">Access analytics dashboards to track your impact</li>
+            <li data-i18n="sponsorLearn4">Manage contract renewals and amendments</li>
+          </ul>
+        </div>
+
         <!-- Sponsor Contract Setup -->
         <div class="section sponsor" data-phase="prepare" data-user-type="sponsor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">💰</span> <span data-i18n="sponsorContractSetup">Contract Setup & Funding</span></h2>
+            <h2><span data-i18n="sponsorContractSetup">Contract Setup & Funding</span></h2>
             <span class="badge step" data-i18n="stepsSetup">Setup</span>
             <span class="badge module">Phase 1</span>
-            <button class="quiz-btn" onclick="openQuiz('sponsor-contract')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('sponsor-contract')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'sponsor-prepare')" data-phase-id="sponsor-prepare">
+              <span class="phase-complete-checkbox"></span>
+              <span>Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -910,7 +1482,7 @@
         <!-- Sponsor Monitoring -->
         <div class="section sponsor" data-phase="programs" data-user-type="sponsor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📊</span> <span data-i18n="sponsorMonitoring">Ongoing Monitoring</span></h2>
+            <h2><span data-i18n="sponsorMonitoring">Ongoing Monitoring</span></h2>
             <span class="badge step" data-i18n="ongoing">Ongoing</span>
             <span class="badge module">Phase 2</span>
           </div>
@@ -936,7 +1508,7 @@
         <!-- Sponsor Analytics & Decisions -->
         <div class="section sponsor" data-phase="postmarket" data-user-type="sponsor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📈</span> <span data-i18n="sponsorAnalytics">Analytics & Contract Decisions</span></h2>
+            <h2><span data-i18n="sponsorAnalytics">Analytics & Contract Decisions</span></h2>
             <span class="badge step" data-i18n="review">Review</span>
             <span class="badge module">Phase 3</span>
           </div>
@@ -948,7 +1520,7 @@
                 <li><span data-i18n="reviewProgramPerformance">Review program performance</span></li>
                 <li><span data-i18n="monitorImpact">Monitor impact metrics</span></li>
               </ul>
-              <div class="alert tip" role="note"><span>💡</span> <span data-i18n="someSponsorsMayBeExcluded">Some sponsors may have limited dashboard access</span></div>
+              <div class="alert tip" role="note"> <span data-i18n="someSponsorsMayBeExcluded">Some sponsors may have limited dashboard access</span></div>
             </div>
             <div class="card">
               <div class="card-title"><span class="num">F</span> <span data-i18n="makeDecisions">Make Contract Decisions</span></div>
@@ -961,19 +1533,36 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- ===================== CUSTOMER JOURNEY SECTIONS ===================== -->
     <div class="main-layout customer-journey-col" data-user-type="customer" style="display: none;">
-      <div class="left-col">
+        <!-- Learning Objectives for Customer -->
+        <div class="learning-objectives" data-phase="prepare" data-user-type="customer">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">1</div>
+            <div class="learning-objectives-title" data-i18n="learnAsCustomer">What You'll Learn as a Customer</div>
+            <span class="emotional-indicator excited" data-i18n="welcomeMarket">Welcome to the Market!</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li data-i18n="customerLearn1">Register at the market and get your Neighbor ID</li>
+            <li data-i18n="customerLearn2">Set up and use your mobile wallet for purchases</li>
+            <li data-i18n="customerLearn3">Learn how to shop using your QR code</li>
+            <li data-i18n="customerLearn4">Explore optional CSA enrollment for regular produce</li>
+          </ul>
+        </div>
+
         <!-- Customer Registration -->
         <div class="section customer" data-phase="prepare" data-user-type="customer" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🛍️</span> <span data-i18n="customerRegistration">Customer Registration</span></h2>
+            <h2><span data-i18n="customerRegistration">Customer Registration</span></h2>
             <span class="badge step" data-i18n="firstTime">First Time</span>
             <span class="badge module">Phase 1</span>
-            <button class="quiz-btn" onclick="openQuiz('customer-registration')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('customer-registration')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'customer-prepare')" data-phase-id="customer-prepare">
+              <span class="phase-complete-checkbox"></span>
+              <span>Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -999,10 +1588,10 @@
         <!-- Customer Market Day -->
         <div class="section customer" data-phase="marketday" data-user-type="customer" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🏪</span> <span data-i18n="customerMarketDay">Shopping at the Market</span></h2>
+            <h2><span data-i18n="customerMarketDay">Shopping at the Market</span></h2>
             <span class="badge step" data-i18n="marketDay">Market Day</span>
             <span class="badge module">Phase 2</span>
-            <button class="quiz-btn" onclick="openQuiz('customer-benefits')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('customer-benefits')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -1020,7 +1609,7 @@
                 <li><span data-i18n="presentQRcode">Present your QR code to vendor</span></li>
                 <li><span data-i18n="vendorScansForTransaction">Vendor scans to access Transaction Form</span></li>
               </ul>
-              <div class="alert tip" role="note"><span>📱</span> <span data-i18n="keepPhoneCharged">Keep your phone charged for easy QR access!</span></div>
+              <div class="alert tip" role="note"> <span data-i18n="keepPhoneCharged">Keep your phone charged for easy QR access!</span></div>
             </div>
           </div>
         </div>
@@ -1028,7 +1617,7 @@
         <!-- Customer CSA -->
         <div class="section customer" data-phase="programs" data-user-type="customer" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🥬</span> <span data-i18n="customerCSA">CSA Enrollment (Optional)</span></h2>
+            <h2><span data-i18n="customerCSA">CSA Enrollment (Optional)</span></h2>
             <span class="badge step" data-i18n="optional">Optional</span>
             <span class="badge module">Phase 3</span>
           </div>
@@ -1047,12 +1636,12 @@
         <!-- Customer Types Info -->
         <div class="section customer" data-phase="prepare" data-user-type="customer" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">ℹ️</span> <span data-i18n="customerTypes">Customer Types</span></h2>
+            <h2><span data-i18n="customerTypes">Customer Types</span></h2>
             <span class="badge step" data-i18n="info">Info</span>
           </div>
           <div class="section-content triple">
             <div class="card">
-              <div class="card-title">👤 <span data-i18n="registeredCustomer">Registered Customer</span></div>
+              <div class="card-title"> <span data-i18n="registeredCustomer">Registered Customer</span></div>
               <ul class="steps">
                 <li><span data-i18n="hasNeighborID">Has a Neighbor ID</span></li>
                 <li><span data-i18n="hasMobileWallet">Has mobile wallet</span></li>
@@ -1060,7 +1649,7 @@
               </ul>
             </div>
             <div class="card">
-              <div class="card-title">👥 <span data-i18n="guestCustomer">Guest Customer</span></div>
+              <div class="card-title"> <span data-i18n="guestCustomer">Guest Customer</span></div>
               <ul class="steps">
                 <li><span data-i18n="noNeighborID">No Neighbor ID</span></li>
                 <li><span data-i18n="manualEntry">Vendor enters info manually</span></li>
@@ -1068,7 +1657,7 @@
               </ul>
             </div>
             <div class="card">
-              <div class="card-title">🥬 <span data-i18n="csaEnrollee">CSA Enrollee</span></div>
+              <div class="card-title"> <span data-i18n="csaEnrollee">CSA Enrollee</span></div>
               <ul class="steps">
                 <li><span data-i18n="mayOrMayNotHaveID">May or may not have Neighbor ID</span></li>
                 <li><span data-i18n="enrolledInCSA">Enrolled in CSA program</span></li>
@@ -1077,19 +1666,36 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- ===================== TRAINEE JOURNEY SECTIONS ===================== -->
     <div class="main-layout trainee-journey-col" data-user-type="trainee" style="display: none;">
-      <div class="left-col">
+        <!-- Learning Objectives for Trainee -->
+        <div class="learning-objectives" data-phase="prepare" data-user-type="trainee">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">1</div>
+            <div class="learning-objectives-title" data-i18n="learnAsTrainee">What You'll Learn as a Trainee</div>
+            <span class="emotional-indicator accomplished" data-i18n="growingSkills">Growing Your Skills</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li data-i18n="traineeLearn1">Explore available training programs and find the right fit</li>
+            <li data-i18n="traineeLearn2">Complete the enrollment process and get your Trainee ID</li>
+            <li data-i18n="traineeLearn3">Participate in classes and log volunteer hours</li>
+            <li data-i18n="traineeLearn4">Work toward certification and potential vendor status</li>
+          </ul>
+        </div>
+
         <!-- Trainee Enrollment -->
         <div class="section trainee" data-phase="prepare" data-user-type="trainee" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🎓</span> <span data-i18n="traineeEnrollment">Training Enrollment</span></h2>
+            <h2><span data-i18n="traineeEnrollment">Training Enrollment</span></h2>
             <span class="badge step" data-i18n="stepsEnroll">Enroll</span>
             <span class="badge module">Phase 1</span>
-            <button class="quiz-btn" onclick="openQuiz('trainee-enrollment')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('trainee-enrollment')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'trainee-prepare')" data-phase-id="trainee-prepare">
+              <span class="phase-complete-checkbox"></span>
+              <span>Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -1114,7 +1720,7 @@
         <!-- Trainee Participation -->
         <div class="section trainee" data-phase="programs" data-user-type="trainee" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📚</span> <span data-i18n="traineeParticipation">Training Participation</span></h2>
+            <h2><span data-i18n="traineeParticipation">Training Participation</span></h2>
             <span class="badge step" data-i18n="ongoing">Ongoing</span>
             <span class="badge module">Phase 2</span>
           </div>
@@ -1141,7 +1747,7 @@
         <!-- Trainee Completion -->
         <div class="section trainee" data-phase="postmarket" data-user-type="trainee" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">🏆</span> <span data-i18n="traineeCompletion">Training Completion</span></h2>
+            <h2><span data-i18n="traineeCompletion">Training Completion</span></h2>
             <span class="badge step" data-i18n="completion">Completion</span>
             <span class="badge module">Phase 3</span>
           </div>
@@ -1154,7 +1760,7 @@
                 <li><span data-i18n="completeVolunteerHours">Complete volunteer hours (if required)</span></li>
                 <li><span data-i18n="receiveCertification">Receive certification</span></li>
               </ul>
-              <div class="alert tip" role="note"><span>🎓</span> <span data-i18n="traineeNote">Trainees may also shop at the market as customers!</span></div>
+              <div class="alert tip" role="note"><span data-i18n="traineeNote">Trainees may also shop at the market as customers!</span></div>
             </div>
           </div>
         </div>
@@ -1162,19 +1768,19 @@
         <!-- Trainee Types -->
         <div class="section trainee" data-phase="prepare" data-user-type="trainee" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">ℹ️</span> <span data-i18n="traineeTypes">Trainee Types</span></h2>
+            <h2><span data-i18n="traineeTypes">Trainee Types</span></h2>
             <span class="badge step" data-i18n="info">Info</span>
           </div>
           <div class="section-content">
             <div class="card">
-              <div class="card-title">👦 <span data-i18n="youthTrainee">Youth Trainee</span></div>
+              <div class="card-title"> <span data-i18n="youthTrainee">Youth Trainee</span></div>
               <ul class="steps">
                 <li><span data-i18n="youthDescription">Young people learning agricultural/food skills</span></li>
                 <li><span data-i18n="mayVolunteer">May volunteer at market</span></li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title">👨 <span data-i18n="adultTrainee">Adult Trainee</span></div>
+              <div class="card-title"> <span data-i18n="adultTrainee">Adult Trainee</span></div>
               <ul class="steps">
                 <li><span data-i18n="adultDescription">Adults in workforce development</span></li>
                 <li><span data-i18n="mayBecomeVendor">May transition to vendor status</span></li>
@@ -1182,20 +1788,17 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
 
-    <!-- ===================== VENDOR RIGHT COLUMN (in separate main-layout) ===================== -->
+    <!-- ===================== VENDOR ADDITIONAL SECTIONS ===================== -->
     <div class="main-layout vendor-right-layout" data-user-type="vendor">
-      <div class="left-col" style="display:none;"></div>
-      <div class="right-col">
         <!-- Market Day Preparation - Modules D, E, F, G -->
         <div class="section premarket" data-phase="premarket" data-user-type="vendor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span class="icon">📅</span> <span data-i18n="vendorPreMarket">Market Day Preparation: What to Do</span></h2>
+            <h2><span data-i18n="vendorPreMarket">Market Day Preparation: What to Do</span></h2>
             <span class="badge step" data-i18n="weekly">Weekly</span>
             <span class="badge module">Module: D, E, F, G</span>
-            <button class="quiz-btn" onclick="openQuiz('vendor-premarket')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('vendor-premarket')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
@@ -1213,7 +1816,7 @@
                 <li><span data-i18n="preloads">Preloads products into Transaction Form</span></li>
                 <li><span data-i18n="informs">Informs logistics (space, power, equipment)</span></li>
               </ul>
-              <div class="alert tip" role="note"><span>💡</span> <span data-i18n="checkEmailTip">Check email/texts weekly for PGL updates</span></div>
+              <div class="alert tip" role="note"> <span data-i18n="checkEmailTip">Check email/texts weekly for PGL updates</span></div>
             </div>
             <div class="card span-2">
               <div class="card-title"><span class="num">F &amp; G</span> <span data-i18n="prepareForMarket">Prepare for Market Day</span></div>
@@ -1223,22 +1826,22 @@
                 <li><span data-i18n="prepareInventory">Prepare inventory and signage</span></li>
                 <li><span data-i18n="deadlineFriday">Due before each market (sent weekly)</span></li>
               </ul>
-              <div class="alert error" role="alert"><span>❗</span> <strong data-i18n="critical">Critical:</strong> <span data-i18n="criticalWarning">Without the Upcoming Market Form, you cannot participate!</span></div>
+              <div class="alert error" role="alert"> <strong data-i18n="critical">Critical:</strong> <span data-i18n="criticalWarning">Without the Upcoming Market Form, you cannot participate!</span></div>
             </div>
           </div>
         </div>
 
         <!-- Optional Modules - L, M, N, X -->
-        <div class="section resources" data-phase="postmarket">
+        <div class="section resources" data-phase="postmarket" data-user-type="vendor">
           <div class="section-header">
-            <h2><span class="icon">📊</span> <span data-i18n="additionalResources">Optional Modules: Additional Resources for Helping You Make the Most of the Homegrown System</span></h2>
+            <h2><span data-i18n="additionalResources">Optional Modules: Additional Resources for Helping You Make the Most of the Homegrown System</span></h2>
             <span class="badge step" data-i18n="resourceTypes">Inventory, Visualizations, Tips</span>
             <span class="badge module">Module: L, M, N, X</span>
-            <button class="quiz-btn" onclick="openQuiz('postmarket')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+            <button class="quiz-btn" onclick="openQuiz('postmarket')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
           <div class="section-content">
             <div class="card">
-              <div class="card-title">✅ <span data-i18n="recommendedActions">Recommended Actions</span></div>
+              <div class="card-title"> <span data-i18n="recommendedActions">Recommended Actions</span></div>
               <ul class="steps">
                 <li><span data-i18n="resolvePayments">Resolve outstanding payments; keep records</span></li>
                 <li><span data-i18n="reviewDashboards">Review dashboards (sales, attendance, benefits)</span></li>
@@ -1247,27 +1850,26 @@
               </ul>
             </div>
             <div class="card">
-              <div class="card-title">🔄 <span data-i18n="prepareNextWeek">Prepare for Next Week</span></div>
+              <div class="card-title"> <span data-i18n="prepareNextWeek">Prepare for Next Week</span></div>
               <ul class="steps">
                 <li><span data-i18n="watchEmail">Watch for new Upcoming Market Form email</span></li>
                 <li><span data-i18n="checkExpiration">Check document expiration dates</span></li>
                 <li><span data-i18n="restockSupplies">Restock supplies based on sales data</span></li>
               </ul>
-              <div class="alert tip" role="note"><span>🔄</span> <span data-i18n="cycleRepeats">Cycle repeats: Pre-Market → Market Day → Review</span></div>
+              <div class="alert tip" role="note"> <span data-i18n="cycleRepeats">Cycle repeats: Pre-Market → Market Day → Review</span></div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- Market Day Full Width Section - VENDOR -->
     <div class="section marketday marketday-full" data-phase="marketday" data-user-type="vendor">
       <div class="section-header">
-        <h2><span class="icon">🏪</span> <span data-i18n="vendorMarketDay">Vendor Market Day Operations</span></h2>
+        <h2><span data-i18n="vendorMarketDay">Vendor Market Day Operations</span></h2>
         <span class="badge step" data-i18n="parts3">3 parts</span>
         <span class="badge" style="background:rgba(0,0,0,0.12);">Operations</span>
         <span class="badge module">Module: I–N</span>
-        <button class="quiz-btn" onclick="openQuiz('vendor-marketday')" aria-label="Take quiz">🎯 <span data-i18n="quiz">Quiz</span></button>
+        <button class="quiz-btn" onclick="openQuiz('vendor-marketday')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
       </div>
       <div class="marketday-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="card">
@@ -1287,8 +1889,8 @@
             <li><span data-i18n="scanQR">Prefer scanning attendee's QR code</span></li>
             <li><span data-i18n="orManualEntry">Or enter Neighbor ID manually</span></li>
           </ul>
-          <div class="alert warn" role="alert"><span>⚠️</span> <span data-i18n="neighborFormat">Neighbor ID format:</span> <code style="background:#e2e8f0;padding:1px 4px;border-radius:3px;">REACH-12345</code></div>
-          <div class="alert tip" style="margin-top:4px;"><span>📱</span> <span data-i18n="qrTip">QR scanning is faster!</span></div>
+          <div class="alert warn" role="alert"> <span data-i18n="neighborFormat">Neighbor ID format:</span> <code style="background:#e2e8f0;padding:1px 4px;border-radius:3px;">REACH-12345</code></div>
+          <div class="alert tip" style="margin-top:4px;"> <span data-i18n="qrTip">QR scanning is faster!</span></div>
         </div>
         <div class="card">
           <div class="card-title"><span class="num">K &amp; L</span> <span data-i18n="endOfMarket">End of Market &amp; Check-Out</span></div>
@@ -1305,50 +1907,54 @@
     <!-- Enhance Your Learning Section -->
     <div class="learning-section" role="complementary">
       <div class="learning-header">
-        <h2>🎓 <span data-i18n="enhanceLearning">Enhance Your Learning</span></h2>
-        <span class="learning-badge" data-i18n="notRequired">Not Required</span>
+        <div>
+          <p class="content-label">INTERACTIVE WALKTHROUGHS</p>
+          <h2 style="font-size: 24px; margin: 0;"><span data-i18n="enhanceLearning">Enhance Your Learning</span></h2>
+        </div>
+        <span class="learning-badge" data-i18n="notRequired">Optional</span>
       </div>
       <div class="learning-content">
         <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr);">
           <div class="tool-card" onclick="openTool('simulation')" tabindex="0">
-            <div class="tool-icon">🎮</div>
+            <div class="tool-icon" style="font-size: 28px; color: var(--primary);"></div>
             <div class="tool-title" data-i18n="simTitle">Simulation Environment</div>
             <div class="tool-desc" data-i18n="simDesc">Practice what you learned in the Homegrown simulation environment.</div>
           </div>
           <div class="tool-card" onclick="openTool('examples')" tabindex="0">
-            <div class="tool-icon">📄</div>
+            <div class="tool-icon" style="font-size: 28px; color: var(--primary);"></div>
             <div class="tool-title" data-i18n="paperworkTitle">Paperwork Practice</div>
-            <div class="tool-desc" data-i18n="paperworkDesc">Review annotated example receipts, invoices and other Homegrown tools for documenting transaction related information.</div>
+            <div class="tool-desc" data-i18n="paperworkDesc">Review annotated example receipts, invoices and other documentation tools.</div>
           </div>
           <div class="tool-card" onclick="openTool('casestudies')" tabindex="0">
-            <div class="tool-icon">📖</div>
+            <div class="tool-icon" style="font-size: 28px; color: var(--primary);"></div>
             <div class="tool-title" data-i18n="caseTitle">Case Studies</div>
-            <div class="tool-desc" data-i18n="caseDesc">Learn from example vendors about how they used the Homegrown system.</div>
+            <div class="tool-desc" data-i18n="caseDesc">Learn from example vendors about how they used the system.</div>
           </div>
         </div>
         <div class="learning-board">
-          <h3>📚 <span data-i18n="learningBoard">Your Learning Board</span></h3>
-          <div class="board-item" onclick="openTool('videos')" tabindex="0">📹 <span data-i18n="videoTutorials">Video Tutorials</span></div>
-          <div class="board-item" onclick="openTool('faq')" tabindex="0">❓ <span data-i18n="faq">FAQ & Common Issues</span></div>
-          <div class="board-item" onclick="openTool('support')" tabindex="0">📞 <span data-i18n="support">Support Contacts</span></div>
-          <div class="board-item" onclick="openTool('achievements')" tabindex="0">🏆 <span data-i18n="achievements">Achievements</span></div>
-          <div class="board-item" onclick="openTool('progress')" tabindex="0">📋 <span data-i18n="myProgress">My Progress</span></div>
+          <h3><span data-i18n="learningBoard">Quick Links</span></h3>
+          <div class="board-item" onclick="openTool('videos')" tabindex="0"><span data-i18n="videoTutorials">Video Tutorials</span></div>
+          <div class="board-item" onclick="openTool('faq')" tabindex="0"><span data-i18n="faq">FAQ & Common Issues</span></div>
+          <div class="board-item" onclick="openTool('support')" tabindex="0"><span data-i18n="support">Support Contacts</span></div>
+          <div class="board-item" onclick="openTool('achievements')" tabindex="0"><span data-i18n="achievements">Achievements</span></div>
+          <div class="board-item" onclick="openTool('progress')" tabindex="0"><span data-i18n="myProgress">My Progress</span></div>
         </div>
       </div>
     </div>
 
     <!-- Legend -->
     <div class="legend" role="navigation" aria-label="Journey cycle">
-      <div class="legend-title">📌 <span data-i18n="symbolsLegend">Legend: What each Symbol means</span></div>
-      <span class="legend-item prepare">📝 <span data-i18n="prepare">Prepare</span></span>
+      <div class="legend-title"><span data-i18n="symbolsLegend">Journey Phases</span></div>
+      <span class="legend-item prepare"><span data-i18n="prepare">Prepare</span></span>
       <span class="legend-arrow">→</span>
-      <span class="legend-item premarket">📅 <span data-i18n="premarket">Pre-Market</span></span>
+      <span class="legend-item premarket"><span data-i18n="premarket">Pre-Market</span></span>
       <span class="legend-arrow">→</span>
-      <span class="legend-item marketday">🏪 <span data-i18n="marketday">Market Day</span></span>
+      <span class="legend-item marketday"><span data-i18n="marketday">Market Day</span></span>
       <span class="legend-arrow">→</span>
-      <span class="legend-item review">📊 <span data-i18n="review">Review</span></span>
-      <span class="legend-arrow">↺</span>
-      <span class="legend-repeat">🔄 <span data-i18n="repeatWeekly">Repeat Weekly</span></span>
+      <span class="legend-item review"><span data-i18n="review">Review</span></span>
+      <span class="legend-arrow">→</span>
+      <span class="legend-repeat"><span data-i18n="repeatWeekly">Repeat Weekly</span></span>
+    </div>
     </div>
   </div>
 
@@ -1637,7 +2243,50 @@
         managerJourneyTitle: "Manager Journey Map",
         sponsorJourneyTitle: "Sponsor Journey Map",
         customerJourneyTitle: "Customer Journey Map",
-        traineeJourneyTitle: "Trainee Journey Map"
+        traineeJourneyTitle: "Trainee Journey Map",
+        // Learning components
+        yourLearningProgress: "Your Learning Progress",
+        complete: "Complete",
+        gettingStartedShort: "Getting Started",
+        weeklySetup: "Weekly Setup",
+        reviewRepeat: "Review & Repeat",
+        learnInPhase: "What You'll Learn in This Phase",
+        startingJourney: "Starting Your Journey",
+        vendorLearn1: "Understand the different vendor types and choose the right one for you",
+        vendorLearn2: "Complete the application process and receive your credentials",
+        vendorLearn3: "Learn what documents are required and how to upload them",
+        vendorLearn4: "Know the timeline and requirements to stay active",
+        markComplete: "Mark Complete",
+        completed: "Completed",
+        keyTakeaways: "Key Takeaways",
+        remember: "Remember:",
+        vendorTakeaway: "Choose your vendor type carefully, complete your application, and upload all required documents within 14 days. Your Vendor PIN and Vendor ID are essential for all market operations.",
+        milestoneRegComplete: "Milestone: Registration Complete",
+        pinSecureTip: "Keep your PIN secure and memorable - you'll need it every market day to log transactions!",
+        learnAsManager: "What You'll Learn as a Manager",
+        buildingFoundation: "Building Your Foundation",
+        managerLearn1: "Set up your manager account and understand the contract process",
+        managerLearn2: "Learn how to review and manage vendor applications",
+        managerLearn3: "Master pre-market preparation and logistics planning",
+        managerLearn4: "Handle market day operations including check-ins and payments",
+        learnAsSponsor: "What You'll Learn as a Sponsor",
+        makingImpact: "Making an Impact",
+        sponsorLearn1: "Understand the funding and contract setup process",
+        sponsorLearn2: "Learn how to monitor program performance and invoices",
+        sponsorLearn3: "Access analytics dashboards to track your impact",
+        sponsorLearn4: "Manage contract renewals and amendments",
+        learnAsCustomer: "What You'll Learn as a Customer",
+        welcomeMarket: "Welcome to the Market!",
+        customerLearn1: "Register at the market and get your Neighbor ID",
+        customerLearn2: "Set up and use your mobile wallet for purchases",
+        customerLearn3: "Learn how to shop using your QR code",
+        customerLearn4: "Explore optional CSA enrollment for regular produce",
+        learnAsTrainee: "What You'll Learn as a Trainee",
+        growingSkills: "Growing Your Skills",
+        traineeLearn1: "Explore available training programs and find the right fit",
+        traineeLearn2: "Complete the enrollment process and get your Trainee ID",
+        traineeLearn3: "Participate in classes and log volunteer hours",
+        traineeLearn4: "Work toward certification and potential vendor status"
       },
       es: {
         title: "Mapa del Viaje del Vendedor", subtitle: "El Mercado del Pueblo • Guía Completa",
@@ -1710,7 +2359,77 @@
         vendorGettingStarted: "Registro de Vendedor (Una vez)", steps5: "5 pasos",
         educator: "Educador", educatorTip: "Proporciona servicios educativos/talleres",
         aggregator: "Agregador", aggregatorTip: "Recolecta y distribuye de múltiples fuentes",
-        managerSetup: "Configuración del Gerente y Contratos",
+        // Vendor specific
+        vendorPreMarket: "Pre-Mercado para Vendedor (Semanal)",
+        vendorMarketDay: "Operaciones del Día de Mercado para Vendedor", parts4: "4 partes",
+        checkInManager: "Regístrese en la Mesa del Gerente",
+        goToCheckIn: "Vaya a la mesa de registro",
+        managerCheckIn: "El gerente lo registra mediante", vendorCheckinForm: "Formulario de Registro de Vendedor",
+        processSales: "Procesar Ventas", useTransactionForm: "Use", transactionForm: "Formulario de Transacción",
+        scanQR: "Escanee el código QR del asistente (preferido)",
+        orManualEntry: "O ingrese el ID de Vecino manualmente para invitados",
+        endOfMarket: "Fin del Mercado",
+        completeInvoiceForm: "Complete", vendorInvoiceForm: "Formulario de Factura de Fin de Mercado",
+        reconcileManager: "Complete la reconciliación de pagos con el gerente",
+        checkOut: "Salida y Empaque", confirmCheckout: "Confirme salida con el gerente",
+        vendorOtherPrograms: "Otros Programas para Vendedores",
+        csaVendorDesc: "Contribuya productos si es Agricultor o VAP",
+        supplyVendorDesc: "Agricultores, VAP, Agregadores, Minoristas pueden participar",
+        trainVendorDesc: "Los educadores pueden realizar capacitaciones",
+        // Manager specific
+        managerSetup: "Configuración del Gerente y Contratos", stepsSetup: "Configuración",
+        managerRegistration: "Registrarse como Gerente",
+        completeManagerForm: "Complete", toGenerateManagerID: "(para generar ID de Gerente)",
+        receiveManagerPIN: "Reciba PIN e ID de Gerente",
+        contractSetup: "Configuración de Contrato y Programa",
+        completeContractForm: "Complete", contractInfoForm: "Formulario de Información del Contrato",
+        setupProgramsUnderContract: "Configure programa(s) bajo contrato",
+        defineFundingSources: "Defina fuentes de financiamiento",
+        vendorManagement: "Gestión de Vendedores",
+        reviewApplications: "Revisar Solicitudes de Vendedores",
+        reviewVendorRequests: "Revise formularios de solicitud de vendedores entrantes",
+        approveOrWaitlist: "Apruebe, rechace o ponga en lista de espera",
+        manuallyApprove: "Apruebe/rechace solicitudes de vendedores manualmente",
+        trackCompliance: "Seguimiento de Cumplimiento de Documentos",
+        monitorDocUploads: "Monitoree cargas de documentos de vendedores",
+        verifyLicenses: "Verifique licencias y certificaciones",
+        followUpExpiring: "Seguimiento de documentos por vencer",
+        managerPreMarket: "Preparación Pre-Mercado",
+        reviewSubmissions: "Revisar Envíos de Formularios",
+        reviewUpcomingForms: "Revise envíos del Formulario del Próximo Mercado",
+        confirmAttendees: "Confirme asistencia de vendedores",
+        planLogistics: "Planifique logística (espacio, equipo)",
+        personnelManagement: "Gestión de Personal",
+        assignRolesVia: "Asigne roles de personal mediante",
+        personnelCheckinForm: "Formulario de Registro de Personal de PGL",
+        trackStaffVolunteer: "Seguimiento de tiempo de personal/voluntarios",
+        managerMarketDay: "Operaciones del Día de Mercado",
+        setupCheckinStation: "Configurar Estación de Registro",
+        prepareCheckinTable: "Prepare la mesa de registro",
+        haveFormsReady: "Tenga formularios listos en el dispositivo",
+        vendorCheckin: "Registro de Entrada/Salida de Vendedor",
+        useVendorCheckinForm: "Use", checkVendorsIn: "Registre vendedores al llegar",
+        checkVendorsOut: "Registre salida de vendedores al irse",
+        attendeeManagement: "Gestión de Asistentes",
+        newAttendeesUse: "Nuevos asistentes: use", attendeeRegistrationForm: "Formulario de Registro de Asistente",
+        returnAttendeesUse: "Asistentes que regresan: use", returnAttendeeForm: "Formulario de Asistente que Regresa",
+        loadMobileWallets: "Cargue billeteras móviles con beneficios",
+        csaOperations: "Operaciones CSA (si aplica)",
+        enrollNewCSA: "Inscriba nuevos miembros CSA mediante", csaEnrollmentForm: "Formulario de Inscripción CSA",
+        processPickups: "Procese recogidas mediante", csaPickupForm: "Formulario de Recogida CSA",
+        managerPostMarket: "Post-Mercado y Pagos",
+        paymentReconciliation: "Reconciliación de Pagos",
+        completeReconciliationForm: "Complete", paymentReconciliationForm: "Formulario de Reconciliación de Pagos de Fin de Mercado",
+        reconcileWithVendors: "Reconcilie con cada vendedor",
+        vendorPayment: "Pago a Vendedor", payVendors: "Pague a vendedores",
+        documentRemittance: "Documente mediante", vendorPaymentForm: "Formulario de Remesa de Pago a Vendedor",
+        funderInvoicing: "Facturación a Patrocinador",
+        generateInvoice: "Genere factura mediante", funderInvoiceForm: "Formulario de Factura de Pago a Patrocinador",
+        trackPaymentReceived: "Seguimiento de pago mediante", funderPaymentReceivedForm: "Formulario de Pago Recibido de Patrocinador",
+        inventoryAnalytics: "Inventario y Análisis",
+        manageEquipment: "Administre equipo mediante", itemInventoryForm: "Formulario de Inventario de Artículos",
+        monitorDashboards: "Monitoree paneles y análisis",
+        // Sponsor specific
         sponsorContractSetup: "Configuración del Contrato y Financiamiento",
         customerRegistration: "Registro de Cliente",
         traineeEnrollment: "Inscripción de Aprendiz",
@@ -1718,7 +2437,50 @@
         managerJourneyTitle: "Mapa de Viaje del Gerente",
         sponsorJourneyTitle: "Mapa de Viaje del Patrocinador",
         customerJourneyTitle: "Mapa de Viaje del Cliente",
-        traineeJourneyTitle: "Mapa de Viaje del Aprendiz"
+        traineeJourneyTitle: "Mapa de Viaje del Aprendiz",
+        // Learning components
+        yourLearningProgress: "Tu Progreso de Aprendizaje",
+        complete: "Completo",
+        gettingStartedShort: "Comenzando",
+        weeklySetup: "Configuración Semanal",
+        reviewRepeat: "Revisar y Repetir",
+        learnInPhase: "Lo Que Aprenderás en Esta Fase",
+        startingJourney: "Comenzando Tu Viaje",
+        vendorLearn1: "Entender los diferentes tipos de vendedores y elegir el adecuado para ti",
+        vendorLearn2: "Completar el proceso de solicitud y recibir tus credenciales",
+        vendorLearn3: "Aprender qué documentos se requieren y cómo subirlos",
+        vendorLearn4: "Conocer el cronograma y los requisitos para mantenerse activo",
+        markComplete: "Marcar Completo",
+        completed: "Completado",
+        keyTakeaways: "Puntos Clave",
+        remember: "Recuerda:",
+        vendorTakeaway: "Elige tu tipo de vendedor cuidadosamente, completa tu solicitud y sube todos los documentos requeridos en 14 días. Tu PIN e ID de Vendedor son esenciales para todas las operaciones del mercado.",
+        milestoneRegComplete: "Hito: Registro Completado",
+        pinSecureTip: "Mantén tu PIN seguro y memorable - lo necesitarás cada día de mercado para registrar transacciones!",
+        learnAsManager: "Lo Que Aprenderás como Gerente",
+        buildingFoundation: "Construyendo Tu Base",
+        managerLearn1: "Configurar tu cuenta de gerente y entender el proceso de contrato",
+        managerLearn2: "Aprender cómo revisar y gestionar solicitudes de vendedores",
+        managerLearn3: "Dominar la preparación pre-mercado y la planificación logística",
+        managerLearn4: "Manejar las operaciones del día de mercado incluyendo registro y pagos",
+        learnAsSponsor: "Lo Que Aprenderás como Patrocinador",
+        makingImpact: "Generando Impacto",
+        sponsorLearn1: "Entender el proceso de configuración de financiamiento y contrato",
+        sponsorLearn2: "Aprender cómo rastrear el rendimiento del programa y las facturas",
+        sponsorLearn3: "Acceder a paneles de análisis para monitorear tu impacto",
+        sponsorLearn4: "Gestionar renovaciones de contratos y ajustes",
+        learnAsCustomer: "Lo Que Aprenderás como Cliente",
+        welcomeMarket: "¡Bienvenido al Mercado!",
+        customerLearn1: "Registrarte en el mercado y obtener tu ID de Vecino",
+        customerLearn2: "Configurar y usar tu billetera móvil para compras",
+        customerLearn3: "Aprender cómo comprar usando tu código QR",
+        customerLearn4: "Explorar el registro CSA opcional para productos regulares",
+        learnAsTrainee: "Lo Que Aprenderás como Aprendiz",
+        growingSkills: "Desarrollando Tus Habilidades",
+        traineeLearn1: "Explorar los programas de capacitación disponibles y encontrar el adecuado",
+        traineeLearn2: "Completar el proceso de inscripción y obtener tu ID de Aprendiz",
+        traineeLearn3: "Participar en clases y registrar horas de voluntariado",
+        traineeLearn4: "Trabajar hacia la certificación y el potencial estado de vendedor"
       },
       ro: {
         title: "Fendor Zoroni Mep", subtitle: "Manúiçça Bazar • Fura Gaid",
@@ -1777,7 +2539,65 @@
         selectUserType: "Tuáñr User Type Báso",
         vendorType: "Fendor", managerType: "Manager", sponsorType: "Sponsor",
         customerType: "Gráhok", traineeType: "Shikkhárthi",
-        viewJourneyMap: "Aañr Journey Map Dekho", backToSelection: "Fírot"
+        viewJourneyMap: "Aañr Journey Map Dekho", backToSelection: "Fírot",
+        // Vendor specific
+        vendorGettingStarted: "Fendor Registration (Ekbár)", steps5: "5 dhoron",
+        educator: "Shikkhok", educatorTip: "Shikkhá seva/workshop dey",
+        aggregator: "Shongróhkari", aggregatorTip: "Onek jayga thon shongróh o bótaran goré",
+        vendorOtherPrograms: "Fendor ar lagi Ainsab Program",
+        csaVendorDesc: "Cáçi bá VAP óile fóçol dio",
+        supplyVendorDesc: "Cáçi, VAP, Shongróhkari, Dokandar jogdán goribá faré",
+        trainVendorDesc: "Shikkhok training goribá faré",
+        // Manager specific
+        managerSetup: "Manager Toyári o Contract", stepsSetup: "Toyári",
+        managerRegistration: "Manager hisábe registration goró",
+        vendorManagement: "Fendor Management",
+        managerPreMarket: "Bazar Áage Toyári",
+        managerMarketDay: "Bazar Din Operations",
+        managerPostMarket: "Bazar Bádot o Payment",
+        // Learning components
+        yourLearningProgress: "Tuáñr Hikkíbar Progress",
+        complete: "Ses",
+        gettingStartedShort: "Homle",
+        weeklySetup: "Hóptay Toyári",
+        reviewRepeat: "Dekkíba o Aro",
+        learnInPhase: "Ei Phase te Ki Hikkíba",
+        startingJourney: "Safar Homle",
+        vendorLearn1: "Bhinno fendor dhoron bujjíba o tuáñr lagi thik óla báso",
+        vendorLearn2: "Apply process ses goró o tuáñr credential fáo",
+        vendorLearn3: "Ki kagoj dorkar o kiyan upload goribá hikkó",
+        vendorLearn4: "Active tákbar lagi time o dorkar jáno",
+        markComplete: "Ses Markgoró",
+        completed: "Ses Óise",
+        keyTakeaways: "Juri Kotha",
+        remember: "Mone Rákko:",
+        vendorTakeaway: "Tuáñr fendor dhoron dikki báso, apply ses goró, o dorkar kagoj 14 din te upload goró. Tuáñr Fendor PIN o ID bazar kám ar lagi juri.",
+        milestoneRegComplete: "Astaanta: Registration Ses",
+        pinSecureTip: "PIN surokkhít o mone rákko - hór bazar din te transaction likhibar lagi dorkar!",
+        learnAsManager: "Manager Hisábe Ki Hikkíba",
+        buildingFoundation: "Tuáñr Bhitti Bonáiba",
+        managerLearn1: "Manager account toyári o contract process bujjíba",
+        managerLearn2: "Fendor apply dekkhíba o manage goribá hikkó",
+        managerLearn3: "Bazar áage toyári o logistics plan master goró",
+        managerLearn4: "Bazar din kám manage goró check-in o payment shóho",
+        learnAsSponsor: "Sponsor Hisábe Ki Hikkíba",
+        makingImpact: "Porbáb Féliba",
+        sponsorLearn1: "Fund o contract setup process bujjíba",
+        sponsorLearn2: "Program performance o invoice track goribá hikkó",
+        sponsorLearn3: "Analytics dashboard te tuáñr impact dekkhó",
+        sponsorLearn4: "Contract renew o change manage goró",
+        learnAsCustomer: "Gráhok Hisábe Ki Hikkíba",
+        welcomeMarket: "Bazar te Swágot!",
+        customerLearn1: "Bazar te registration goró o Neighbor ID fáo",
+        customerLearn2: "Mobile wallet setup o use goró kini lagi",
+        customerLearn3: "QR code use gorikki kiyan kini hikkó",
+        customerLearn4: "Regular fóçol ar lagi CSA registration dekkhó",
+        learnAsTrainee: "Shikkhárthi Hisábe Ki Hikkíba",
+        growingSkills: "Tuáñr Skill Borái",
+        traineeLearn1: "Available training program dekkhó o thik óla fáo",
+        traineeLearn2: "Enroll process ses goró o Trainee ID fáo",
+        traineeLearn3: "Class te jogdán goró o volunteer time likkhó",
+        traineeLearn4: "Certificate o fendor status ar diki kám goró"
       },
       my: {
         title: "ရောင်းချသူ ခရီးစဉ်မြေပုံ", subtitle: "ပြည်သူ့ဈေး • လမ်းညွှန်အပြည့်အစုံ",
@@ -1836,7 +2656,65 @@
         selectUserType: "သင့်အသုံးပြုသူအမျိုးအစား ရွေးပါ",
         vendorType: "ရောင်းချသူ", managerType: "မန်နေဂျာ", sponsorType: "ပံ့ပိုးသူ",
         customerType: "ဖောက်သည်", traineeType: "သင်တန်းသား",
-        viewJourneyMap: "ခရီးစဉ်မြေပုံ ကြည့်ရန်", backToSelection: "နောက်သို့"
+        viewJourneyMap: "ခရီးစဉ်မြေပုံ ကြည့်ရန်", backToSelection: "နောက်သို့",
+        // Vendor specific
+        vendorGettingStarted: "ရောင်းချသူ မှတ်ပုံတင်ခြင်း (တစ်ကြိမ်)", steps5: "အဆင့် ၅ ခု",
+        educator: "ဆရာ", educatorTip: "ပညာရေး ဝန်ဆောင်မှုများ/အလုပ်ရုံဆွေးနွေးပွဲများ ပေးသည်",
+        aggregator: "စုဆောင်းသူ", aggregatorTip: "အရင်းအမြစ်များစွာမှ စုဆောင်းပြီး ဖြန့်ဝေသည်",
+        vendorOtherPrograms: "ရောင်းချသူများအတွက် အခြားအစီအစဉ်များ",
+        csaVendorDesc: "လယ်သမား သို့မဟုတ် VAP ဖြစ်ပါက ထွက်ကုန်ပံ့ပိုးပါ",
+        supplyVendorDesc: "လယ်သမားများ၊ VAP၊ စုဆောင်းသူများ၊ လက်လီရောင်းသူများ ပါဝင်နိုင်သည်",
+        trainVendorDesc: "ဆရာများ သင်တန်းများ ပေးနိုင်သည်",
+        // Manager specific
+        managerSetup: "မန်နေဂျာ စတင်သတ်မှတ်ခြင်းနှင့် စာချုပ်များ", stepsSetup: "သတ်မှတ်ခြင်း",
+        managerRegistration: "မန်နေဂျာအဖြစ် မှတ်ပုံတင်ပါ",
+        vendorManagement: "ရောင်းချသူ စီမံခန့်ခွဲမှု",
+        managerPreMarket: "ဈေးမတိုင်မီ ပြင်ဆင်မှု",
+        managerMarketDay: "ဈေးရက် လုပ်ငန်းများ",
+        managerPostMarket: "ဈေးပြီးနောက်နှင့် ငွေပေးချေမှုများ",
+        // Learning components
+        yourLearningProgress: "သင့်သင်ယူမှု တိုးတက်မှု",
+        complete: "ပြီးဆုံး",
+        gettingStartedShort: "စတင်ခြင်း",
+        weeklySetup: "အပတ်စဉ် ပြင်ဆင်မှု",
+        reviewRepeat: "ပြန်လည်သုံးသပ်ပြီး ထပ်လုပ်ပါ",
+        learnInPhase: "ဤအဆင့်တွင် သင်ယူရမည့်အရာ",
+        startingJourney: "ခရီးစဉ်စတင်ခြင်း",
+        vendorLearn1: "ရောင်းချသူအမျိုးအစားများကို နားလည်ပြီး သင့်အတွက် မှန်ကန်သောအရာကို ရွေးပါ",
+        vendorLearn2: "လျှောက်လွှာလုပ်ငန်းစဉ်ကို ပြီးမြောက်ပြီး သင့်အထောက်အထားများကို ရယူပါ",
+        vendorLearn3: "မည်သည့်စာရွက်စာတမ်းများ လိုအပ်သည်နှင့် တင်ပုံကို သင်ယူပါ",
+        vendorLearn4: "တက်ကြွစွာ ရှိနေရန် အချိန်ဇယားနှင့် လိုအပ်ချက်များကို သိပါ",
+        markComplete: "ပြီးဆုံးကြောင်း မှတ်သားပါ",
+        completed: "ပြီးဆုံးပါပြီ",
+        keyTakeaways: "အဓိကအချက်များ",
+        remember: "မှတ်သားပါ:",
+        vendorTakeaway: "သင့်ရောင်းချသူအမျိုးအစားကို ဂရုတစိုက်ရွေးချယ်ပါ၊ လျှောက်လွှာကို ပြီးအောင်လုပ်ပါ၊ လိုအပ်သောစာရွက်စာတမ်းအားလုံးကို ၁၄ ရက်အတွင်း တင်ပါ။ သင့် Vendor PIN နှင့် ID သည် ဈေးရက်လုပ်ငန်းအားလုံးအတွက် မရှိမဖြစ်လိုအပ်သည်။",
+        milestoneRegComplete: "မှတ်တိုင်: မှတ်ပုံတင်ခြင်း ပြီးဆုံးပါပြီ",
+        pinSecureTip: "သင့် PIN ကို လုံခြုံစွာထိန်းသိမ်းပြီး မှတ်မိအောင်လုပ်ပါ - ဈေးရက်တိုင်းတွင် ငွေလွှဲမှုများ မှတ်တမ်းတင်ရန် လိုအပ်ပါသည်!",
+        learnAsManager: "မန်နေဂျာအဖြစ် သင်ယူရမည့်အရာ",
+        buildingFoundation: "အခြေခံတည်ဆောက်ခြင်း",
+        managerLearn1: "မန်နေဂျာအကောင့် ပြင်ဆင်ပြီး စာချုပ်လုပ်ငန်းစဉ်ကို နားလည်ပါ",
+        managerLearn2: "ရောင်းချသူလျှောက်လွှာများကို ပြန်လည်သုံးသပ်ပြီး စီမံခန့်ခွဲနည်းကို သင်ယူပါ",
+        managerLearn3: "ဈေးမတိုင်မီ ပြင်ဆင်မှုနှင့် ထောက်ပံ့ပို့ဆောင်ရေးစီစဉ်မှုကို ကျွမ်းကျင်ပါ",
+        managerLearn4: "ဈေးရက် လုပ်ငန်းများကို check-in နှင့် ငွေပေးချေမှုများ အပါအဝင် ကိုင်တွယ်ပါ",
+        learnAsSponsor: "ပံ့ပိုးသူအဖြစ် သင်ယူရမည့်အရာ",
+        makingImpact: "သက်ရောက်မှုဖြစ်စေခြင်း",
+        sponsorLearn1: "ရန်ပုံငွေနှင့် စာချုပ်ပြင်ဆင်မှုလုပ်ငန်းစဉ်ကို နားလည်ပါ",
+        sponsorLearn2: "အစီအစဉ်စွမ်းဆောင်ရည်နှင့် ပြေစာများကို ခြေရာခံနည်းကို သင်ယူပါ",
+        sponsorLearn3: "သင့်သက်ရောက်မှုကို စောင့်ကြည့်ရန် ခွဲခြမ်းစိတ်ဖြာမှုဒက်ရှ်ဘုတ်များကို ဝင်ရောက်ကြည့်ပါ",
+        sponsorLearn4: "စာချုပ်သက်တမ်းတိုးခြင်းနှင့် ပြုပြင်ပြောင်းလဲခြင်းများကို စီမံခန့်ခွဲပါ",
+        learnAsCustomer: "ဖောက်သည်အဖြစ် သင်ယူရမည့်အရာ",
+        welcomeMarket: "ဈေးသို့ ကြိုဆိုပါသည်!",
+        customerLearn1: "ဈေးတွင် မှတ်ပုံတင်ပြီး သင့် Neighbor ID ကို ရယူပါ",
+        customerLearn2: "ဝယ်ယူမှုအတွက် သင့်မိုဘိုင်းပိုက်ဆံအိတ်ကို ပြင်ဆင်ပြီး အသုံးပြုပါ",
+        customerLearn3: "သင့် QR ကုဒ်ဖြင့် ဝယ်ယူနည်းကို သင်ယူပါ",
+        customerLearn4: "ပုံမှန်ထွက်ကုန်များအတွက် ရွေးချယ်နိုင်သော CSA စာရင်းသွင်းခြင်းကို လေ့လာပါ",
+        learnAsTrainee: "သင်တန်းသားအဖြစ် သင်ယူရမည့်အရာ",
+        growingSkills: "သင့်ကျွမ်းကျင်မှုများကို တိုးမြှင့်ခြင်း",
+        traineeLearn1: "ရရှိနိုင်သော သင်တန်းအစီအစဉ်များကို လေ့လာပြီး သင့်အတွက် မှန်ကန်သောအရာကို ရှာပါ",
+        traineeLearn2: "စာရင်းသွင်းခြင်းလုပ်ငန်းစဉ်ကို ပြီးမြောက်ပြီး သင့် Trainee ID ကို ရယူပါ",
+        traineeLearn3: "အတန်းများတွင် ပါဝင်ပြီး စေတနာ့ဝန်ထမ်းနာရီများကို မှတ်တမ်းတင်ပါ",
+        traineeLearn4: "လက်မှတ်နှင့် ရောင်းချသူအဆင့်ဖြစ်နိုင်ခြေအတွက် ကြိုးစားပါ"
       },
       sw: {
         title: "Ramani ya Safari ya Muuzaji", subtitle: "Soko la Watu • Mwongozo Kamili",
@@ -1895,7 +2773,123 @@
         selectUserType: "Chagua Aina Yako ya Mtumiaji",
         vendorType: "Muuzaji", managerType: "Meneja", sponsorType: "Mfadhili",
         customerType: "Mteja", traineeType: "Mwanafunzi",
-        viewJourneyMap: "Tazama Ramani ya Safari", backToSelection: "Rudi"
+        viewJourneyMap: "Tazama Ramani ya Safari", backToSelection: "Rudi",
+        // Vendor specific
+        vendorGettingStarted: "Usajili wa Muuzaji (Mara Moja)", steps5: "Hatua 5",
+        educator: "Mwalimu", educatorTip: "Anatoa huduma za elimu/warsha",
+        aggregator: "Mkusanyaji", aggregatorTip: "Anakusanya na kusambaza kutoka vyanzo vingi",
+        vendorPreMarket: "Kabla ya Soko kwa Muuzaji (Kila Wiki)",
+        vendorMarketDay: "Shughuli za Siku ya Soko ya Muuzaji", parts4: "Sehemu 4",
+        checkInManager: "Jiandikishe kwenye Meza ya Meneja",
+        goToCheckIn: "Nenda kwenye meza ya kujiandikisha",
+        managerCheckIn: "Meneja anakuandikisha kupitia", vendorCheckinForm: "Fomu ya Kujiandikisha kwa Muuzaji",
+        processSales: "Fanya Mauzo", useTransactionForm: "Tumia", transactionForm: "Fomu ya Miamala",
+        scanQR: "Changanua msimbo wa QR wa mhudhuria (inayopendekezwa)",
+        orManualEntry: "Au ingiza Kitambulisho cha Jirani kwa mkono kwa wageni",
+        endOfMarket: "Mwisho wa Soko",
+        completeInvoiceForm: "Kamilisha", vendorInvoiceForm: "Fomu ya Invoice ya Mwisho wa Soko ya Muuzaji",
+        reconcileManager: "Kamilisha usuluhishi wa malipo na meneja",
+        checkOut: "Ondoka na Funga", confirmCheckout: "Thibitisha kuondoka na meneja",
+        vendorOtherPrograms: "Programu Nyingine za Wauzaji",
+        csaVendorDesc: "Changia mazao ikiwa ni Mkulima au VAP",
+        supplyVendorDesc: "Wakulima, VAP, Wakusanyaji, Wauzaji Rejareja wanaweza kushiriki",
+        trainVendorDesc: "Walimu wanaweza kufanya mafunzo",
+        // Manager specific
+        managerSetup: "Usanidi wa Meneja na Mikataba", stepsSetup: "Usanidi",
+        managerRegistration: "Jiandikishe kama Meneja",
+        completeManagerForm: "Kamilisha", toGenerateManagerID: "(kutengeneza Kitambulisho cha Meneja)",
+        receiveManagerPIN: "Pokea PIN na Kitambulisho cha Meneja",
+        contractSetup: "Usanidi wa Mkataba na Programu",
+        completeContractForm: "Kamilisha", contractInfoForm: "Fomu ya Maelezo ya Mkataba",
+        setupProgramsUnderContract: "Sanidi programu chini ya mkataba",
+        defineFundingSources: "Eleza vyanzo vya fedha",
+        vendorManagement: "Usimamizi wa Wauzaji",
+        reviewApplications: "Kagua Maombi ya Wauzaji",
+        reviewVendorRequests: "Kagua fomu za maombi ya wauzaji zinazoingia",
+        approveOrWaitlist: "Idhinisha, kataa, au weka kwenye orodha ya kusubiri",
+        manuallyApprove: "Idhinisha/kataa maombi ya wauzaji kwa mkono",
+        trackCompliance: "Fuatilia Utiifu wa Nyaraka",
+        monitorDocUploads: "Fuatilia upakiaji wa nyaraka za wauzaji",
+        verifyLicenses: "Thibitisha leseni na vyeti",
+        followUpExpiring: "Fuatilia nyaraka zinazoisha muda",
+        managerPreMarket: "Maandalizi ya Kabla ya Soko",
+        reviewSubmissions: "Kagua Mawasilisho ya Fomu",
+        reviewUpcomingForms: "Kagua mawasilisho ya Fomu ya Soko Lijalo",
+        confirmAttendees: "Thibitisha mahudhurio ya wauzaji",
+        planLogistics: "Panga usafirishaji (nafasi, vifaa)",
+        personnelManagement: "Usimamizi wa Wafanyakazi",
+        assignRolesVia: "Teua majukumu ya wafanyakazi kupitia",
+        personnelCheckinForm: "Fomu ya Kujiandikisha kwa Wafanyakazi wa PGL",
+        trackStaffVolunteer: "Fuatilia muda wa wafanyakazi/kujitolea",
+        managerMarketDay: "Shughuli za Siku ya Soko",
+        setupCheckinStation: "Sanidi Kituo cha Kujiandikisha",
+        prepareCheckinTable: "Andaa meza ya kujiandikisha",
+        haveFormsReady: "Kuwa na fomu tayari kwenye kifaa",
+        vendorCheckin: "Kujiandikisha/Kuondoka kwa Muuzaji",
+        useVendorCheckinForm: "Tumia", checkVendorsIn: "Andikisha wauzaji wanapofika",
+        checkVendorsOut: "Ondosha wauzaji wanapoondoka",
+        attendeeManagement: "Usimamizi wa Wahudhuriaji",
+        newAttendeesUse: "Wahudhuriaji wapya: tumia", attendeeRegistrationForm: "Fomu ya Usajili wa Mhudhuria",
+        returnAttendeesUse: "Wahudhuriaji wanaorejea: tumia", returnAttendeeForm: "Fomu ya Mhudhuria Anayerejea",
+        loadMobileWallets: "Pakia mikoba ya simu na faida",
+        csaOperations: "Shughuli za CSA (ikihitajika)",
+        enrollNewCSA: "Sajili wanachama wapya wa CSA kupitia", csaEnrollmentForm: "Fomu ya Usajili wa CSA",
+        processPickups: "Fanya uchukuaji kupitia", csaPickupForm: "Fomu ya Uchukuaji wa CSA",
+        managerPostMarket: "Baada ya Soko na Malipo",
+        paymentReconciliation: "Usuluhishi wa Malipo",
+        completeReconciliationForm: "Kamilisha", paymentReconciliationForm: "Fomu ya Usuluhishi wa Malipo ya Mwisho wa Soko",
+        reconcileWithVendors: "Suluhisha na kila muuzaji",
+        vendorPayment: "Malipo ya Muuzaji", payVendors: "Lipa wauzaji",
+        documentRemittance: "Andika kupitia", vendorPaymentForm: "Fomu ya Uhamisho wa Malipo ya Muuzaji",
+        funderInvoicing: "Kuandika Invoice kwa Mfadhili",
+        generateInvoice: "Tengeneza invoice kupitia", funderInvoiceForm: "Fomu ya Invoice ya Malipo ya Mfadhili",
+        trackPaymentReceived: "Fuatilia malipo kupitia", funderPaymentReceivedForm: "Fomu ya Malipo Yaliyopokelewa kutoka kwa Mfadhili",
+        inventoryAnalytics: "Hesabu na Uchambuzi",
+        manageEquipment: "Simamia vifaa kupitia", itemInventoryForm: "Fomu ya Hesabu ya Vitu",
+        monitorDashboards: "Fuatilia dashibodi na uchambuzi",
+        // Learning components
+        yourLearningProgress: "Maendeleo Yako ya Kujifunza",
+        complete: "Imekamilika",
+        gettingStartedShort: "Kuanza",
+        weeklySetup: "Usanidi wa Kila Wiki",
+        reviewRepeat: "Kagua na Rudia",
+        learnInPhase: "Utakachojifunza Katika Hatua Hii",
+        startingJourney: "Kuanza Safari Yako",
+        vendorLearn1: "Elewa aina tofauti za wauzaji na uchague inayokufaa",
+        vendorLearn2: "Kamilisha mchakato wa maombi na upate vitambulisho vyako",
+        vendorLearn3: "Jifunze ni nyaraka gani zinazohitajika na jinsi ya kuzipakia",
+        vendorLearn4: "Jua ratiba na mahitaji ya kubaki hai",
+        markComplete: "Weka Alama Imekamilika",
+        completed: "Imekamilika",
+        keyTakeaways: "Mambo Muhimu",
+        remember: "Kumbuka:",
+        vendorTakeaway: "Chagua aina yako ya muuzaji kwa uangalifu, kamilisha maombi yako, na upakia nyaraka zote zinazohitajika ndani ya siku 14. PIN yako ya Muuzaji na Kitambulisho ni muhimu kwa shughuli zote za soko.",
+        milestoneRegComplete: "Hatua: Usajili Umekamilika",
+        pinSecureTip: "Hifadhi PIN yako salama na ikumbuke - utaihitaji kila siku ya soko kurekodia miamala!",
+        learnAsManager: "Utakachojifunza kama Meneja",
+        buildingFoundation: "Kujenga Msingi Wako",
+        managerLearn1: "Sanidi akaunti yako ya meneja na uelewa mchakato wa mkataba",
+        managerLearn2: "Jifunze jinsi ya kukagua na kusimamia maombi ya wauzaji",
+        managerLearn3: "Miliki maandalizi ya kabla ya soko na upangaji wa usafirishaji",
+        managerLearn4: "Shughulikia shughuli za siku ya soko ikiwa ni pamoja na kujiandikisha na malipo",
+        learnAsSponsor: "Utakachojifunza kama Mfadhili",
+        makingImpact: "Kufanya Athari",
+        sponsorLearn1: "Elewa mchakato wa usanidi wa fedha na mkataba",
+        sponsorLearn2: "Jifunze jinsi ya kufuatilia utendaji wa programu na ankara",
+        sponsorLearn3: "Fikia dashibodi za uchambuzi kufuatilia athari yako",
+        sponsorLearn4: "Simamia upya wa mikataba na marekebisho",
+        learnAsCustomer: "Utakachojifunza kama Mteja",
+        welcomeMarket: "Karibu Sokoni!",
+        customerLearn1: "Jiandikishe sokoni na upate Kitambulisho chako cha Jirani",
+        customerLearn2: "Sanidi na utumie mkoba wako wa simu kwa ununuzi",
+        customerLearn3: "Jifunze jinsi ya kununua ukitumia msimbo wako wa QR",
+        customerLearn4: "Chunguza usajili wa CSA wa hiari kwa mazao ya mara kwa mara",
+        learnAsTrainee: "Utakachojifunza kama Mwanafunzi",
+        growingSkills: "Kukuza Ujuzi Wako",
+        traineeLearn1: "Chunguza programu za mafunzo zinazopatikana na upate inayokufaa",
+        traineeLearn2: "Kamilisha mchakato wa usajili na upate Kitambulisho chako cha Mwanafunzi",
+        traineeLearn3: "Shiriki katika madarasa na urekodie masaa ya kujitolea",
+        traineeLearn4: "Fanya kazi kuelekea cheti na uwezekano wa hali ya muuzaji"
       },
       so: {
         title: "Khariidadda Safarka Iibiyaha", subtitle: "Suuqa Dadka • Hagaha Buuxa",
@@ -1954,7 +2948,66 @@
         selectUserType: "Dooro Noocaaga Isticmaalaha",
         vendorType: "Iibiyaha", managerType: "Maamulaha", sponsorType: "Maalgeliyaha",
         customerType: "Macmiilka", traineeType: "Tababaruhu",
-        viewJourneyMap: "Arag Khariidadda Safarka", backToSelection: "Dib u noqo"
+        viewJourneyMap: "Arag Khariidadda Safarka", backToSelection: "Dib u noqo",
+        // Vendor specific
+        vendorGettingStarted: "Diiwaangelinta Iibiyaha (Hal mar)", steps5: "5 tallaabo",
+        educator: "Macallin", educatorTip: "Wuxuu bixiyaa adeegyada waxbarashada/aqoon-is-weydiimaha",
+        aggregator: "Ururiye", aggregatorTip: "Wuxuu uruuriyaa oo kala qaybiyaa ilaha badan",
+        vendorOtherPrograms: "Barnaamijyada Kale ee Iibiyayaasha",
+        csaVendorDesc: "Ku biiri badeecada haddii aad tahay Beeraley ama VAP",
+        supplyVendorDesc: "Beeraleyda, VAP, Ururiyayaasha, Taajiirta ayaa ka qayb qaadan kara",
+        trainVendorDesc: "Macalimiinta ayaa sameyn kara tababarro",
+        // Manager specific
+        managerSetup: "Dejinta Maamulaha & Qandaraasyada", stepsSetup: "Dejinta",
+        managerRegistration: "Iska diiwaan geli Maamule ahaan",
+        vendorManagement: "Maareynta Iibiyayaasha",
+        trackCompliance: "Raadi U hoggaansanaanta Dukumeentiga",
+        managerPreMarket: "Diyaarinta Kahor Suuqa",
+        managerMarketDay: "Hawlgalka Maalinta Suuqa",
+        managerPostMarket: "Ka dib Suuqa & Lacag bixinta",
+        // Learning components
+        yourLearningProgress: "Horumarkaaga Barasho",
+        complete: "Dhammaystiran",
+        gettingStartedShort: "Bilowga",
+        weeklySetup: "Diyaarinta Toddobaadlaha",
+        reviewRepeat: "Dib u Eeg & Ku Celi",
+        learnInPhase: "Waxa Aad Baran Doonto Marxaladdan",
+        startingJourney: "Bilaabida Safarka",
+        vendorLearn1: "Fahmo noocyada iibiyaha oo dooro kii kuugu haboon",
+        vendorLearn2: "Dhameystir habka codsiga oo hel aqoonsigaaga",
+        vendorLearn3: "Baro dukumeentiyada loo baahan yahay iyo sida loo soo geliyo",
+        vendorLearn4: "Ogow jadwalka iyo shuruudaha si aad u sii jirto",
+        markComplete: "Calaamadi Dhammaystiran",
+        completed: "La Dhammeeyay",
+        keyTakeaways: "Qodobadda Muhiimka ah",
+        remember: "Xusuusnow:",
+        vendorTakeaway: "Si taxadar leh u dooro noocaaga iibiyaha, dhammeystir codsigaaga, oo soo geli dhammaan dukumeentiyada loo baahan yahay 14 maalmood gudahood. PIN-kaaga Iibiyaha iyo ID-gaagu waa muhiim hawlaha suuqa oo dhan.",
+        milestoneRegComplete: "Astaanta: Diiwaangelinta La Dhammeeyay",
+        pinSecureTip: "PIN-kaaga u hay ammaan oo xusuusnow - waxaad u baahan doontaa maalin kasta ee suuqa si aad u diiwaangeliso macaamilka!",
+        learnAsManager: "Waxa Aad Baran Doonto Maamule Ahaan",
+        buildingFoundation: "Dhisidda Aasaaska",
+        managerLearn1: "Deji akoonkaaga maamulaha oo fahmo habka qandaraaska",
+        managerLearn2: "Baro sida loo eego oo loo maareeyo codsiyada iibiyaha",
+        managerLearn3: "U karti si fiican diyaarinta kahor suuqa iyo qorsheynta logistics",
+        managerLearn4: "Maamul hawlaha maalinta suuqa oo ay ku jiraan diiwaangelinta iyo lacag bixinta",
+        learnAsSponsor: "Waxa Aad Baran Doonto Maalgeliye Ahaan",
+        makingImpact: "Saameyn Yeelasho",
+        sponsorLearn1: "Fahmo habka dejinta maalgelinta iyo qandaraaska",
+        sponsorLearn2: "Baro sida loo la socdo waxqabadka barnaamijka iyo qaansheegadaha",
+        sponsorLearn3: "Gal dashboards-ka falanqeynta si aad ula socoto saameyntaada",
+        sponsorLearn4: "Maamul cusbooneysiinta qandaraaska iyo isbeddelada",
+        learnAsCustomer: "Waxa Aad Baran Doonto Macmiil Ahaan",
+        welcomeMarket: "Ku soo dhawow Suuqa!",
+        customerLearn1: "Iska diiwaan geli suuqa oo hel ID-gaaga Jaarka",
+        customerLearn2: "Deji oo isticmaal jeebkaaga mobilka iibsashada",
+        customerLearn3: "Baro sida loo wax iibsado adiga oo isticmaalaya koodhkaaga QR",
+        customerLearn4: "Baadh diiwaangelinta CSA ee ikhtiyaariga ah badeecada joogtada ah",
+        learnAsTrainee: "Waxa Aad Baran Doonto Tababare Ahaan",
+        growingSkills: "Kobcinta Xirfadahaaga",
+        traineeLearn1: "Baadh barnaamijyada tababarka la heli karo oo hel kii kuugu haboon",
+        traineeLearn2: "Dhameystir habka diiwaangelinta oo hel ID-gaaga Tababaruhu",
+        traineeLearn3: "Ka qaybqaado fasallada oo diiwaangeli saacadaha tabaruca",
+        traineeLearn4: "U shaqee shahaadada iyo suurtagalnimada inaad noqoto iibiye"
       },
       ar: {
         title: "خريطة رحلة البائع", subtitle: "سوق الشعب • الدليل الكامل",
@@ -2013,7 +3066,66 @@
         selectUserType: "اختر نوع المستخدم",
         vendorType: "بائع", managerType: "مدير", sponsorType: "ممول",
         customerType: "عميل", traineeType: "متدرب",
-        viewJourneyMap: "عرض خريطة الرحلة", backToSelection: "رجوع"
+        viewJourneyMap: "عرض خريطة الرحلة", backToSelection: "رجوع",
+        // Vendor specific
+        vendorGettingStarted: "تسجيل البائع (مرة واحدة)", steps5: "٥ خطوات",
+        educator: "مُعلم", educatorTip: "يقدم خدمات تعليمية/ورش عمل",
+        aggregator: "مُجمِّع", aggregatorTip: "يجمع ويوزع من مصادر متعددة",
+        vendorOtherPrograms: "برامج أخرى للبائعين",
+        csaVendorDesc: "ساهم بالمنتجات إذا كنت مزارعاً أو VAP",
+        supplyVendorDesc: "المزارعون وVAP والمجمعون وتجار التجزئة يمكنهم المشاركة",
+        trainVendorDesc: "يمكن للمعلمين إجراء التدريبات",
+        // Manager specific
+        managerSetup: "إعداد المدير والعقود", stepsSetup: "الإعداد",
+        managerRegistration: "سجل كمدير",
+        vendorManagement: "إدارة البائعين",
+        trackCompliance: "تتبع امتثال المستندات",
+        managerPreMarket: "التحضير قبل السوق",
+        managerMarketDay: "عمليات يوم السوق",
+        managerPostMarket: "بعد السوق والمدفوعات",
+        // Learning components
+        yourLearningProgress: "تقدم تعلمك",
+        complete: "مكتمل",
+        gettingStartedShort: "البدء",
+        weeklySetup: "الإعداد الأسبوعي",
+        reviewRepeat: "المراجعة والتكرار",
+        learnInPhase: "ما ستتعلمه في هذه المرحلة",
+        startingJourney: "بدء رحلتك",
+        vendorLearn1: "فهم أنواع البائعين المختلفة واختيار الأنسب لك",
+        vendorLearn2: "إكمال عملية التقديم والحصول على بياناتك",
+        vendorLearn3: "تعلم المستندات المطلوبة وكيفية تحميلها",
+        vendorLearn4: "معرفة الجدول الزمني والمتطلبات للبقاء نشطاً",
+        markComplete: "وضع علامة مكتمل",
+        completed: "تم الإكمال",
+        keyTakeaways: "النقاط الرئيسية",
+        remember: "تذكر:",
+        vendorTakeaway: "اختر نوع البائع بعناية، أكمل طلبك، وارفع جميع المستندات المطلوبة خلال ١٤ يوماً. رمز PIN ومعرف البائع ضروريان لجميع عمليات السوق.",
+        milestoneRegComplete: "إنجاز: اكتمل التسجيل",
+        pinSecureTip: "احتفظ برمز PIN آمناً وسهل التذكر - ستحتاجه كل يوم سوق لتسجيل المعاملات!",
+        learnAsManager: "ما ستتعلمه كمدير",
+        buildingFoundation: "بناء أساسك",
+        managerLearn1: "إعداد حساب المدير وفهم عملية العقد",
+        managerLearn2: "تعلم كيفية مراجعة وإدارة طلبات البائعين",
+        managerLearn3: "إتقان التحضير قبل السوق وتخطيط الخدمات اللوجستية",
+        managerLearn4: "التعامل مع عمليات يوم السوق بما في ذلك التسجيل والمدفوعات",
+        learnAsSponsor: "ما ستتعلمه كممول",
+        makingImpact: "تحقيق التأثير",
+        sponsorLearn1: "فهم عملية إعداد التمويل والعقد",
+        sponsorLearn2: "تعلم كيفية تتبع أداء البرنامج والفواتير",
+        sponsorLearn3: "الوصول إلى لوحات التحليلات لمراقبة تأثيرك",
+        sponsorLearn4: "إدارة تجديد العقود والتعديلات",
+        learnAsCustomer: "ما ستتعلمه كعميل",
+        welcomeMarket: "مرحباً بك في السوق!",
+        customerLearn1: "التسجيل في السوق والحصول على معرف الجار",
+        customerLearn2: "إعداد واستخدام محفظتك المحمولة للمشتريات",
+        customerLearn3: "تعلم كيفية الشراء باستخدام رمز QR الخاص بك",
+        customerLearn4: "استكشاف التسجيل الاختياري في CSA للمنتجات المنتظمة",
+        learnAsTrainee: "ما ستتعلمه كمتدرب",
+        growingSkills: "تنمية مهاراتك",
+        traineeLearn1: "استكشاف برامج التدريب المتاحة وإيجاد المناسب لك",
+        traineeLearn2: "إكمال عملية التسجيل والحصول على معرف المتدرب",
+        traineeLearn3: "المشاركة في الفصول وتسجيل ساعات التطوع",
+        traineeLearn4: "العمل نحو الشهادة وإمكانية الحصول على وضع البائع"
       },
       vi: {
         title: "Bản Đồ Hành Trình Người Bán", subtitle: "Chợ Nhân Dân • Hướng Dẫn Đầy Đủ",
@@ -2072,7 +3184,66 @@
         selectUserType: "Chọn Loại Người Dùng",
         vendorType: "Người Bán", managerType: "Quản Lý", sponsorType: "Nhà Tài Trợ",
         customerType: "Khách Hàng", traineeType: "Học Viên",
-        viewJourneyMap: "Xem Bản Đồ Hành Trình", backToSelection: "Quay Lại"
+        viewJourneyMap: "Xem Bản Đồ Hành Trình", backToSelection: "Quay Lại",
+        // Vendor specific
+        vendorGettingStarted: "Đăng Ký Người Bán (Một Lần)", steps5: "5 bước",
+        educator: "Giáo Viên", educatorTip: "Cung cấp dịch vụ giáo dục/hội thảo",
+        aggregator: "Người Tổng Hợp", aggregatorTip: "Thu thập và phân phối từ nhiều nguồn",
+        vendorOtherPrograms: "Các Chương Trình Khác cho Người Bán",
+        csaVendorDesc: "Đóng góp nông sản nếu là Nông dân hoặc VAP",
+        supplyVendorDesc: "Nông dân, VAP, Người Tổng Hợp, Người Bán Lẻ có thể tham gia",
+        trainVendorDesc: "Giáo viên có thể tiến hành đào tạo",
+        // Manager specific
+        managerSetup: "Thiết Lập Quản Lý & Hợp Đồng", stepsSetup: "Thiết Lập",
+        managerRegistration: "Đăng ký làm Quản Lý",
+        vendorManagement: "Quản Lý Người Bán",
+        trackCompliance: "Theo Dõi Tuân Thủ Tài Liệu",
+        managerPreMarket: "Chuẩn Bị Trước Chợ",
+        managerMarketDay: "Hoạt Động Ngày Chợ",
+        managerPostMarket: "Sau Chợ & Thanh Toán",
+        // Learning components
+        yourLearningProgress: "Tiến Độ Học Tập Của Bạn",
+        complete: "Hoàn thành",
+        gettingStartedShort: "Bắt đầu",
+        weeklySetup: "Chuẩn Bị Hàng Tuần",
+        reviewRepeat: "Xem Lại và Lặp Lại",
+        learnInPhase: "Bạn Sẽ Học Gì Trong Giai Đoạn Này",
+        startingJourney: "Bắt Đầu Hành Trình",
+        vendorLearn1: "Hiểu các loại người bán khác nhau và chọn loại phù hợp với bạn",
+        vendorLearn2: "Hoàn thành quy trình đăng ký và nhận thông tin đăng nhập",
+        vendorLearn3: "Tìm hiểu những giấy tờ cần thiết và cách tải lên",
+        vendorLearn4: "Biết lịch trình và yêu cầu để duy trì hoạt động",
+        markComplete: "Đánh Dấu Hoàn Thành",
+        completed: "Đã Hoàn Thành",
+        keyTakeaways: "Điểm Chính",
+        remember: "Nhớ:",
+        vendorTakeaway: "Chọn loại người bán cẩn thận, hoàn thành đơn đăng ký và tải lên tất cả giấy tờ cần thiết trong 14 ngày. Mã PIN và ID Người Bán rất quan trọng cho mọi hoạt động chợ.",
+        milestoneRegComplete: "Cột Mốc: Đăng Ký Hoàn Tất",
+        pinSecureTip: "Giữ mã PIN an toàn và dễ nhớ - bạn sẽ cần nó mỗi ngày chợ để ghi lại giao dịch!",
+        learnAsManager: "Bạn Sẽ Học Gì Với Tư Cách Quản Lý",
+        buildingFoundation: "Xây Dựng Nền Tảng",
+        managerLearn1: "Thiết lập tài khoản quản lý và hiểu quy trình hợp đồng",
+        managerLearn2: "Học cách xem xét và quản lý đơn đăng ký người bán",
+        managerLearn3: "Thành thạo chuẩn bị trước chợ và lập kế hoạch hậu cần",
+        managerLearn4: "Xử lý hoạt động ngày chợ bao gồm đăng ký và thanh toán",
+        learnAsSponsor: "Bạn Sẽ Học Gì Với Tư Cách Nhà Tài Trợ",
+        makingImpact: "Tạo Tác Động",
+        sponsorLearn1: "Hiểu quy trình thiết lập tài trợ và hợp đồng",
+        sponsorLearn2: "Học cách theo dõi hiệu suất chương trình và hóa đơn",
+        sponsorLearn3: "Truy cập bảng điều khiển phân tích để theo dõi tác động của bạn",
+        sponsorLearn4: "Quản lý gia hạn hợp đồng và điều chỉnh",
+        learnAsCustomer: "Bạn Sẽ Học Gì Với Tư Cách Khách Hàng",
+        welcomeMarket: "Chào Mừng Đến Chợ!",
+        customerLearn1: "Đăng ký tại chợ và nhận ID Hàng Xóm của bạn",
+        customerLearn2: "Thiết lập và sử dụng ví di động để mua hàng",
+        customerLearn3: "Học cách mua hàng bằng mã QR của bạn",
+        customerLearn4: "Khám phá đăng ký CSA tùy chọn cho sản phẩm thường xuyên",
+        learnAsTrainee: "Bạn Sẽ Học Gì Với Tư Cách Học Viên",
+        growingSkills: "Phát Triển Kỹ Năng",
+        traineeLearn1: "Khám phá các chương trình đào tạo có sẵn và tìm chương trình phù hợp",
+        traineeLearn2: "Hoàn thành quy trình đăng ký và nhận ID Học Viên",
+        traineeLearn3: "Tham gia các lớp học và ghi lại giờ tình nguyện",
+        traineeLearn4: "Làm việc hướng tới chứng nhận và tiềm năng trở thành người bán"
       }
     };
 
@@ -2157,6 +3328,10 @@
     function startJourney() {
       if (!currentUserType || !currentProgramType) return;
 
+      // Reset phase filter and hybrid tab
+      currentPhaseFilter = 'all';
+      activeHybridTab = 'primary';
+
       // Hide selection screen, show journey content
       document.getElementById('userSelection').classList.add('hidden');
       document.getElementById('journeyContent').classList.add('visible');
@@ -2164,11 +3339,11 @@
       // Update header based on user type
       updateHeader();
 
-      // Show/hide sections based on user type
-      showUserTypeSections();
-
       // Setup hybrid tabs if needed
       setupHybridTabs();
+
+      // Show/hide sections based on user type (after hybrid tabs are set up)
+      showUserTypeSections();
     }
 
     // Back to Selection Screen
@@ -2176,16 +3351,20 @@
       document.getElementById('userSelection').classList.remove('hidden');
       document.getElementById('journeyContent').classList.remove('visible');
       document.getElementById('roleTabs').classList.remove('visible');
+      // Reset phase filter
+      currentPhaseFilter = 'all';
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('.filter-btn').classList.add('active');
     }
 
     // Update Header Based on User Type
     function updateHeader() {
       const icons = {
-        vendor: '🏪',
-        manager: '📋',
-        sponsor: '💰',
-        customer: '🛍️',
-        trainee: '🎓'
+        vendor: '',
+        manager: '',
+        sponsor: '',
+        customer: '',
+        trainee: ''
       };
       const titles = {
         vendor: 'Vendor Journey Map',
@@ -2195,7 +3374,7 @@
         trainee: 'Trainee Journey Map'
       };
 
-      document.getElementById('headerIcon').textContent = icons[currentUserType] || '🛒';
+      document.getElementById('headerIcon').textContent = icons[currentUserType] || '';
       document.getElementById('headerTitle').textContent = translations[currentLanguage]?.[`${currentUserType}JourneyTitle`] || titles[currentUserType] || 'Journey Map';
 
       // Show user indicator
@@ -2212,29 +3391,74 @@
       return parts.find(p => p !== currentUserType) || '';
     }
 
+    // Current phase filter
+    let currentPhaseFilter = 'all';
+
     // Show Sections for Selected User Type
     function showUserTypeSections() {
-      // Hide all user-type-specific columns first
-      document.querySelectorAll('[data-user-type]').forEach(el => {
-        if (el.classList.contains('user-type-card')) return; // Skip selection cards
+      const activeUserType = activeHybridTab === 'secondary' ? getSecondaryRole() : currentUserType;
 
-        const userType = el.dataset.userType;
-        if (userType === currentUserType) {
-          el.style.display = '';
-        } else if (hybridRoles.some(h => h.includes(userType))) {
-          // Show secondary role sections but initially hidden (for tabs)
-          el.style.display = 'none';
+      // Show all main-layout containers but control individual sections
+      document.querySelectorAll('.main-layout').forEach(container => {
+        container.style.display = 'block';
+      });
+
+      // Control visibility of each section based on user type AND phase
+      document.querySelectorAll('.section').forEach(section => {
+        const sectionUserType = section.dataset.userType;
+        const sectionPhase = section.dataset.phase;
+
+        // Check user type match
+        const isUserTypeMatch = !sectionUserType || sectionUserType === activeUserType;
+
+        // Check phase match
+        const isPhaseMatch = currentPhaseFilter === 'all' || sectionPhase === currentPhaseFilter ||
+          (currentPhaseFilter === 'postmarket' && (sectionPhase === 'programs' || sectionPhase === 'postmarket'));
+
+        if (isUserTypeMatch && isPhaseMatch) {
+          section.classList.remove('hidden');
+          section.style.display = 'block';
         } else {
-          el.style.display = 'none';
+          section.classList.add('hidden');
+          section.style.display = 'none';
         }
       });
 
-      // Show the main layout columns for vendor (they contain the original content structure)
-      if (currentUserType === 'vendor') {
-        document.querySelectorAll('.left-col, .right-col').forEach(el => {
-          el.style.display = '';
-        });
-      }
+      // Control visibility of learning objectives boxes
+      document.querySelectorAll('.learning-objectives').forEach(box => {
+        const boxUserType = box.dataset.userType;
+        const boxPhase = box.dataset.phase;
+
+        const isUserTypeMatch = !boxUserType || boxUserType === activeUserType;
+        const isPhaseMatch = currentPhaseFilter === 'all' || boxPhase === currentPhaseFilter;
+
+        if (isUserTypeMatch && isPhaseMatch) {
+          box.style.display = 'block';
+        } else {
+          box.style.display = 'none';
+        }
+      });
+
+      // Control visibility of milestone checkpoints
+      document.querySelectorAll('.milestone-checkpoint').forEach(milestone => {
+        const milestoneUserType = milestone.dataset.userType;
+        const milestonePhase = milestone.dataset.phase;
+
+        const isUserTypeMatch = !milestoneUserType || milestoneUserType === activeUserType;
+        const isPhaseMatch = currentPhaseFilter === 'all' || milestonePhase === currentPhaseFilter;
+
+        if (isUserTypeMatch && isPhaseMatch) {
+          milestone.style.display = 'flex';
+        } else {
+          milestone.style.display = 'none';
+        }
+      });
+
+      // Also handle learning section and legend visibility
+      const learningSection = document.querySelector('.learning-section');
+      const legend = document.querySelector('.legend');
+      if (learningSection) learningSection.style.display = 'block';
+      if (legend) legend.style.display = 'flex';
     }
 
     // Setup Hybrid Tabs
@@ -2276,19 +3500,7 @@
       } else {
         primaryTab.classList.remove('active');
         secondaryTab.classList.add('active');
-
-        // Show secondary role sections
-        const secondaryRole = getSecondaryRole();
-        document.querySelectorAll('[data-user-type]').forEach(el => {
-          if (el.classList.contains('user-type-card')) return;
-
-          const userType = el.dataset.userType;
-          if (userType === secondaryRole) {
-            el.style.display = '';
-          } else {
-            el.style.display = 'none';
-          }
-        });
+        showUserTypeSections();
       }
     }
 
@@ -2311,41 +3523,29 @@
     }
 
     // ===================== FILTERING =====================
-    function filterSections(phase) {
+    function filterSections(phase, evt) {
+      // Update current phase filter
+      currentPhaseFilter = phase;
+
+      // Update active button
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
         btn.setAttribute('aria-selected', 'false');
       });
-      event.target.closest('.filter-btn').classList.add('active');
-      event.target.closest('.filter-btn').setAttribute('aria-selected', 'true');
+      if (evt && evt.target) {
+        evt.target.closest('.filter-btn').classList.add('active');
+        evt.target.closest('.filter-btn').setAttribute('aria-selected', 'true');
+      }
 
-      document.querySelectorAll('.section').forEach(section => {
-        const sectionPhase = section.dataset.phase;
-        const sectionUserType = section.dataset.userType;
-
-        // Check if this section belongs to current user type or secondary role
-        const isUserTypeMatch = !sectionUserType ||
-          sectionUserType === currentUserType ||
-          (activeHybridTab === 'secondary' && sectionUserType === getSecondaryRole()) ||
-          (activeHybridTab === 'primary' && hybridRoles.some(h => h.includes(sectionUserType)));
-
-        const isPhaseMatch = phase === 'all' || sectionPhase === phase ||
-          (phase === 'postmarket' && sectionPhase === 'programs');
-
-        // Only show if both user type and phase match
-        if (currentUserType) {
-          section.classList.toggle('hidden', !(isUserTypeMatch && isPhaseMatch));
-        } else {
-          section.classList.toggle('hidden', !isPhaseMatch);
-        }
-      });
+      // Re-apply section visibility with new phase filter
+      showUserTypeSections();
     }
 
     // ===================== QUIZZES =====================
     const quizzes = {
       // Legacy quizzes (backwards compatible)
       prepare: {
-        title: "📝 Getting Started Quiz (A-C)",
+        title: "Getting Started Quiz (A-C)",
         questions: [
           { q: "How long to upload documents?", opts: ["7 days", "14 days", "30 days"], ans: 1, exp: "Complete within 14 days or participation may be paused." },
           { q: "What do you receive after approval?", opts: ["Just email", "Vendor PIN & ID", "Badge"], ans: 1, exp: "You get a Vendor PIN and Vendor ID for forms." },
@@ -2353,7 +3553,7 @@
         ]
       },
       premarket: {
-        title: "📅 Pre-Market Quiz (D-G)",
+        title: "Pre-Market Quiz (D-G)",
         questions: [
           { q: "When must farmers finalize products?", opts: ["Monday", "Wednesday night", "Market day"], ans: 1, exp: "Farmers must finalize by Wednesday night." },
           { q: "Without Upcoming Market Form?", opts: ["Warning", "Cannot participate", "Fine"], ans: 1, exp: "You cannot participate and Transaction Form won't work!" },
@@ -2361,7 +3561,7 @@
         ]
       },
       marketday: {
-        title: "🏪 Market Day Quiz",
+        title: "Market Day Quiz",
         questions: [
           { q: "Correct Neighbor ID format?", opts: ["reach-12345", "REACH-12345", "12345"], ans: 1, exp: "Format: REACH-12345 (uppercase, hyphen)." },
           { q: "Before leaving you must?", opts: ["Pack up", "Visit PGL Check-out", "Email"], ans: 1, exp: "You MUST check out at PGL table!" },
@@ -2369,21 +3569,21 @@
         ]
       },
       programs: {
-        title: "🎯 Programs Quiz (H-J)",
+        title: "Programs Quiz (H-J)",
         questions: [
           { q: "What does CSA stand for?", opts: ["Community Sales", "Community Supported Agriculture", "Certified Seller"], ans: 1, exp: "CSA = Community Supported Agriculture." },
           { q: "How to enroll in programs?", opts: ["Automatic", "Ask PGL staff", "Online only"], ans: 1, exp: "Ask PGL staff for details and eligibility." }
         ]
       },
       postmarket: {
-        title: "📊 After Market Quiz (K-N)",
+        title: "After Market Quiz (K-N)",
         questions: [
           { q: "What to review after market?", opts: ["Only sales", "All dashboards", "Nothing"], ans: 1, exp: "Review sales, attendance, and benefits dashboards." },
           { q: "How often does cycle repeat?", opts: ["Daily", "Weekly", "Monthly"], ans: 1, exp: "The cycle repeats weekly." }
         ]
       },
       tips: {
-        title: "💡 Tips Quiz",
+        title: "Tips Quiz",
         questions: [
           { q: "Best market day prep?", opts: ["Wing it", "Complete forms & charge devices", "Arrive late"], ans: 1, exp: "Complete forms early and charge devices." },
           { q: "Where to practice safely?", opts: ["Live system", "Simulation Environment", "Paper"], ans: 1, exp: "Use the Simulation Environment." }
@@ -2391,7 +3591,7 @@
       },
       // NEW: Vendor-specific quizzes
       'vendor-prepare': {
-        title: "🏪 Vendor Registration Quiz",
+        title: "Vendor Registration Quiz",
         questions: [
           { q: "Which of these is a valid vendor type?", opts: ["Distributor", "Educator", "Wholesaler"], ans: 1, exp: "Educator is one of the 6 vendor types (Farmer, VAP, Hot Food, Retailer, Educator, Aggregator)." },
           { q: "What form do vendors submit to apply?", opts: ["Registration Form", "Market Vendor Request Form", "Application Form"], ans: 1, exp: "Submit the Market Vendor Request Form to apply." },
@@ -2399,14 +3599,14 @@
         ]
       },
       'vendor-premarket': {
-        title: "📅 Vendor Pre-Market Quiz",
+        title: "Vendor Pre-Market Quiz",
         questions: [
           { q: "When is the Upcoming Market Form due?", opts: ["Saturday morning", "Friday 10 AM", "Thursday night"], ans: 1, exp: "The form is due by Friday 10 AM each week." },
           { q: "What does the Upcoming Market Form preload?", opts: ["Nothing", "Products into Transaction Form", "Payment info"], ans: 1, exp: "It preloads your products into the Transaction Form." }
         ]
       },
       'vendor-marketday': {
-        title: "🏪 Vendor Market Day Quiz",
+        title: "Vendor Market Day Quiz",
         questions: [
           { q: "What's the first thing to do at the market?", opts: ["Start selling", "Check in at manager table", "Set prices"], ans: 1, exp: "Always check in at the manager table first." },
           { q: "How should you process transactions?", opts: ["Cash only", "Transaction Form (scan QR)", "Paper receipts"], ans: 1, exp: "Use the Transaction Form, preferably by scanning the customer's QR code." },
@@ -2415,7 +3615,7 @@
       },
       // NEW: Manager quizzes
       'manager-basics': {
-        title: "📋 Manager Fundamentals Quiz",
+        title: "Manager Fundamentals Quiz",
         questions: [
           { q: "What form sets up a new contract?", opts: ["Vendor Form", "Contract Information Form", "Setup Form"], ans: 1, exp: "Use the Contract Information Form to set up contracts and programs." },
           { q: "Who can approve vendor applications?", opts: ["Vendors", "Managers", "Customers"], ans: 1, exp: "Managers manually approve, deny, or waitlist vendor applications." },
@@ -2423,7 +3623,7 @@
         ]
       },
       'manager-forms': {
-        title: "📋 Manager Forms Quiz",
+        title: "Manager Forms Quiz",
         questions: [
           { q: "Which form is used for new attendees?", opts: ["Return Form", "Attendee Registration Form", "Check-in Form"], ans: 1, exp: "Use the Attendee Registration Form for new attendees." },
           { q: "Which form is used for returning attendees?", opts: ["Registration Form", "Return Attendee Form", "Wallet Form"], ans: 1, exp: "Use the Return Attendee Form for checking in and loading wallets." },
@@ -2432,7 +3632,7 @@
       },
       // NEW: Sponsor quiz
       'sponsor-contract': {
-        title: "💰 Sponsor/Funder Quiz",
+        title: "Sponsor/Funder Quiz",
         questions: [
           { q: "What triggers an email invitation to sponsors?", opts: ["Payment", "Contract Form completion", "Manager approval"], ans: 1, exp: "Completing a new Contract Information Form triggers an email invitation." },
           { q: "How do sponsors document their payments?", opts: ["Email receipt", "Payment Remittance Form", "Bank transfer"], ans: 1, exp: "Sponsors document payments via the designated Payment Remittance Form." },
@@ -2441,7 +3641,7 @@
       },
       // NEW: Customer quizzes
       'customer-registration': {
-        title: "🛍️ Customer Registration Quiz",
+        title: "Customer Registration Quiz",
         questions: [
           { q: "What do registered customers receive?", opts: ["Cash", "Neighbor ID", "Badge"], ans: 1, exp: "Registered customers receive a Neighbor ID (e.g., REACH-12345)." },
           { q: "What does the virtual ID card include?", opts: ["Photo only", "QR code and link", "Barcode"], ans: 1, exp: "The virtual ID card includes a QR code and a link to view balances." },
@@ -2449,7 +3649,7 @@
         ]
       },
       'customer-benefits': {
-        title: "🛍️ Customer Benefits Quiz",
+        title: "Customer Benefits Quiz",
         questions: [
           { q: "How do you make a purchase at the market?", opts: ["Cash only", "Present QR code to vendor", "Fill out form"], ans: 1, exp: "Present your QR code to the vendor who will scan it for the Transaction Form." },
           { q: "What's the difference between registered and guest customers?", opts: ["None", "Neighbor ID and wallet", "Price discounts"], ans: 1, exp: "Registered customers have a Neighbor ID and mobile wallet; guests may have limited benefits." }
@@ -2457,7 +3657,7 @@
       },
       // NEW: Trainee quiz
       'trainee-enrollment': {
-        title: "🎓 Trainee Quiz",
+        title: "Trainee Quiz",
         questions: [
           { q: "What form do trainees use to enroll?", opts: ["Vendor Form", "Course Registration Form", "Application Form"], ans: 1, exp: "Enroll via the Course Registration Form." },
           { q: "How do trainees log volunteer hours?", opts: ["Email", "Manager Check-in Form", "Paper sign-in"], ans: 1, exp: "Log hours via the Manager Check-in Form." },
@@ -2496,7 +3696,7 @@
           html += `<div class="${cls}" onclick="answer(${i},${j})">${o}</div>`;
         });
         if (answered[i] !== null) {
-          html += `<div class="alert ${answered[i]===q.ans?'tip':'warn'}" style="margin-top:6px;">${answered[i]===q.ans?'✅':'📖'} ${q.exp}</div>`;
+          html += `<div class="alert ${answered[i]===q.ans?'tip':'warn'}" style="margin-top:6px;">${q.exp}</div>`;
         }
         html += '</div>';
       });
@@ -2505,8 +3705,8 @@
       if (done === currentQuiz.questions.length) {
         const score = answered.filter((a,i) => a === currentQuiz.questions[i].ans).length;
         const pct = Math.round(score/currentQuiz.questions.length*100);
-        html += `<div class="quiz-result ${pct>=70?'success':'fail'}">${pct>=70?'🎉':'📚'} ${score}/${currentQuiz.questions.length} (${pct}%)</div>`;
-        html += `<button class="quiz-retry" onclick="retryQuiz()">🔄 Try Again</button>`;
+        html += `<div class="quiz-result ${pct>=70?'success':'fail'}">${score}/${currentQuiz.questions.length} (${pct}%)</div>`;
+        html += `<button class="quiz-retry" onclick="retryQuiz()">Try Again</button>`;
       }
       document.getElementById('quizBody').innerHTML = html;
     }
@@ -2516,18 +3716,18 @@
 
     // ===================== TOOLS =====================
     const tools = {
-      wallet: { t: "💰 Vendor Wallet View", c: "<p>See real-time balance as transactions process.</p><ul><li>Live balance updates</li><li>Payment history</li><li>Export summaries</li></ul>" },
-      simulation: { t: "🎮 Simulation Environment", c: "<p>Practice all forms safely.</p><ul><li>Test Transaction Form</li><li>Try QR scanning</li><li>Build confidence</li></ul><div class='alert warn'>⚠️ Simulation data is NOT saved!</div>" },
-      enotes: { t: "📝 eNotes / Recipes", c: "<p>Digital tools for product info.</p><ul><li>Recipe cards</li><li>Product descriptions</li><li>Personal notes</li></ul>" },
-      transactions: { t: "📈 Transaction Summaries", c: "<p>Review past transactions.</p><ul><li>Filter by date/product</li><li>Export to CSV</li><li>Compare markets</li></ul>" },
-      examples: { t: "👁️ Example Outputs", c: "<p>See system output samples.</p><ul><li>Receipts</li><li>Invoices</li><li>Reports</li></ul>" },
-      analytics: { t: "📊 Visual Analytics", c: "<p>Charts for business insights.</p><ul><li>Sales trends</li><li>Peak hours</li><li>Popular products</li></ul>" },
-      casestudies: { t: "📖 Case Studies", c: "<p>Learn from successful vendors.</p><ul><li>Success stories</li><li>Best practices</li><li>Growth strategies</li></ul>" },
-      videos: { t: "📹 Video Tutorials", c: "<p>Step-by-step video guides.</p><ul><li>Form completion</li><li>QR scanning</li><li>Invoice submission</li></ul><div class='alert tip'>🌐 Available in multiple languages!</div>" },
-      faq: { t: "❓ FAQ", c: "<p><strong>Form won't submit?</strong> Check internet, try again.<br><strong>Forgot PIN?</strong> Ask PGL staff.<br><strong>QR not working?</strong> Enable camera permissions.</p>" },
-      support: { t: "📞 Support", c: "<p><strong>Market Day:</strong> Visit PGL Table<br><strong>Email:</strong> support@thepeoplesmarket.org<br><strong>Emergency:</strong> Text HELP to 55512</p>" },
-      achievements: { t: "🏆 Achievements", c: "<ul><li>🌟 First Sale</li><li>📅 4 Markets Attended</li><li>💯 Perfect Forms</li><li>🎓 Quiz Master</li></ul>" },
-      progress: { t: "📋 Progress", c: "<ul><li>✅ Account Created</li><li>✅ Documents Uploaded</li><li>⏳ First Market</li><li>⬜ 5 Markets Complete</li></ul>" }
+      wallet: { t: "Vendor Wallet View", c: "<p>See real-time balance as transactions process.</p><ul><li>Live balance updates</li><li>Payment history</li><li>Export summaries</li></ul>" },
+      simulation: { t: "Simulation Environment", c: "<p>Practice all forms safely.</p><ul><li>Test Transaction Form</li><li>Try QR scanning</li><li>Build confidence</li></ul><div class='alert warn'>Note: Simulation data is NOT saved!</div>" },
+      enotes: { t: "eNotes / Recipes", c: "<p>Digital tools for product info.</p><ul><li>Recipe cards</li><li>Product descriptions</li><li>Personal notes</li></ul>" },
+      transactions: { t: "Transaction Summaries", c: "<p>Review past transactions.</p><ul><li>Filter by date/product</li><li>Export to CSV</li><li>Compare markets</li></ul>" },
+      examples: { t: "Example Outputs", c: "<p>See system output samples.</p><ul><li>Receipts</li><li>Invoices</li><li>Reports</li></ul>" },
+      analytics: { t: "Visual Analytics", c: "<p>Charts for business insights.</p><ul><li>Sales trends</li><li>Peak hours</li><li>Popular products</li></ul>" },
+      casestudies: { t: "Case Studies", c: "<p>Learn from successful vendors.</p><ul><li>Success stories</li><li>Best practices</li><li>Growth strategies</li></ul>" },
+      videos: { t: "Video Tutorials", c: "<p>Step-by-step video guides.</p><ul><li>Form completion</li><li>QR scanning</li><li>Invoice submission</li></ul><div class='alert tip'>Available in multiple languages!</div>" },
+      faq: { t: "FAQ", c: "<p><strong>Form won't submit?</strong> Check internet, try again.<br><strong>Forgot PIN?</strong> Ask PGL staff.<br><strong>QR not working?</strong> Enable camera permissions.</p>" },
+      support: { t: "Support", c: "<p><strong>Market Day:</strong> Visit PGL Table<br><strong>Email:</strong> support@thepeoplesmarket.org<br><strong>Emergency:</strong> Text HELP to 55512</p>" },
+      achievements: { t: "Achievements", c: "<ul><li>First Sale</li><li>4 Markets Attended</li><li>Perfect Forms</li><li>Quiz Master</li></ul>" },
+      progress: { t: "Progress", c: "<ul><li>Account Created</li><li>Documents Uploaded</li><li>First Market</li><li>5 Markets Complete</li></ul>" }
     };
 
     function openTool(key) {
@@ -2552,8 +3752,119 @@
       el.onkeydown = e => { if(e.key==='Enter'||e.key===' ') { e.preventDefault(); el.click(); } };
     });
 
+    // ===================== PROGRESS TRACKING =====================
+    // Store completed phases in localStorage
+    let completedPhases = JSON.parse(localStorage.getItem('journeyProgress') || '{}');
+
+    function togglePhaseComplete(btn, phaseId) {
+      const userType = currentUserType || 'vendor';
+      const key = `${userType}-${phaseId}`;
+
+      if (completedPhases[key]) {
+        delete completedPhases[key];
+        btn.classList.remove('completed');
+        btn.querySelector('span:last-child').textContent = 'Mark Complete';
+        btn.querySelector('.phase-complete-checkbox').innerHTML = '';
+      } else {
+        completedPhases[key] = true;
+        btn.classList.add('completed');
+        btn.querySelector('span:last-child').textContent = 'Completed';
+        btn.querySelector('.phase-complete-checkbox').innerHTML = '✓';
+      }
+
+      localStorage.setItem('journeyProgress', JSON.stringify(completedPhases));
+      updateProgressBar();
+      updateMilestones();
+    }
+
+    function updateProgressBar() {
+      const userType = currentUserType || 'vendor';
+      const phases = ['prepare', 'premarket', 'marketday', 'postmarket'];
+      let completed = 0;
+
+      phases.forEach(phase => {
+        const key = `${userType}-${userType}-${phase}`;
+        const altKey = `${userType}-${phase}`;
+        if (completedPhases[key] || completedPhases[altKey]) {
+          completed++;
+        }
+      });
+
+      const percent = Math.round((completed / phases.length) * 100);
+      const progressFill = document.getElementById('progressBarFill');
+      const progressPercent = document.getElementById('progressPercent');
+
+      if (progressFill) progressFill.style.width = percent + '%';
+      if (progressPercent) progressPercent.textContent = percent + '%';
+
+      // Update phase indicators in progress bar
+      document.querySelectorAll('.progress-phase').forEach(el => {
+        const phase = el.dataset.phase;
+        const key = `${userType}-${userType}-${phase}`;
+        const altKey = `${userType}-${phase}`;
+        if (completedPhases[key] || completedPhases[altKey]) {
+          el.classList.add('completed');
+        } else {
+          el.classList.remove('completed');
+        }
+      });
+    }
+
+    function updateMilestones() {
+      const userType = currentUserType || 'vendor';
+      document.querySelectorAll('.milestone-badge').forEach(badge => {
+        const phaseId = badge.id.replace('milestone-', '');
+        const key = `${userType}-${phaseId}`;
+        const altKey = phaseId;
+        if (completedPhases[key] || completedPhases[altKey]) {
+          badge.classList.add('reached');
+        } else {
+          badge.classList.remove('reached');
+        }
+      });
+    }
+
+    function initializePhaseCompletionState() {
+      const userType = currentUserType || 'vendor';
+      document.querySelectorAll('.phase-complete-toggle').forEach(btn => {
+        const phaseId = btn.dataset.phaseId;
+        const key = `${userType}-${phaseId}`;
+        if (completedPhases[key]) {
+          btn.classList.add('completed');
+          btn.querySelector('span:last-child').textContent = 'Completed';
+          btn.querySelector('.phase-complete-checkbox').innerHTML = '✓';
+        }
+      });
+      updateProgressBar();
+      updateMilestones();
+    }
+
+    // Update progress bar when phase filter changes
+    const originalFilterSections = filterSections;
+    filterSections = function(phase, evt) {
+      originalFilterSections(phase, evt);
+
+      // Update active state in progress phases
+      document.querySelectorAll('.progress-phase').forEach(el => {
+        el.classList.remove('active');
+        if (el.dataset.phase === phase || (phase === 'all' && el.dataset.phase === 'prepare')) {
+          el.classList.add('active');
+        }
+      });
+    };
+
+    // Initialize progress tracking after journey starts
+    const originalStartJourney = startJourney;
+    startJourney = function() {
+      originalStartJourney();
+      setTimeout(() => {
+        initializePhaseCompletionState();
+      }, 100);
+    };
+
     // Initialize
     setLanguage('en');
+    initializePhaseCompletionState();
   </script>
 </body>
 </html>
