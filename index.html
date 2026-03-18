@@ -1354,6 +1354,40 @@
     </div>
 
     <div class="container" style="padding-top: 32px;">
+
+      <!-- Instructions - collapsible, collapsed by default -->
+      <div style="background: var(--bg-alt); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden;" id="instructionsPanel">
+        <button onclick="toggleInstructions()" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: none; border: none; cursor: pointer; text-align: left; font-family: inherit;">
+          <div style="width: 28px; height: 28px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;">📋</div>
+          <h3 style="font-size: 15px; font-weight: 600; color: var(--primary); margin: 0; flex: 1;">Instructions: How to Use This Tutorial</h3>
+          <span id="instructionsToggleIcon" style="color: var(--text-muted); transition: transform 0.25s ease; display: flex; align-items: center; gap: 6px;">
+            <span id="instructionsToggleLabel" style="font-size: 13px; font-weight: 500;">Show</span>
+            <span style="font-size: 14px;">▼</span>
+          </span>
+        </button>
+        <div id="instructionsBody" style="display: none; padding: 0 24px 20px 24px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: var(--text); line-height: 1.7;">
+            <div>
+              <p style="font-weight: 600; margin-bottom: 6px;">Navigating This Tutorial</p>
+              <p style="margin-bottom: 4px;">• <strong>Phases:</strong> Content is organized into sequential phases — <em>Prepare → Pre-Market → Market Day → After Market</em>. Work through them in order.</p>
+              <p style="margin-bottom: 4px;">• <strong>Scrolling:</strong> Scroll vertically to move through all modules within a phase. Use the phase filter buttons or the flow indicator to jump between phases.</p>
+              <p style="margin-bottom: 4px;">• <strong>Progress Bar:</strong> Your completion percentage is tracked at the top. Click "Mark Complete" on each section as you finish it.</p>
+              <p style="margin-bottom: 4px;">• <strong>Modules &amp; Submodules:</strong> Each phase contains numbered modules (1, 2, 3…) with lettered submodules (A, B, C…).</p>
+            </div>
+            <div>
+              <p style="font-weight: 600; margin-bottom: 6px;">Interactive Features</p>
+              <p style="margin-bottom: 4px;">• <strong style="color: var(--accent);">Quiz Button (orange):</strong> Click the orange "Quiz" button at the top-right of each module to test your knowledge. Complete each quiz at 90% or more to earn an achievement point.</p>
+              <p style="margin-bottom: 4px;">• <strong>Achievements:</strong> Your quiz scores and completion milestones are tracked under "Achievements" in the learning board below. Complete all quizzes to earn full credit.</p>
+              <p style="margin-bottom: 4px;">• <strong>Tooltips:</strong> Hover over <span style="border-bottom: 1px dotted var(--primary); font-weight: 600; color: var(--primary);">dotted underlined terms</span> for quick definitions of key system terms.</p>
+              <p style="margin-bottom: 4px;">• <strong>Arcade Video Walkthroughs:</strong> Click <span style="color: var(--accent); font-weight: 600;">orange links ↗</span> to open step-by-step interactive Arcade video walkthroughs of each form and process.</p>
+              <p style="margin-bottom: 4px;">• <strong>Language:</strong> Switch languages using the dropdown in the header. Available in 8 languages.</p>
+              <p style="margin-bottom: 4px;">• <strong>Simulation Environment:</strong> Practice using forms in a safe sandbox environment before market day (coming soon — see the "Enhance Your Learning" section below).</p>
+              <p style="margin-bottom: 4px;">• <strong>Annotated PDF Outputs:</strong> Example receipts, invoices, and other documents are available for review in the Paperwork Practice section below.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="filters" role="tablist" aria-label="Filter sections">
         <button class="filter-btn active" onclick="filterSections('all', event)" role="tab" aria-selected="true">All Phases</button>
         <button class="filter-btn" onclick="filterSections('prepare', event)" role="tab">Prepare</button>
@@ -1436,33 +1470,6 @@
 
     <!-- VENDOR SECTIONS -->
     <div class="main-layout vendor-layout" data-user-type="vendor">
-
-        <!-- Instructions Section (per transcript: "have another section right above learning goals called instructions") -->
-        <div style="background: var(--bg-alt); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 20px;" data-phase="prepare" data-user-type="vendor">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 700;">📋</div>
-            <h3 style="font-size: 16px; font-weight: 600; color: var(--primary); margin: 0;">Instructions: How to Use This Tutorial</h3>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: var(--text); line-height: 1.7;">
-            <div>
-              <p style="font-weight: 600; margin-bottom: 6px;">Navigating This Tutorial</p>
-              <p style="margin-bottom: 4px;">• <strong>Phases:</strong> Content is organized into sequential phases — <em>Prepare → Pre-Market → Market Day → After Market</em>. Work through them in order.</p>
-              <p style="margin-bottom: 4px;">• <strong>Scrolling:</strong> Scroll vertically to move through all modules within a phase. Use the phase filter buttons or the progress bar to jump between phases.</p>
-              <p style="margin-bottom: 4px;">• <strong>Progress Bar:</strong> Your completion percentage is tracked at the top. Click "Mark Complete" on each section as you finish it.</p>
-              <p style="margin-bottom: 4px;">• <strong>Modules &amp; Submodules:</strong> Each phase contains numbered modules (1, 2, 3…) with lettered submodules (A, B, C…).</p>
-            </div>
-            <div>
-              <p style="font-weight: 600; margin-bottom: 6px;">Interactive Features</p>
-              <p style="margin-bottom: 4px;">• <strong style="color: var(--accent);">Quiz Button (orange):</strong> Click the orange "Quiz" button at the top-right of each module to test your knowledge. Complete each quiz at 90% or more to earn an achievement point.</p>
-              <p style="margin-bottom: 4px;">• <strong>Achievements:</strong> Your quiz scores and completion milestones are tracked under "Achievements" in the learning board below. Complete all quizzes to earn full credit.</p>
-              <p style="margin-bottom: 4px;">• <strong>Tooltips:</strong> Hover over <span style="border-bottom: 1px dotted var(--primary); font-weight: 600; color: var(--primary);">dotted underlined terms</span> for quick definitions of key system terms.</p>
-              <p style="margin-bottom: 4px;">• <strong>Arcade Video Walkthroughs:</strong> Click <span style="color: var(--accent); font-weight: 600;">orange links ↗</span> to open step-by-step interactive Arcade video walkthroughs of each form and process.</p>
-              <p style="margin-bottom: 4px;">• <strong>Language:</strong> Switch languages using the dropdown in the header. Available in 8 languages.</p>
-              <p style="margin-bottom: 4px;">• <strong>Simulation Environment:</strong> Practice using forms in a safe sandbox environment before market day (coming soon — see the "Enhance Your Learning" section below).</p>
-              <p style="margin-bottom: 4px;">• <strong>Annotated PDF Outputs:</strong> Example receipts, invoices, and other documents are available for review in the Paperwork Practice section below.</p>
-            </div>
-          </div>
-        </div>
 
         <!-- Learning Objectives for Prepare Phase -->
         <div class="learning-objectives" data-phase="prepare" data-user-type="vendor">
@@ -4210,6 +4217,17 @@
     }
 
     // ===================== FILTERING =====================
+    // ===================== INSTRUCTIONS TOGGLE =====================
+    function toggleInstructions() {
+      const body = document.getElementById('instructionsBody');
+      const icon = document.getElementById('instructionsToggleIcon');
+      const label = document.getElementById('instructionsToggleLabel');
+      const isOpen = body.style.display !== 'none';
+      body.style.display = isOpen ? 'none' : 'block';
+      icon.style.transform = isOpen ? '' : 'rotate(180deg)';
+      if (label) label.textContent = isOpen ? 'Show' : 'Hide';
+    }
+
     function filterSections(phase, evt) {
       // Update current phase filter
       currentPhaseFilter = phase;
