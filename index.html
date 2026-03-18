@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PMDS Training Center – The People's Market</title>
+  <title>Homegrown Data Management System – Training Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -538,6 +538,236 @@
       .header-left h1 { font-size: 28px; }
     }
 
+    /* ===================== PHASE COLOR SYNCHRONIZATION (per image 20 feedback) ===================== */
+    /* Active phase colors applied to progress-phase boxes */
+    .progress-phase.active[data-phase="prepare"] { background: #e8f4ea; border-color: var(--primary); color: var(--primary); }
+    .progress-phase.active[data-phase="premarket"] { background: #fef3e2; border-color: #8b5a00; color: #8b5a00; }
+    .progress-phase.active[data-phase="marketday"] { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
+    .progress-phase.active[data-phase="postmarket"] { background: #fce8e4; border-color: var(--accent); color: var(--accent); }
+
+    /* Section border accent per phase */
+    .section.prepare { border-left: 4px solid var(--primary); }
+    .section.premarket { border-left: 4px solid #8b5a00; }
+    .section.marketday { border-left: 4px solid #1565c0; }
+    .section.resources { border-left: 4px solid var(--accent); }
+    .section.programs { border-left: 4px solid #7b1fa2; }
+
+    /* Learning objectives shading synced to active phase */
+    body[data-active-phase="prepare"] .learning-objectives { border-left-color: var(--primary); background: linear-gradient(135deg, #f0f7f4 0%, #e8f4f0 100%); }
+    body[data-active-phase="premarket"] .learning-objectives { border-left-color: #8b5a00; background: linear-gradient(135deg, #fef9e7 0%, #fef3d5 100%); }
+    body[data-active-phase="marketday"] .learning-objectives { border-left-color: #1565c0; background: linear-gradient(135deg, #e8f4fd 0%, #d6ecfa 100%); }
+    body[data-active-phase="postmarket"] .learning-objectives { border-left-color: var(--accent); background: linear-gradient(135deg, #fdf2f0 0%, #fce8e4 100%); }
+
+    /* ===================== LINEAR FLOW INDICATOR ===================== */
+    .linear-flow {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px 24px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .linear-flow::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), #8b5a00, #1565c0, var(--accent));
+      opacity: 0.35;
+    }
+    .linear-flow-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .linear-flow-label::before {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+    .flow-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+    }
+    .flow-node {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .flow-node-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.35s ease;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .flow-node-dot .dot-num {
+      font-size: 14px;
+      line-height: 1;
+    }
+    .flow-node-dot .dot-check {
+      display: none;
+      font-size: 16px;
+    }
+    .flow-node-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 10px;
+      line-height: 1.3;
+    }
+    .flow-node-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+    /* Connector line between dots */
+    .flow-connector {
+      position: absolute;
+      top: 22px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 1;
+    }
+    .flow-connector-line {
+      position: absolute;
+      top: 0;
+      height: 3px;
+      background: var(--border);
+      transition: background 0.35s ease;
+    }
+    /* Position connector segments between each pair of nodes */
+    .flow-connector .seg-1 { left: 12.5%; right: 62.5%; }
+    .flow-connector .seg-2 { left: 37.5%; right: 37.5%; }
+    .flow-connector .seg-3 { left: 62.5%; right: 12.5%; }
+
+    /* Arrows between nodes */
+    .flow-arrow {
+      position: absolute;
+      top: 14px;
+      z-index: 3;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      transition: color 0.35s ease;
+    }
+    .flow-arrow-1 { left: calc(25% - 10px); }
+    .flow-arrow-2 { left: calc(50% - 10px); }
+    .flow-arrow-3 { left: calc(75% - 10px); }
+
+    /* Phase colors */
+    .flow-node[data-phase="prepare"] .flow-node-dot.active,
+    .flow-node[data-phase="prepare"] .flow-node-dot.completed { border-color: var(--primary); background: var(--primary); color: white; }
+    .flow-node[data-phase="premarket"] .flow-node-dot.active,
+    .flow-node[data-phase="premarket"] .flow-node-dot.completed { border-color: #8b5a00; background: #8b5a00; color: white; }
+    .flow-node[data-phase="marketday"] .flow-node-dot.active,
+    .flow-node[data-phase="marketday"] .flow-node-dot.completed { border-color: #1565c0; background: #1565c0; color: white; }
+    .flow-node[data-phase="postmarket"] .flow-node-dot.active,
+    .flow-node[data-phase="postmarket"] .flow-node-dot.completed { border-color: var(--accent); background: var(--accent); color: white; }
+
+    .flow-node-dot.completed .dot-num { display: none; }
+    .flow-node-dot.completed .dot-check { display: block; }
+
+    .flow-node-dot.active {
+      box-shadow: 0 0 0 4px rgba(61,74,58,0.12);
+      transform: scale(1.08);
+    }
+    .flow-node[data-phase="premarket"] .flow-node-dot.active { box-shadow: 0 0 0 4px rgba(139,90,0,0.12); }
+    .flow-node[data-phase="marketday"] .flow-node-dot.active { box-shadow: 0 0 0 4px rgba(21,101,192,0.12); }
+    .flow-node[data-phase="postmarket"] .flow-node-dot.active { box-shadow: 0 0 0 4px rgba(200,90,56,0.12); }
+
+    .flow-node.active .flow-node-name { color: var(--text); }
+    .flow-node.past .flow-node-name { color: var(--text-muted); }
+
+    /* Filled connector segments for completed phases */
+    .flow-connector .seg-1.filled { background: var(--primary); }
+    .flow-connector .seg-2.filled { background: #8b5a00; }
+    .flow-connector .seg-3.filled { background: #1565c0; }
+    .flow-arrow.filled { color: var(--text); }
+
+    /* Repeat cycle indicator */
+    .flow-repeat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .flow-repeat-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      font-size: 11px;
+    }
+    .flow-repeat em { font-style: normal; font-weight: 600; color: var(--primary); }
+
+    @media (max-width: 600px) {
+      .linear-flow { padding: 20px 16px 16px; }
+      .flow-node-dot { width: 36px; height: 36px; }
+      .flow-node-dot .dot-num { font-size: 12px; }
+      .flow-connector { top: 18px; }
+      .flow-arrow { top: 10px; }
+      .flow-node-name { font-size: 11px; }
+      .flow-node-sub { font-size: 10px; }
+    }
+
+    /* Scroll indicator at bottom of progress bar */
+    .scroll-indicator {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.5; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(3px); }
+    }
+
     /* ===================== USER SELECTION SCREEN ===================== */
     .user-selection-screen {
       min-height: 100vh;
@@ -928,13 +1158,13 @@
   <nav class="top-nav">
     <div class="container">
       <a href="#" class="nav-brand">
-        <div class="nav-brand-icon">P</div>
-        <div class="nav-brand-text">PMDS <span>Training Center</span></div>
+        <div class="nav-brand-icon">H</div>
+        <div class="nav-brand-text">Homegrown <span>Data Management System</span></div>
       </a>
       <div class="nav-links">
-        <button class="nav-link active">Documents</button>
+        <button class="nav-link">Documents</button>
         <button class="nav-link">Forms</button>
-        <button class="nav-link">Journey Maps</button>
+        <button class="nav-link active">Tutorials</button>
         <button class="nav-link">Back to Main Site</button>
       </div>
     </div>
@@ -944,9 +1174,19 @@
   <div class="user-selection-screen" id="userSelection">
     <div class="selection-header">
       <div class="container">
-        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px;">PMDS / TRAINING CENTER</p>
-        <h1><span data-i18n="welcomeTitle">Training Center</span></h1>
-        <p data-i18n="selectRolePrompt">Documentation, interactive form walkthroughs, and role-based journey maps for The People's Market Dashboard System.</p>
+        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px;">HOMEGROWN DATA MANAGEMENT SYSTEM</p>
+        <h1><span data-i18n="welcomeTitle">Welcome to The People's Market</span></h1>
+        <p data-i18n="selectRolePrompt">This tutorial will show you how to set up and navigate all parts of the Homegrown system that are relevant to you. Content is personalized based on your role and the program(s) you are participating in.</p>
+        <!-- Learning Goals per feedback -->
+        <div style="margin-top: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 16px 20px;">
+          <p style="font-size: 13px; font-weight: 600; margin-bottom: 8px; opacity: 0.95;">🎯 Learning Goals for This Tutorial</p>
+          <ul style="font-size: 13px; opacity: 0.9; list-style: none; margin: 0; padding: 0; line-height: 1.8;">
+            <li>✓ Setting up your account and navigating the Homegrown app</li>
+            <li>✓ Understanding what documents are required and how to upload them</li>
+            <li>✓ Learning the timelines and requirements to stay active</li>
+            <li>✓ Knowing the forms, processes, and communication channels for your program</li>
+          </ul>
+        </div>
         <div class="selection-lang-dropdown lang-dropdown">
           <select class="lang-select" id="selectionLangSelect" onchange="setLanguage(this.value)" aria-label="Select language">
             <option value="en">🇺🇸 English</option>
@@ -965,43 +1205,67 @@
     <!-- Section Tabs -->
     <div class="section-tabs">
       <div class="container">
-        <button class="tab-btn active">Documents</button>
+        <button class="tab-btn">Documents</button>
         <button class="tab-btn">Interactive Forms</button>
-        <button class="tab-btn">Journey Maps</button>
+        <button class="tab-btn active">Tutorials</button>
       </div>
     </div>
 
     <div class="selection-content">
-      <p class="selection-section-title">SELECT YOUR ROLE</p>
-      <h2 class="selection-main-title" data-i18n="selectUserType">Choose Your User Type</h2>
-      <p class="selection-desc">Select your role to access your personalized journey map and documentation.</p>
+      <!-- Quick Login with ID -->
+      <div style="background: linear-gradient(135deg, #f0f7f4 0%, #e8f4f0 100%); border: 1px solid #c6ddd4; border-left: 4px solid var(--primary); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 32px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 700;">→</div>
+          <h3 style="font-size: 16px; font-weight: 600; color: var(--primary); margin: 0;">Quick Start: Enter Your ID</h3>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">If you already have a Vendor ID, Manager ID, Customer/Neighbor ID, CSA Enrollee ID, or Sponsor ID, enter it below to automatically load your personalized tutorial with your active programs and role information.</p>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="quickLoginId" placeholder="e.g., VEND-12345, MGR-001, REACH-12345" style="flex: 1; min-width: 260px; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          <button onclick="attemptQuickLogin()" style="padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap;" onmouseenter="this.style.background='var(--primary-dark)'" onmouseleave="this.style.background='var(--primary)'">Load My Profile</button>
+        </div>
+        <p id="quickLoginMsg" style="font-size: 13px; color: var(--accent); margin-top: 8px; display: none;"></p>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">Don't have an ID yet? Use the manual selection below to explore the tutorial, see examples, or get started.</p>
+        <div style="margin-top: 12px; padding: 10px 14px; background: rgba(200, 90, 56, 0.08); border: 1px solid rgba(200, 90, 56, 0.2); border-radius: 6px;">
+          <p style="font-size: 12px; color: #8b4513; margin: 0; line-height: 1.5;"><strong>🔒 Access Note:</strong> Content beyond this screen is intended only for contracted participants within the client environment. The manual selection below is available for training examples and onboarding purposes.</p>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+        <span style="font-size: 13px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Or Select Manually</span>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+
+      <p class="selection-section-title">SETTING UP YOUR TUTORIAL</p>
+      <h2 class="selection-main-title" data-i18n="selectUserType">Setting Up Your Tutorial</h2>
+      <p class="selection-desc">Select your role to access your personalized tutorial. This is for users who have been assigned or invited to participate in contracted programs.</p>
 
       <div class="user-type-grid">
       <div class="user-type-card" data-type="vendor" onclick="selectUserType('vendor')" tabindex="0">
         <div class="title" data-i18n="vendorType">Vendor</div>
-        <div class="desc" data-i18n="vendorTypeDesc">Farmer, VAP, Retailer, Hot Food, Educator, Aggregator</div>
+        <div class="desc" data-i18n="vendorTypeDesc">Farmer, Value-Added Producer, Retailer, Hot Food, Educator, Aggregator — sells at market</div>
       </div>
       <div class="user-type-card" data-type="manager" onclick="selectUserType('manager')" tabindex="0">
         <div class="title" data-i18n="managerType">Manager</div>
-        <div class="desc" data-i18n="managerTypeDesc">Market operations, vendor & attendee management</div>
+        <div class="desc" data-i18n="managerTypeDesc">Marketplace managers — vendor, attendee, program & contract management</div>
       </div>
       <div class="user-type-card" data-type="sponsor" onclick="selectUserType('sponsor')" tabindex="0">
         <div class="title" data-i18n="sponsorType">Sponsor (Funder)</div>
-        <div class="desc" data-i18n="sponsorTypeDesc">University, Hospital, Foundation, Government</div>
+        <div class="desc" data-i18n="sponsorTypeDesc">University, Hospital, Foundation, Government, Faith-based Organization</div>
       </div>
       <div class="user-type-card" data-type="customer" onclick="selectUserType('customer')" tabindex="0">
         <div class="title" data-i18n="customerType">Customer</div>
-        <div class="desc" data-i18n="customerTypeDesc">Registered (Neighbor ID), Guest, CSA Enrollee</div>
+        <div class="desc" data-i18n="customerTypeDesc">Registered Neighbor, Guest Shopper, CSA Enrollee — benefits-eligible participants</div>
       </div>
       <div class="user-type-card" data-type="trainee" onclick="selectUserType('trainee')" tabindex="0">
         <div class="title" data-i18n="traineeType">Trainee</div>
-        <div class="desc" data-i18n="traineeTypeDesc">Youth or Adult in training programs</div>
+        <div class="desc" data-i18n="traineeTypeDesc">Youth or adult in training, workforce development, or certification programs</div>
       </div>
     </div>
 
     <!-- Hybrid Role Section -->
     <div class="hybrid-role-section" id="hybridSection">
-      <h3><span data-i18n="hybridRolesTitle">Do you have multiple roles?</span></h3>
+      <h3><span data-i18n="hybridRolesTitle">Do you hold more than one role? Select your secondary role if applicable (leave blank if unsure — this can be auto-detected with your ID)</span></h3>
       <div class="hybrid-toggles" id="hybridToggles">
         <label class="hybrid-toggle" data-hybrid="manager-vendor" onclick="toggleHybridRole('manager-vendor')">
           <span class="hybrid-check">✓</span>
@@ -1029,12 +1293,13 @@
     <!-- Program Type Section -->
     <div class="program-type-section" id="programSection">
       <h3><span data-i18n="selectProgram">Select Your Program</span></h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;"><strong>Note:</strong> If you logged in with your ID above, your active program(s) will be pre-selected automatically. You may be enrolled in multiple programs within the same contract (e.g., Recurring Market + CSA). If selecting manually, choose the program type that best describes your involvement. If unsure, your program manager can help you identify the correct program.</p>
       <div class="program-buttons">
         <button class="program-btn" data-program="market-program" onclick="selectProgramType('market-program')">
-          <span data-i18n="marketProgram">Market Program (Weekly)</span>
+          <span data-i18n="marketProgram">Recurring Market</span>
         </button>
         <button class="program-btn" data-program="market-event" onclick="selectProgramType('market-event')">
-          <span data-i18n="marketEvent">Market Event (One-time)</span>
+          <span data-i18n="marketEvent">Periodic Market</span>
         </button>
         <button class="program-btn" data-program="csa" onclick="selectProgramType('csa')">
           <span data-i18n="csaProgramBtn">CSA Program</span>
@@ -1050,7 +1315,7 @@
 
       <div style="margin-top: 16px;">
         <button class="start-journey-btn" id="startJourneyBtn" onclick="startJourney()" disabled>
-          <span data-i18n="viewJourneyMap">View My Journey Map</span> →
+          <span data-i18n="viewJourneyMap">View My Tutorial</span> →
         </button>
       </div>
     </div>
@@ -1063,10 +1328,14 @@
       <div class="container">
         <div class="header-left">
           <button class="back-to-selection" onclick="backToSelection()">← <span data-i18n="backToSelection">Back to Training Center</span></button>
-          <h1><span id="headerIcon"></span><span data-i18n="title" id="headerTitle">Journey Map</span></h1>
+          <h1><span id="headerIcon"></span><span data-i18n="title" id="headerTitle">Vendor Tutorial</span></h1>
           <div class="subtitle" id="headerSubtitle">
-            <span data-i18n="subtitle">Complete guide for The People's Market Dashboard System</span>
+            <span data-i18n="subtitle">Homegrown Data Management System • Complete Guide</span>
             <span class="user-indicator" id="userIndicator" style="display: none;"></span>
+          </div>
+          <!-- Program/Contract Name Display per image 15 feedback -->
+          <div id="programNameDisplay" style="display: none; margin-top: 10px; padding: 8px 16px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.95); max-width: fit-content;">
+            📋 Active Program(s): <span id="programNameLabel">—</span>
           </div>
         </div>
         <div class="lang-dropdown">
@@ -1093,36 +1362,72 @@
         <button class="filter-btn" onclick="filterSections('postmarket', event)" role="tab">After Market</button>
       </div>
 
-    <!-- Journey Progress Bar -->
-    <div class="journey-progress" id="journeyProgress">
-      <div class="journey-progress-header">
+    <!-- Journey Progress & Flow Indicator (unified) -->
+    <div class="linear-flow" id="linearFlow">
+      <div class="journey-progress-header" style="margin-bottom: 12px;">
         <div class="journey-progress-title" data-i18n="yourLearningProgress">Your Learning Progress</div>
         <div class="journey-progress-stats"><strong id="progressPercent">0%</strong> <span data-i18n="complete">Complete</span></div>
       </div>
-      <div class="progress-bar-container">
+      <div class="progress-bar-container" style="margin-bottom: 24px;">
         <div class="progress-bar-fill" id="progressBarFill"></div>
       </div>
-      <div class="progress-phases" id="progressPhases">
-        <div class="progress-phase active" data-phase="prepare" onclick="filterSections('prepare', event)">
-          <div class="progress-phase-name" data-i18n="prepare">Prepare</div>
-          <div class="progress-phase-status" data-i18n="gettingStartedShort">Getting Started</div>
+      <div class="flow-track">
+        <!-- Connector lines behind nodes -->
+        <div class="flow-connector">
+          <div class="flow-connector-line seg-1" id="flowSeg1"></div>
+          <div class="flow-connector-line seg-2" id="flowSeg2"></div>
+          <div class="flow-connector-line seg-3" id="flowSeg3"></div>
         </div>
-        <div class="progress-phase" data-phase="premarket" onclick="filterSections('premarket', event)">
-          <div class="progress-phase-name" data-i18n="premarket">Pre-Market</div>
-          <div class="progress-phase-status" data-i18n="weeklySetup">Weekly Setup</div>
+        <!-- Arrows between nodes -->
+        <div class="flow-arrow flow-arrow-1" id="flowArrow1">▶</div>
+        <div class="flow-arrow flow-arrow-2" id="flowArrow2">▶</div>
+        <div class="flow-arrow flow-arrow-3" id="flowArrow3">▶</div>
+        <!-- Nodes -->
+        <div class="flow-node active" data-phase="prepare" onclick="filterSections('prepare', event)">
+          <div class="flow-node-dot active">
+            <span class="dot-num">1</span>
+            <span class="dot-check">✓</span>
+          </div>
+          <div class="flow-node-name" data-i18n="prepare">Prepare</div>
+          <div class="flow-node-sub" data-i18n="gettingStartedShort">Getting Started</div>
         </div>
-        <div class="progress-phase" data-phase="marketday" onclick="filterSections('marketday', event)">
-          <div class="progress-phase-name" data-i18n="marketday">Market Day</div>
-          <div class="progress-phase-status" data-i18n="operations">Operations</div>
+        <div class="flow-node" data-phase="premarket" onclick="filterSections('premarket', event)">
+          <div class="flow-node-dot">
+            <span class="dot-num">2</span>
+            <span class="dot-check">✓</span>
+          </div>
+          <div class="flow-node-name" data-i18n="premarket">Pre-Market</div>
+          <div class="flow-node-sub" data-i18n="weeklySetup">Weekly Setup</div>
         </div>
-        <div class="progress-phase" data-phase="postmarket" onclick="filterSections('postmarket', event)">
-          <div class="progress-phase-name" data-i18n="aftermarket">After Market</div>
-          <div class="progress-phase-status" data-i18n="reviewRepeat">Review & Repeat</div>
+        <div class="flow-node" data-phase="marketday" onclick="filterSections('marketday', event)">
+          <div class="flow-node-dot">
+            <span class="dot-num">3</span>
+            <span class="dot-check">✓</span>
+          </div>
+          <div class="flow-node-name" data-i18n="marketday">Market Day</div>
+          <div class="flow-node-sub" data-i18n="operations">Operations</div>
         </div>
+        <div class="flow-node" data-phase="postmarket" onclick="filterSections('postmarket', event)">
+          <div class="flow-node-dot">
+            <span class="dot-num">4</span>
+            <span class="dot-check">✓</span>
+          </div>
+          <div class="flow-node-name" data-i18n="aftermarket">After Market</div>
+          <div class="flow-node-sub" data-i18n="reviewRepeat">Review & Repeat</div>
+        </div>
+      </div>
+      <div class="flow-repeat">
+        <span>After your first market, phases</span>
+        <span style="color: #8b5a00; font-weight: 600;">2</span>
+        <span>→</span>
+        <span style="color: #1565c0; font-weight: 600;">3</span>
+        <span>→</span>
+        <span style="color: var(--accent); font-weight: 600;">4</span>
+        <span>repeat weekly</span>
+        <span class="flow-repeat-icon">↻</span>
       </div>
     </div>
 
-    <!-- Role Tabs (for hybrid users) -->
     <div class="role-tabs" id="roleTabs">
       <button class="role-tab active" data-role="primary" onclick="switchRole('primary')" id="primaryRoleTab">Primary Role</button>
       <button class="role-tab" data-role="secondary" onclick="switchRole('secondary')" id="secondaryRoleTab">Secondary Role</button>
@@ -1131,27 +1436,57 @@
 
     <!-- VENDOR SECTIONS -->
     <div class="main-layout vendor-layout" data-user-type="vendor">
+
+        <!-- Instructions Section (per transcript: "have another section right above learning goals called instructions") -->
+        <div style="background: var(--bg-alt); border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 20px;" data-phase="prepare" data-user-type="vendor">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 700;">📋</div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--primary); margin: 0;">Instructions: How to Use This Tutorial</h3>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; color: var(--text); line-height: 1.7;">
+            <div>
+              <p style="font-weight: 600; margin-bottom: 6px;">Navigating This Tutorial</p>
+              <p style="margin-bottom: 4px;">• <strong>Phases:</strong> Content is organized into sequential phases — <em>Prepare → Pre-Market → Market Day → After Market</em>. Work through them in order.</p>
+              <p style="margin-bottom: 4px;">• <strong>Scrolling:</strong> Scroll vertically to move through all modules within a phase. Use the phase filter buttons or the progress bar to jump between phases.</p>
+              <p style="margin-bottom: 4px;">• <strong>Progress Bar:</strong> Your completion percentage is tracked at the top. Click "Mark Complete" on each section as you finish it.</p>
+              <p style="margin-bottom: 4px;">• <strong>Modules &amp; Submodules:</strong> Each phase contains numbered modules (1, 2, 3…) with lettered submodules (A, B, C…).</p>
+            </div>
+            <div>
+              <p style="font-weight: 600; margin-bottom: 6px;">Interactive Features</p>
+              <p style="margin-bottom: 4px;">• <strong style="color: var(--accent);">Quiz Button (orange):</strong> Click the orange "Quiz" button at the top-right of each module to test your knowledge. Complete each quiz at 90% or more to earn an achievement point.</p>
+              <p style="margin-bottom: 4px;">• <strong>Achievements:</strong> Your quiz scores and completion milestones are tracked under "Achievements" in the learning board below. Complete all quizzes to earn full credit.</p>
+              <p style="margin-bottom: 4px;">• <strong>Tooltips:</strong> Hover over <span style="border-bottom: 1px dotted var(--primary); font-weight: 600; color: var(--primary);">dotted underlined terms</span> for quick definitions of key system terms.</p>
+              <p style="margin-bottom: 4px;">• <strong>Arcade Video Walkthroughs:</strong> Click <span style="color: var(--accent); font-weight: 600;">orange links ↗</span> to open step-by-step interactive Arcade video walkthroughs of each form and process.</p>
+              <p style="margin-bottom: 4px;">• <strong>Language:</strong> Switch languages using the dropdown in the header. Available in 8 languages.</p>
+              <p style="margin-bottom: 4px;">• <strong>Simulation Environment:</strong> Practice using forms in a safe sandbox environment before market day (coming soon — see the "Enhance Your Learning" section below).</p>
+              <p style="margin-bottom: 4px;">• <strong>Annotated PDF Outputs:</strong> Example receipts, invoices, and other documents are available for review in the Paperwork Practice section below.</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Learning Objectives for Prepare Phase -->
         <div class="learning-objectives" data-phase="prepare" data-user-type="vendor">
           <div class="learning-objectives-header">
             <div class="learning-objectives-icon">1</div>
-            <div class="learning-objectives-title" data-i18n="learnInPhase">What You'll Learn in This Phase</div>
-            <span class="emotional-indicator excited" data-i18n="startingJourney">Starting Your Journey</span>
+            <div class="learning-objectives-title">Module 1: Now That You Are an Approved Vendor <span id="vendorProgramNameLO" style="font-weight: 400; color: var(--accent);"></span></div>
+            <span class="emotional-indicator excited">Starting Your Journey</span>
           </div>
           <ul class="learning-objectives-list">
-            <li data-i18n="vendorLearn1">Understand the different vendor types and choose the right one for you</li>
-            <li data-i18n="vendorLearn2">Complete the application process and receive your credentials</li>
-            <li data-i18n="vendorLearn3">Learn what documents are required and how to upload them</li>
-            <li data-i18n="vendorLearn4">Know the timeline and requirements to stay active</li>
+            <li>Recap your journey to becoming an approved vendor — understand your status (approved-active, pending, or waitlisted)</li>
+            <li>Navigate this tutorial: instructions, learning goals, progress bar, quizzes, modules, submodules, hyperlinks, tooltips, language switch, and simulation environment</li>
+            <li>Navigate the Homegrown App: landing screen, key buttons, notification settings, and <em>My Account Settings</em></li>
+            <li>Verify and update your vendor registration information (vendor types, single vs. hybrid user types, Vendor ID &amp; Vendor PIN)</li>
+            <li>Upload and manage required documents — and understand consequences of not keeping them current</li>
+            <li>Understand your program(s): start/end dates, location, frequency, manager contact, policies, benefits, and communication channels</li>
           </ul>
         </div>
 
-        <!-- Getting Started - Modules A, B, C (VENDOR) -->
+        <!-- Module 1 Starting Point: Recapping Your Journey -->
         <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span data-i18n="vendorGettingStarted">Getting Started in the Homegrown Dashboard System</span></h2>
-            <span class="badge step" data-i18n="steps3">3 steps</span>
-            <span class="badge module">Module: A, B, C</span>
+            <h2>Module 1: Now That You Are an Approved Vendor <span id="vendorProgramName" style="color: var(--accent); font-weight: 500;"></span></h2>
+            <span class="badge step">Starting Point</span>
+            <span class="badge module">Module 1: A, B, C</span>
             <button class="quiz-btn" onclick="openQuiz('vendor-prepare')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
             <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'vendor-prepare')" data-phase-id="vendor-prepare">
               <span class="phase-complete-checkbox"></span>
@@ -1159,34 +1494,185 @@
             </button>
           </div>
           <div class="section-content">
-            <div class="card">
-              <div class="card-title"><span class="num">A</span> <span data-i18n="chooseType">Choose Your Vendor Type</span></div>
+            <!-- Starting Point Card -->
+            <div class="card span-2">
+              <div class="card-title"><span class="num">→</span> Starting Point: Recapping Your Journey to This Point</div>
               <ul class="steps">
-                <li><span class="term" tabindex="0">Farmer<span class="tooltip" data-i18n="farmerTip">Grows/harvests agricultural products</span></span> – <span data-i18n="farmerDesc">sells produce directly</span></li>
-                <li><span class="term" tabindex="0"><span data-i18n="vap">Value-added Producer</span><span class="tooltip" data-i18n="vapTip">Transforms raw ingredients into products</span></span></li>
-                <li><span class="term" tabindex="0"><span data-i18n="retailer">Retailer</span><span class="tooltip" data-i18n="retailerTip">Resells packaged goods</span></span></li>
-                <li><span class="term" tabindex="0"><span data-i18n="hotfood">Hot-food Vendor</span><span class="tooltip" data-i18n="hotfoodTip">Prepares ready-to-eat foods</span></span></li>
+                <li>You received an <strong>invitation to apply</strong> and completed the application process</li>
+                <li>You were <strong>approved or waitlisted</strong> — your current status is one of:
+                  <ul style="list-style: none; padding-left: 20px; margin-top: 6px;">
+                    <li style="padding: 4px 0; border: none;">• <strong>Approved-Active:</strong> You are fully cleared to participate in the market</li>
+                    <li style="padding: 4px 0; border: none;">• <strong>Approved-Pending:</strong> Approved but still need to submit required documents</li>
+                    <li style="padding: 4px 0; border: none;">• <strong>Approved-Waitlisted:</strong> Approved but placed on a waitlist due to capacity — you'll be notified when a spot opens</li>
+                  </ul>
+                </li>
+                <li><strong>Understanding the difference:</strong> Your status determines what actions you can take. Approved-Active vendors can participate immediately; Pending and Waitlisted vendors have additional steps before they can sell at market.</li>
+                <li>You received a <span class="term" tabindex="0">Vendor ID<span class="tooltip">Your unique identifier in the system (e.g., VEND-12345). Used across all forms.</span></span> and <span class="term" tabindex="0">Vendor PIN<span class="tooltip">Your personal identification number for logging transactions at the market. Keep this secure!</span></span> — understanding what they are and how to use them</li>
+                <li>If you're a <strong>hybrid user</strong> (e.g., Manager-Vendor, Customer-Vendor), you have multiple roles — use the role tabs above to switch views</li>
+                <li>You have <strong>already created a profile in the app</strong> (which simultaneously generated your profile in the web version)</li>
+                <li><strong>Customizing your profile:</strong> Update your contact info, notification preferences, and account settings in the app under <em>My Account Settings</em></li>
+                <li><strong>Need to update your registration?</strong> Submit a <a href="#vendor-request-form" class="form-link" data-form="vendor-request">Vendor Request/Modification Form <span class="link-icon">↗</span></a> to change your vendor type, contact info, or other registration details</li>
+              </ul>
+              <div class="alert error" role="alert" style="margin-top: 12px;">
+                <span>🔐</span>
+                <span><strong>PIN Security:</strong> Do NOT share your Vendor PIN with anyone. You are personally responsible for all transactions logged under your PIN. If you believe your PIN has been compromised, contact your market manager immediately.</span>
+              </div>
+              <div class="quick-tip" style="margin-top: 8px;">
+                <div class="quick-tip-icon">i</div>
+                <span>Your Vendor ID is used across all forms. Your Vendor PIN is what you enter to log transactions on market day. Keep both secure and memorable!</span>
+              </div>
+            </div>
+
+            <!-- Navigating This Tutorial -->
+            <div class="card">
+              <div class="card-title"><span class="num">📖</span> Navigating This Tutorial</div>
+              <ul class="steps">
+                <li><strong>Instructions &amp; Goals:</strong> Each module has clear learning objectives</li>
+                <li><strong>Progress Bar:</strong> Track your completion at the top of the page</li>
+                <li><strong>Quizzes:</strong> Test your knowledge after each module</li>
+                <li><strong>Modules &amp; Submodules:</strong> Content is organized into sequential steps</li>
+                <li><strong>Hyperlinks &amp; Tooltips:</strong> Hover over dotted terms for definitions; click links to open forms</li>
+                <li><strong>Language Switch:</strong> Change language using the dropdown above</li>
+                <li><strong>Simulation Environment:</strong> Practice safely before market day (see bottom of page)</li>
+                <li><strong>Annotated PDF Outputs:</strong> Download example documents for reference</li>
+              </ul>
+            </div>
+
+            <!-- Navigating the App -->
+            <div class="card">
+              <div class="card-title"><span class="num">📱</span> Navigating the App</div>
+              <ul class="steps">
+                <li><strong>Landing Screen:</strong> Your personalized dashboard showing active programs and status</li>
+                <li><strong>Key Buttons:</strong> Quick access to forms, wallet, notifications, and settings</li>
+                <li><strong>My Account Settings:</strong> Adjust notification vibrations, contact preferences, and profile information</li>
+                <li><strong>Notifications:</strong> Stay updated on program changes, document reminders, and market announcements</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module A: Verifying & Updating Vendor Registration -->
+        <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2>Module A: Verifying &amp; Updating Your Vendor Registration Information</h2>
+            <span class="badge module">Module 1A</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">A</span> Types of Vendors</div>
+              <ul class="steps">
+                <li><span class="term" tabindex="0">Farmer<span class="tooltip">Grows/harvests agricultural products and sells produce directly</span></span> – sells produce directly at market</li>
+                <li><span class="term" tabindex="0">Value-Added Producer (VAP)<span class="tooltip">Transforms raw ingredients into value-added products (jams, sauces, baked goods, etc.)</span></span> – transforms raw ingredients into products</li>
+                <li><span class="term" tabindex="0">Retailer<span class="tooltip">Resells packaged goods at the market</span></span> – resells packaged goods</li>
+                <li><span class="term" tabindex="0">Hot-Food Vendor<span class="tooltip">Prepares and sells ready-to-eat foods at the market</span></span> – prepares ready-to-eat foods</li>
+                <li><span class="term" tabindex="0">Educator<span class="tooltip">Provides educational services, workshops, and trainings at the market</span></span> – provides educational services and workshops</li>
+                <li><span class="term" tabindex="0">Aggregator<span class="tooltip">Collects and distributes produce from multiple sources/farms</span></span> – collects and distributes from multiple sources</li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title"><span class="num">B</span> <span data-i18n="applyVendor">Apply to Become a Vendor</span></div>
+              <div class="card-title"><span class="num">A</span> Single vs. Hybrid User Types</div>
               <ul class="steps">
-                <li><span data-i18n="submit">Submit</span> <a href="#vendor-request-form" class="form-link" data-form="vendor-request"><span data-i18n="vendorRequestForm">Market Vendor Request Form</span> <span class="link-icon">↗</span></a></li>
-                <li><span data-i18n="waitApprovalDays">Wait 3–5 days for approval email</span></li>
-                <li><span data-i18n="receiveCredentialsBoth">Receive your <strong>Vendor PIN</strong> &amp; <strong>Vendor ID</strong></span></li>
+                <li><strong>Single user type:</strong> You are only a Vendor in the system</li>
+                <li><strong>Hybrid user types:</strong> You may also serve in another role simultaneously:</li>
+                <li style="padding-left: 20px;"><span class="term" tabindex="0">Manager-Vendor<span class="tooltip">A manager who also sells as a vendor at the market they manage</span></span> — you manage AND sell at market</li>
+                <li style="padding-left: 20px;"><span class="term" tabindex="0">Customer-Vendor<span class="tooltip">A customer/neighbor who also sells as a vendor</span></span> — you shop AND sell at market</li>
+                <li style="padding-left: 20px;"><span class="term" tabindex="0">Trainee-Vendor<span class="tooltip">A trainee who is also approved to sell as a vendor</span></span> — you are in training AND sell at market</li>
               </ul>
               <div class="quick-tip">
                 <div class="quick-tip-icon">i</div>
-                <span data-i18n="pinSecureTip">Keep your PIN secure and memorable - you'll need it every market day to log transactions!</span>
+                <span>If you have a hybrid role, you can switch between role views using the role tabs that appear at the top of your tutorial.</span>
               </div>
             </div>
             <div class="card">
-              <div class="card-title"><span class="num">C</span> <span data-i18n="uploadDocs">Upload Required Documents</span></div>
+              <div class="card-title"><span class="num">A</span> Vendor ID, Vendor PIN &amp; Modification</div>
               <ul class="steps">
-                <li><span data-i18n="useDocUploadPortal">Use Document Upload in Vendor Portal for licenses/certifications</span></li>
-                <li><span data-i18n="updateAnytime">Update anytime if documents change or expire</span></li>
+                <li><strong>Vendor ID:</strong> Your unique system identifier — used on all forms and to look up your records. Format: <code style="background:#e2e8f0;padding:2px 6px;border-radius:3px;font-size:13px;">VEND-12345</code></li>
+                <li><strong>Vendor PIN:</strong> Your personal number for logging into the Transaction Form on market day. Keep this secure and memorable.</li>
+                <li>To update your registration info, use the <a href="#vendor-request-form" class="form-link" data-form="vendor-request">Vendor Request/Modification Form <span class="link-icon">↗</span></a></li>
+                <li>Updates can be made in the app or on the website</li>
               </ul>
-              <div class="alert warn" role="alert"> <span data-i18n="completeWarning">Complete within 14 days or participation may be paused</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module B: Uploading & Modifying Required Documents -->
+        <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2>Module B: Uploading &amp; Modifying Required Documents</h2>
+            <span class="badge module">Module 1B</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> What Are Required Documents?</div>
+              <ul class="steps">
+                <li><strong>Types:</strong> W-9, business licenses, food handler permits, insurance certificates, and other certifications depending on your vendor type</li>
+                <li><strong>Examples:</strong> State food license, organic certification, farmers market permit, liability insurance</li>
+                <li>Requirements vary by vendor type and program — check with your program manager</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">B</span> Using the Document Upload Form</div>
+              <ul class="steps">
+                <li>Navigate to <a href="#vendor-doc-upload" class="form-link" data-form="vendor-doc-upload">Vendor Document Upload Form <span class="link-icon">↗</span></a> in the Vendor Portal</li>
+                <li>Arcade video walkthrough available — follow the step-by-step guide</li>
+                <li><strong>Modifying/updating:</strong> Return to the form anytime to replace expired or updated documents</li>
+                <li><strong>Checking status:</strong> View which documents you have provided and their expiration dates in your profile</li>
+              </ul>
+            </div>
+            <div class="card span-2">
+              <div class="card-title"><span class="num">B</span> Staying Compliant</div>
+              <ul class="steps">
+                <li><strong>Monitor notifications:</strong> The system will alert you when documents are expiring or need attention</li>
+                <li><strong>Keep documents current:</strong> Update whenever documents change or are renewed</li>
+              </ul>
+              <div class="alert warn" role="alert"><strong>⚠ Important:</strong> Failure to provide or update required documents could result in losing your approved vendor status — you may be moved to <strong>Approved-Pending</strong>, <strong>Waitlisted</strong>, or even <strong>Denied</strong> status depending on the manager's policies. For more information, consult your program manager. You can find their contact information in the <strong>Program section of your app</strong>, on the <strong>website</strong>, or in <strong>Module C: Understanding Your Program</strong> below.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module C: Understanding Your Program -->
+        <div class="section prepare" data-phase="prepare" data-user-type="vendor" style="margin-bottom:8px;">
+          <div class="section-header">
+            <h2>Module C: Understanding Your Program</h2>
+            <span class="badge module">Module 1C</span>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> Overview of Program Types</div>
+              <ul class="steps">
+                <li><strong>Recurring Market:</strong> Regular farmers market with a set weekly or recurring schedule</li>
+                <li><strong>Periodic Market:</strong> One-time or occasional market events (not on a recurring schedule)</li>
+                <li><strong>CSA Program:</strong> Community Supported Agriculture — weekly/bi-weekly produce shares</li>
+                <li><strong>Training Program:</strong> Educational workshops and certification courses</li>
+                <li><strong>Supply Chain:</strong> Route-based distribution to institutions and retailers</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> Key Program Information to Know</div>
+              <ul class="steps">
+                <li><strong>Start and end dates</strong> of your program season or contract period</li>
+                <li><strong>Location and frequency</strong> — when and where market days occur</li>
+                <li><strong>Your program manager</strong> — name and contact information</li>
+                <li><strong>Policies and expectations</strong> — attendance, conduct, and compliance requirements</li>
+                <li><strong>Benefits available</strong> — what payment types customers can use at your stall</li>
+                <li><strong>Communication channels:</strong> WhatsApp group, direct contact, email notifications</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> Where to Find Program Info</div>
+              <ul class="steps">
+                <li>Program details are available in <strong>the app</strong> and on <strong>the website</strong></li>
+                <li>Look for your <span class="term" tabindex="0">Contract ID<span class="tooltip">The unique identifier for your overall agreement — may include multiple programs</span></span> and <span class="term" tabindex="0">Program ID<span class="tooltip">The unique identifier for a specific program within a contract</span></span></li>
+                <li><strong>Linked programs:</strong> Some contracts include two or more programs (e.g., weekly market + CSA). Both will share a Contract ID but have separate Program IDs</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="num">C</span> At the End of Your Program</div>
+              <ul class="steps">
+                <li>What happens to your vendor information when a program ends</li>
+                <li>Your vendor profile and history are retained in the system</li>
+                <li>You may be eligible for renewal or new programs — contact your manager</li>
+              </ul>
             </div>
           </div>
           <!-- Phase Summary -->
@@ -1196,7 +1682,7 @@
               <div class="phase-summary-title" data-i18n="keyTakeaways">Key Takeaways</div>
             </div>
             <div class="phase-summary-content">
-              <strong data-i18n="remember">Remember:</strong> <span data-i18n="vendorTakeaway">Choose your vendor type carefully, complete your application, and upload all required documents within 14 days. Your Vendor PIN and Vendor ID are essential for all market operations.</span>
+              <strong data-i18n="remember">Remember:</strong> Verify your vendor type and registration, upload all required documents promptly, and make sure you understand your program details — start/end dates, location, manager contact, and policies. Your Vendor PIN and Vendor ID are essential for all market operations.
             </div>
           </div>
         </div>
@@ -1204,45 +1690,83 @@
         <!-- Milestone: Registration Complete -->
         <div class="milestone-checkpoint" data-phase="prepare" data-user-type="vendor">
           <div class="milestone-line"></div>
-          <div class="milestone-badge" id="milestone-vendor-prepare" data-i18n="milestoneRegComplete">Milestone: Registration Complete</div>
+          <div class="milestone-badge" id="milestone-vendor-prepare">Milestone: Registration Complete</div>
           <div class="milestone-line"></div>
         </div>
 
-        <!-- Vendor Other Programs - H, I, J, K -->
+        <!-- Vendor Other Programs - Modules 4, 5, 6 -->
         <div class="section programs" data-phase="programs" data-user-type="vendor">
           <div class="section-header">
-            <h2><span data-i18n="vendorOtherPrograms">Other Types of Programs</span></h2>
+            <h2>Other Programs for Vendors</h2>
             <span class="badge step">CSA, Supply Chain, Trainings</span>
-            <span class="badge module">Module: H, I, J</span>
+            <span class="badge module">Modules 4, 5, 6</span>
             <button class="quiz-btn" onclick="openQuiz('programs')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
           </div>
-          <div class="section-content triple">
-            <div class="card">
-              <div class="card-title"><span class="num">I</span> <span data-i18n="csaProgram">CSA Program</span></div>
+          <div class="section-content">
+
+            <!-- Module 4: CSA Program -->
+            <div class="card span-2">
+              <div class="card-title"><span class="num">4</span> Module 4: Participating in a Community Supported Agriculture (CSA) Program</div>
+              <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;"><strong>What is a CSA Program?</strong> Community Supported Agriculture connects vendors directly with enrollees who receive regular produce shares. CSA programs are managed through specific contracts and have their own IDs and forms.</p>
               <ul class="steps">
-                <li><span data-i18n="csaVendorDesc">Restaurant partnerships</span></li>
-                <li><span data-i18n="csaDesc2">School &amp; institution sales</span></li>
-                <li><span data-i18n="csaDesc3">Bulk ordering options</span></li>
+                <li><span class="term" tabindex="0">CSA Program ID<span class="tooltip">Unique identifier for a specific CSA program under a contract</span></span> — identifies which CSA program you are participating in</li>
+                <li><span class="term" tabindex="0">CSA Enrollee ID<span class="tooltip">Unique identifier for a customer enrolled in the CSA program</span></span> — identifies each enrolled customer/member</li>
+              </ul>
+              <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-top: 12px; margin-bottom: 8px;">Relevant Forms:</p>
+              <ul class="steps">
+                <li><a href="#csa-donor-form" class="form-link">CSA Donor Form <span class="link-icon">↗</span></a></li>
+                <li><a href="#csa-setup-form" class="form-link">CSA Set-Up Form <span class="link-icon">↗</span></a></li>
+                <li><a href="#csa-enrollment-form" class="form-link">CSA Enrollment Form <span class="link-icon">↗</span></a></li>
+                <li><a href="#csa-pickup-form" class="form-link">CSA Pick Up Form <span class="link-icon">↗</span></a></li>
+              </ul>
+              <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-top: 12px; margin-bottom: 8px;">Vendor Roles in CSA:</p>
+              <ul class="steps">
+                <li><strong>Selling Excess Produce Onsite:</strong> Sell excess produce before or after the market as a <strong>wholesale transaction</strong> (if you are a Farmer or VAP)</li>
+                <li><strong>Participating via Supply Chain:</strong> Contribute produce to the CSA through the supply chain aggregation process</li>
+                <li><strong>CSA Admin/Logistics Support:</strong> Assist the manager with CSA administration and logistics operations (e.g., packing, distribution coordination)</li>
               </ul>
             </div>
-            <div class="card">
-              <div class="card-title"><span class="num">J</span> <span data-i18n="supplyChain">Supply Chain</span></div>
+
+            <!-- Module 5: Supply Chain Program -->
+            <div class="card span-2">
+              <div class="card-title"><span class="num">5</span> Module 5: Participating in a Supply Chain Program</div>
+              <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">Key IDs and Tools:</p>
               <ul class="steps">
-                <li><span data-i18n="supplyVendorDesc">Farmers, VAPs, Aggregators, Retailers can participate</span></li>
-                <li><span data-i18n="supplyDesc2">Institutional sales</span></li>
-                <li><span data-i18n="supplyDesc3">Route-based deliveries</span></li>
+                <li><span class="term" tabindex="0">Route ID<span class="tooltip">Unique identifier for a delivery route in the supply chain</span></span> — identifies a specific delivery route</li>
+                <li><span class="term" tabindex="0">Produce ID<span class="tooltip">Identifier linking specific produce items to their source vendor</span></span> — links produce to its source vendor</li>
+                <li><span class="term" tabindex="0">Aggregation ID<span class="tooltip">Identifier for a combined load from multiple vendors at an aggregation point</span></span> — identifies a combined load from multiple vendors</li>
+                <li><strong>QR Codes</strong> — used for scanning and tracking throughout the supply chain</li>
               </ul>
-            </div>
-            <div class="card">
-              <div class="card-title"><span class="num">K</span> <span data-i18n="trainings">Trainings &amp; More</span></div>
+              <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-top: 12px; margin-bottom: 8px;">Supply Chain Operations:</p>
               <ul class="steps">
-                <li><span data-i18n="trainVendorDesc">Food safety workshops</span></li>
-                <li><span data-i18n="trainDesc1">Business development</span></li>
-                <li><span data-i18n="trainDesc3">Certification programs</span></li>
+                <li><strong>Route creation and amendment:</strong> Creating new delivery routes and modifying existing ones</li>
+                <li><strong>Supply chain load:</strong> Loading produce onto a delivery route</li>
+                <li><strong>Supply chain aggregation:</strong> Combining produce from multiple vendors at a collection point</li>
+                <li><strong>Aggregator vendor:</strong> A vendor who serves as an aggregation point — collecting and distributing produce from multiple sources/farms</li>
               </ul>
+              <div class="quick-tip">
+                <div class="quick-tip-icon">i</div>
+                <span>Farmers, VAPs, Aggregators, and Retailers can all participate in supply chain programs. School and institutional sales are common use cases.</span>
+              </div>
             </div>
-            <div class="card span-3">
-              <div class="alert tip" role="note"> <span data-i18n="programsTip">These programs have separate enrollment – ask PGL staff for details</span></div>
+
+            <!-- Module 6: Training Program -->
+            <div class="card span-2">
+              <div class="card-title"><span class="num">6</span> Module 6: Participating in a Training Program — As an Educator</div>
+              <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;">If your vendor type is <strong>Educator</strong>, you may conduct training sessions as part of a training program. This module covers your role as an educator vendor within the Homegrown system.</p>
+              <ul class="steps">
+                <li><strong>Conducting trainings:</strong> Lead workshops, classes, or certification sessions for trainees</li>
+                <li><strong>Food safety workshops:</strong> Teach food handling, storage, and safety best practices</li>
+                <li><strong>Certification programs:</strong> Facilitate programs that lead to formal certifications</li>
+                <li><strong>Business development:</strong> Help other vendors and trainees with business skills, marketing, and operations</li>
+                <li><strong>Scheduling &amp; enrollment:</strong> Coordinate with the program manager on class schedules and trainee enrollment</li>
+                <li><strong>Tracking participation:</strong> Log training sessions and attendance through the system</li>
+              </ul>
+              <div class="alert tip" role="note">Educator vendors may also sell at the market in addition to conducting trainings. If you have a hybrid role (e.g., Farmer-Educator), you will see both vendor and educator responsibilities in your journey.</div>
+            </div>
+
+            <div class="card span-2">
+              <div class="alert tip" role="note">These programs have separate enrollment — ask your program manager for details. Each program has its own ID, forms, and enrollment process.</div>
             </div>
           </div>
         </div>
@@ -1343,7 +1867,7 @@
             <div class="card">
               <div class="card-title"><span class="num">F</span> <span data-i18n="personnelManagement">Personnel Management</span></div>
               <ul class="steps">
-                <li><span data-i18n="assignRolesVia">Assign personnel roles via</span> <a href="#personnel-checkin-form" class="form-link" data-form="personnel-checkin"><span data-i18n="personnelCheckinForm">PGL Personnel Market Check-in and Out Form</span> <span class="link-icon">↗</span></a></li>
+                <li><span data-i18n="assignRolesVia">Assign personnel roles via</span> <a href="#personnel-checkin-form" class="form-link" data-form="personnel-checkin"><span data-i18n="personnelCheckinForm">Personnel Market Check-in and Out Form</span> <span class="link-icon">↗</span></a></li>
                 <li><span data-i18n="trackStaffVolunteer">Track staff/volunteer time</span></li>
               </ul>
             </div>
@@ -1792,114 +2316,221 @@
 
     <!-- ===================== VENDOR ADDITIONAL SECTIONS ===================== -->
     <div class="main-layout vendor-right-layout" data-user-type="vendor">
-        <!-- Market Day Preparation - Modules D, E, F, G -->
+        <!-- Module 2: Preparing for Market Day -->
+        <!-- Learning Objectives for Pre-Market Phase -->
+        <div class="learning-objectives" data-phase="premarket" data-user-type="vendor">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">2</div>
+            <div class="learning-objectives-title">Module 2: Preparing for Market Day</div>
+            <span class="emotional-indicator focused">Weekly Setup</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li>Set up and manage your item inventory with Produce IDs and Item IDs</li>
+            <li>Complete the Upcoming Market Form each week — this is required to participate</li>
+            <li>Verify your Vendor PIN, status, and know the market time and location</li>
+            <li>Understand which benefits you can accept based on your vendor type</li>
+          </ul>
+        </div>
+
         <div class="section premarket" data-phase="premarket" data-user-type="vendor" style="margin-bottom:8px;">
           <div class="section-header">
-            <h2><span data-i18n="vendorPreMarket">Market Day Preparation: What to Do</span></h2>
-            <span class="badge step" data-i18n="weekly">Weekly</span>
-            <span class="badge module">Module: D, E, F, G</span>
+            <h2>Module 2: Preparing for Market Day</h2>
+            <span class="badge step">Weekly</span>
+            <span class="badge module">Module 2: A, B, C</span>
             <button class="quiz-btn" onclick="openQuiz('vendor-premarket')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'vendor-premarket')" data-phase-id="vendor-premarket">
+              <span class="phase-complete-checkbox"></span>
+              <span data-i18n="markComplete">Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
-              <div class="card-title"><span class="num">D</span> <span data-i18n="completeUpcomingForm">Complete Upcoming Market Form</span></div>
+              <div class="card-title"><span class="num">A</span> Setting Up Your Item Inventory</div>
               <ul class="steps">
-                <li><span data-i18n="submitWeeklyForm">Submit</span> <a href="#upcoming-market-form" class="form-link" data-form="upcoming-market"><span data-i18n="upcomingMarketForm">Upcoming Market Form</span> <span class="link-icon">↗</span></a> <span data-i18n="sentWeekly">(sent weekly)</span></li>
-                <li><span data-i18n="confirmAttendance">Confirm attendance &amp; list products</span></li>
-                <li><span data-i18n="requestEquipment">Request any equipment needed</span></li>
+                <li>Review and update your product list in the system</li>
+                <li>Enter <span class="term" tabindex="0">Produce IDs<span class="tooltip">Unique identifiers for each product you sell — used to track sales and inventory</span></span> and <span class="term" tabindex="0">Item IDs<span class="tooltip">System identifiers for your specific products and pricing</span></span></li>
+                <li>Set prices for each item you plan to sell</li>
+                <li>Ensure your inventory reflects what you'll bring to market</li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title"><span class="num">E</span> <span data-i18n="whatFormDoes">What This Form Does</span></div>
+              <div class="card-title"><span class="num">B</span> Completing the Upcoming Market Form</div>
               <ul class="steps">
-                <li><span data-i18n="confirms">Confirms your attendance</span></li>
-                <li><span data-i18n="preloads">Preloads products into Transaction Form</span></li>
-                <li><span data-i18n="informs">Informs logistics (space, power, equipment)</span></li>
+                <li>Submit <a href="#upcoming-market-form" class="form-link" data-form="upcoming-market">Upcoming Market Form <span class="link-icon">↗</span></a> (sent weekly)</li>
+                <li><strong>Select items and set item prices</strong> for the upcoming market</li>
+                <li><strong>Enter Produce IDs and Item IDs</strong> for your products</li>
+                <li>Confirm your attendance &amp; list products you'll bring</li>
+                <li>Request any equipment needed (space, power, tables)</li>
               </ul>
-              <div class="alert tip" role="note"> <span data-i18n="checkEmailTip">Check email/texts weekly for PGL updates</span></div>
+              <div class="quick-tip">
+                <div class="quick-tip-icon">i</div>
+                <span>This form pre-loads your products into the Transaction Form, confirms your attendance, and informs logistics for market setup.</span>
+              </div>
+              <div class="alert error" role="alert"><strong>Critical:</strong> Without the Upcoming Market Form submitted, you cannot participate in the market and your Transaction Form won't work!</div>
             </div>
             <div class="card span-2">
-              <div class="card-title"><span class="num">F &amp; G</span> <span data-i18n="prepareForMarket">Prepare for Market Day</span></div>
+              <div class="card-title"><span class="num">C</span> Notifications &amp; Reminders</div>
               <ul class="steps">
-                <li><strong data-i18n="farmers">Farmers:</strong> <span data-i18n="finalizeWed">finalize products by Wednesday night</span></li>
-                <li><span data-i18n="chargeDevices">Charge all devices; bring backup battery</span></li>
-                <li><span data-i18n="prepareInventory">Prepare inventory and signage</span></li>
-                <li><span data-i18n="deadlineFriday">Due before each market (sent weekly)</span></li>
+                <li>Verify you know the <strong>time and location</strong> of the market</li>
+                <li>Verify that you have your <strong>Vendor PIN ready</strong> and that your vendor status is set to <strong>Approved-Active</strong></li>
+                <li>Refresh your memory on which <strong>benefits you can accept</strong> if your program uses benefits — and what the market policies are</li>
+                <li>Review where benefit and policy information can be found within the tutorial and app</li>
+                <li>Check email/texts weekly for program updates</li>
+                <li>Charge all devices; bring a backup battery</li>
+                <li>Prepare inventory, signage, and supplies</li>
               </ul>
-              <div class="alert error" role="alert"> <strong data-i18n="critical">Critical:</strong> <span data-i18n="criticalWarning">Without the Upcoming Market Form, you cannot participate!</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Optional Modules - L, M, N, X -->
+        <!-- Milestone: Pre-Market Ready -->
+        <div class="milestone-checkpoint" data-phase="premarket" data-user-type="vendor">
+          <div class="milestone-line"></div>
+          <div class="milestone-badge" id="milestone-vendor-premarket">Milestone: Pre-Market Ready</div>
+          <div class="milestone-line"></div>
+        </div>
+
+        <!-- Learning Objectives for After Market Phase -->
+        <div class="learning-objectives" data-phase="postmarket" data-user-type="vendor" style="margin-top: 24px;">
+          <div class="learning-objectives-header">
+            <div class="learning-objectives-icon">4</div>
+            <div class="learning-objectives-title">After Market: Review &amp; Prepare for Next Week</div>
+            <span class="emotional-indicator accomplished">Wrapping Up</span>
+          </div>
+          <ul class="learning-objectives-list">
+            <li>Review your market day performance: sales, transactions, and vendor wallet balance</li>
+            <li>Resolve any outstanding payments and keep accurate records</li>
+            <li>Update your inventory and prepare for the next market cycle</li>
+            <li>Stay current on program policies, document expirations, and notifications</li>
+          </ul>
+        </div>
+
+        <!-- Optional Modules - Additional Resources -->
         <div class="section resources" data-phase="postmarket" data-user-type="vendor">
           <div class="section-header">
-            <h2><span data-i18n="additionalResources">Optional Modules: Additional Resources for Helping You Make the Most of the Homegrown System</span></h2>
-            <span class="badge step" data-i18n="resourceTypes">Inventory, Visualizations, Tips</span>
-            <span class="badge module">Module: L, M, N, X</span>
+            <h2>Additional Resources (Optional)</h2>
+            <span class="badge step">Inventory, Visualizations, Tips</span>
+            <span class="badge module">Optional</span>
             <button class="quiz-btn" onclick="openQuiz('postmarket')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+            <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'vendor-postmarket')" data-phase-id="vendor-postmarket">
+              <span class="phase-complete-checkbox"></span>
+              <span data-i18n="markComplete">Mark Complete</span>
+            </button>
           </div>
           <div class="section-content">
             <div class="card">
-              <div class="card-title"> <span data-i18n="recommendedActions">Recommended Actions</span></div>
+              <div class="card-title"> Recommended Actions After Market</div>
               <ul class="steps">
-                <li><span data-i18n="resolvePayments">Resolve outstanding payments; keep records</span></li>
-                <li><span data-i18n="reviewDashboards">Review dashboards (sales, attendance, benefits)</span></li>
-                <li><span data-i18n="updateContact">Update vendor contact details if changed</span></li>
-                <li><span data-i18n="noteLessons">Note lessons learned for next market</span></li>
+                <li>Resolve outstanding payments; keep records</li>
+                <li>Review dashboards (sales, attendance, benefits)</li>
+                <li>Update vendor contact details if changed</li>
+                <li>Note lessons learned for next market</li>
               </ul>
             </div>
             <div class="card">
-              <div class="card-title"> <span data-i18n="prepareNextWeek">Prepare for Next Week</span></div>
+              <div class="card-title"> Prepare for Next Week</div>
               <ul class="steps">
-                <li><span data-i18n="watchEmail">Watch for new Upcoming Market Form email</span></li>
-                <li><span data-i18n="checkExpiration">Check document expiration dates</span></li>
-                <li><span data-i18n="restockSupplies">Restock supplies based on sales data</span></li>
+                <li>Watch for new Upcoming Market Form email</li>
+                <li>Check document expiration dates</li>
+                <li>Restock supplies based on sales data</li>
+                <li>Refresh on transaction form use, receipts, and vendor stats (see Data Visualization module)</li>
               </ul>
-              <div class="alert tip" role="note"> <span data-i18n="cycleRepeats">Cycle repeats: Pre-Market → Market Day → Review</span></div>
+              <div class="alert tip" role="note">Cycle repeats: Pre-Market → Market Day → Review → Repeat Weekly</div>
             </div>
           </div>
         </div>
     </div>
 
-    <!-- Market Day Full Width Section - VENDOR -->
+    <!-- Learning Objectives for Market Day Phase -->
+    <div class="learning-objectives" data-phase="marketday" data-user-type="vendor" style="margin-top: 24px;">
+      <div class="learning-objectives-header">
+        <div class="learning-objectives-icon">3</div>
+        <div class="learning-objectives-title">Module 3: During and After the Market</div>
+        <span class="emotional-indicator confident">Market Operations</span>
+      </div>
+      <ul class="learning-objectives-list">
+        <li>Check in, set up your stall, and run a test transaction before the market opens</li>
+        <li>Understand customer types (new, returning, guest) and how to process sales using the Transaction Form</li>
+        <li>Handle retail vs. wholesale transactions, electronic payments, and benefits</li>
+        <li>Complete end-of-market procedures: invoices, reconciliation, inventory updates, and check-out</li>
+      </ul>
+    </div>
+
+    <!-- Module 3: During and After the Market - VENDOR -->
     <div class="section marketday marketday-full" data-phase="marketday" data-user-type="vendor">
       <div class="section-header">
-        <h2><span data-i18n="vendorMarketDay">Vendor Market Day Operations</span></h2>
-        <span class="badge step" data-i18n="parts3">3 parts</span>
+        <h2>Module 3: During and After the Market</h2>
+        <span class="badge step">3 parts</span>
         <span class="badge" style="background:rgba(0,0,0,0.12);">Operations</span>
-        <span class="badge module">Module: I–N</span>
+        <span class="badge module">Module 3: A, B, C</span>
         <button class="quiz-btn" onclick="openQuiz('vendor-marketday')" aria-label="Take quiz"><span data-i18n="quiz">Quiz</span></button>
+        <button class="phase-complete-toggle" onclick="togglePhaseComplete(this, 'vendor-marketday')" data-phase-id="vendor-marketday">
+          <span class="phase-complete-checkbox"></span>
+          <span data-i18n="markComplete">Mark Complete</span>
+        </button>
       </div>
       <div class="marketday-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <!-- A: Before Market Begins -->
         <div class="card">
-          <div class="card-title"><span class="num">I</span> <span data-i18n="checkInManager">Check-in at Manager Table</span></div>
+          <div class="card-title"><span class="num">A</span> Before the Market Begins</div>
           <ul class="steps">
-            <li><span data-i18n="arrive">Arrive &amp; set up your table</span></li>
-            <li><span data-i18n="checkWifi">Check Wi-Fi/data connection</span></li>
-            <li><span data-i18n="openTxForm">Open Transaction Form → enter Vendor PIN</span></li>
-            <li><span data-i18n="verifyProducts">Verify products appear in pick-lists</span></li>
-            <li><span data-i18n="checkInPGL">Check in at PGL Table</span></li>
+            <li>Verify you know the <strong>time and location</strong> of the market</li>
+            <li>Verify your <strong>Vendor PIN</strong> is ready and your status is <strong>Approved-Active</strong></li>
+            <li><strong>Vendor check-in:</strong> Check in at the manager check-in table OR use vendor self-check-in if enabled through your contract. Your manager will confirm which method is used at your market.</li>
+            <li>Set up your table and display your products</li>
+            <li>Open the <a href="#transaction-form" class="form-link" data-form="transaction">Transaction Form <span class="link-icon">↗</span></a> and <strong>run a test transaction</strong></li>
+            <li>Locate the <strong>vendor wallet</strong> to see a live view of your balance</li>
+            <li>Locate the <strong>market manager staff</strong> onsite who can help answer questions</li>
           </ul>
         </div>
+
+        <!-- B: During the Market -->
         <div class="card">
-          <div class="card-title"><span class="num">J</span> <span data-i18n="processSales">During Market (Log Every Sale!)</span></div>
+          <div class="card-title"><span class="num">B</span> During the Market</div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;"><strong>Customer Types:</strong></p>
           <ul class="steps">
-            <li><span data-i18n="useTransactionForm">Use</span> <a href="#transaction-form" class="form-link" data-form="transaction"><span data-i18n="transactionForm">Transaction Form</span> <span class="link-icon">↗</span></a> <span data-i18n="forEachSale">for each sale</span></li>
-            <li><span data-i18n="scanQR">Prefer scanning attendee's QR code</span></li>
-            <li><span data-i18n="orManualEntry">Or enter Neighbor ID manually</span></li>
+            <li><strong>New customers:</strong> First-time visitors registering at the market</li>
+            <li><strong>Returning customers:</strong> Have a <span class="term" tabindex="0">Customer ID<span class="tooltip">Unique customer identifier (e.g., REACH-12345) with a virtual ID card</span></span> and virtual ID card</li>
+            <li><strong>Guest customers:</strong> For periodic markets where customers are not registered — use Guest ID each time; no benefits can be used</li>
+            <li><strong>Scan QR code</strong> or manual entry of Customer ID in transaction form</li>
           </ul>
-          <div class="alert warn" role="alert"> <span data-i18n="neighborFormat">Neighbor ID format:</span> <code style="background:#e2e8f0;padding:1px 4px;border-radius:3px;">REACH-12345</code></div>
-          <div class="alert tip" style="margin-top:4px;"> <span data-i18n="qrTip">QR scanning is faster!</span></div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; margin-top: 12px;"><strong>Using the Transaction Form:</strong> (<a href="#" class="form-link" style="font-size: 13px;">Arcade Video Walkthrough <span class="link-icon">↗</span></a>)</p>
+          <ul class="steps">
+            <li><strong>Retail vs. Wholesale</strong> transactions — select the correct type</li>
+            <li>Enter <strong>product information</strong> from your pre-loaded inventory</li>
+            <li><strong>Electronic payments</strong> (via Zelle, etc.)</li>
+            <li><strong>Paying with benefits:</strong> Set through contract form; allocation policy and eligibility determine who has benefits</li>
+          </ul>
+          <div class="alert tip" role="note">Customer benefits shown/displayed are all the benefits they have — there are no errors. Customers cannot spend more than they have unless they pay out of pocket.</div>
+          <div class="alert warn" role="alert"><strong>Vendor-Type Benefit Restrictions:</strong> Depending on your vendor type, certain benefits may not be accepted at your stall. For example, <strong>Retailers</strong> typically cannot accept SNAP, Veggie Bucks, or other subsidy-based benefits — only Farmers, VAPs, and Hot-Food Vendors can. These restrictions are set through the contract form and enforced through the transaction form validations. <strong>Check with your program manager</strong> for the specific benefit restrictions that apply to your vendor type and market.</div>
         </div>
+
+        <!-- B continued: More transaction details + C: After Market -->
         <div class="card">
-          <div class="card-title"><span class="num">K &amp; L</span> <span data-i18n="endOfMarket">End of Market &amp; Check-Out</span></div>
+          <div class="card-title"><span class="num">B+C</span> Completing Sales &amp; End of Market</div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;"><strong>After each transaction:</strong></p>
           <ul class="steps">
-            <li><span data-i18n="completeInvoiceForm">Complete</span> <a href="#vendor-invoice-form" class="form-link" data-form="vendor-invoice"><span data-i18n="vendorInvoiceForm">End of Market Vendor Invoice Form</span> <span class="link-icon">↗</span></a></li>
-            <li><span data-i18n="waitSuccess">Wait for "submitted successfully" message</span></li>
-            <li><span data-i18n="visitCheckout">Visit PGL Check-out Table (required!)</span></li>
+            <li><strong>Confirmation screen</strong> upon submission — don't miss this!</li>
+            <li>Wait screen → Submission screen → Verify money in <strong>mobile wallet</strong></li>
           </ul>
-          <div class="alert error" role="alert"><span>🚨</span> <span data-i18n="mustCheckout">You MUST check out at PGL table before leaving!</span></div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; margin-top: 8px;"><strong>Wholesale selling:</strong></p>
+          <ul class="steps">
+            <li>To market manager or sponsor (for CSA and/or supply chain)</li>
+            <li>To sponsor as institutional purchaser</li>
+            <li>To another vendor (only <strong>retail transactions</strong> for vendor-to-vendor sales)</li>
+          </ul>
+          <div class="alert warn" role="alert"><strong>Restriction:</strong> Vendors selling to themselves and family (especially via benefits) are likely restricted.</div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; margin-top: 12px;"><strong>C. After Market Ends:</strong></p>
+          <ul class="steps">
+            <li>Close down your stall — complete your last transaction</li>
+            <li>Complete <a href="#vendor-invoice-form" class="form-link" data-form="vendor-invoice">End of Market Vendor Invoice Form <span class="link-icon">↗</span></a> <em style="color: var(--text-muted); font-size: 12px;">(<strong>Note:</strong> Vendor invoices are only generated when subsidy-based benefits are used at the market. If your market does not use benefits, there is no end-of-market invoice form. Verify with your manager.)</em></li>
+            <li>Complete <strong>Reconciliation form/process</strong> <em style="color: var(--text-muted); font-size: 12px;">(verify with your market manager if this applies to your market)</em></li>
+            <li>Update your <strong>item inventory</strong></li>
+            <li>Complete the <strong>Upcoming Market Form again</strong> (for recurring markets)</li>
+            <li>Stay fresh on key program/market info and policies; refresh on use of transaction form, receipts, etc.</li>
+            <li>Check your <strong>vendor stats</strong> — see the <strong>Data Visualization module</strong> in the Additional Resources section</li>
+          </ul>
+          <div class="alert error" role="alert"><span>🚨</span> You MUST check out at the manager table before leaving!</div>
         </div>
       </div>
     </div>
@@ -1915,12 +2546,14 @@
       </div>
       <div class="learning-content">
         <div class="tools-grid" style="grid-template-columns: repeat(3, 1fr);">
-          <div class="tool-card" onclick="openTool('simulation')" tabindex="0">
+          <div class="tool-card" onclick="openTool('simulation')" tabindex="0" style="position: relative;">
+            <span style="position: absolute; top: 10px; right: 10px; background: var(--accent); color: white; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Coming Soon</span>
             <div class="tool-icon" style="font-size: 28px; color: var(--primary);"></div>
             <div class="tool-title" data-i18n="simTitle">Simulation Environment</div>
             <div class="tool-desc" data-i18n="simDesc">Practice what you learned in the Homegrown simulation environment.</div>
           </div>
-          <div class="tool-card" onclick="openTool('examples')" tabindex="0">
+          <div class="tool-card" onclick="openTool('examples')" tabindex="0" style="position: relative;">
+            <span style="position: absolute; top: 10px; right: 10px; background: var(--accent); color: white; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Coming Soon</span>
             <div class="tool-icon" style="font-size: 28px; color: var(--primary);"></div>
             <div class="tool-title" data-i18n="paperworkTitle">Paperwork Practice</div>
             <div class="tool-desc" data-i18n="paperworkDesc">Review annotated example receipts, invoices and other documentation tools.</div>
@@ -1944,7 +2577,7 @@
 
     <!-- Legend -->
     <div class="legend" role="navigation" aria-label="Journey cycle">
-      <div class="legend-title"><span data-i18n="symbolsLegend">Journey Phases</span></div>
+      <div class="legend-title"><span data-i18n="symbolsLegend">Tutorial Phases</span></div>
       <span class="legend-item prepare"><span data-i18n="prepare">Prepare</span></span>
       <span class="legend-arrow">→</span>
       <span class="legend-item premarket"><span data-i18n="premarket">Pre-Market</span></span>
@@ -1984,7 +2617,7 @@
     // ===================== FULL TRANSLATIONS FOR 8 LANGUAGES =====================
     const translations = {
       en: {
-        title: "Vendor Journey Map", subtitle: "The People's Market • Complete Guide",
+        title: "Vendor Tutorial", subtitle: "Homegrown Data Management System • Complete Guide",
         all: "All", prepare: "Prepare", premarket: "Pre-Market", marketday: "Market Day", aftermarket: "After Market", review: "Review",
         gettingStarted: "Getting Started in the Homegrown Dashboard System", steps3: "3 steps", quiz: "Quiz",
         chooseType: "Choose Your Vendor Type", farmerDesc: "sells produce directly", vap: "Value-added Producer", retailer: "Retailer", hotfood: "Hot-food Vendor",
@@ -1997,14 +2630,14 @@
         csaDesc1: "Pre-sell seasonal shares", csaDesc2: "Weekly/bi-weekly deliveries", csaDesc3: "Build customer relationships",
         supplyChain: "Supply Chain", supplyDesc1: "Restaurant partnerships", supplyDesc2: "School & institution sales", supplyDesc3: "Bulk ordering options",
         trainings: "Trainings & More", trainDesc1: "Food safety workshops", trainDesc2: "Business development", trainDesc3: "Certification programs",
-        programsTip: "These programs have separate enrollment – ask PGL staff for details",
+        programsTip: "These programs have separate enrollment – ask your program manager for details",
         marketDayPrep: "Market Day Preparation: What to do", weekly: "Weekly",
         completeForm: "Complete Upcoming Market Form", dueBefore: "Due before each market (sent weekly)",
         confirmAttendance: "Confirm attendance & list products", requestEquipment: "Request any equipment needed",
         farmers: "Farmers:", finalizeWed: "finalize products by Wed night",
         whatFormDoes: "What This Form Does", confirms: "Confirms your attendance",
         preloads: "Preloads products into Transaction Form", informs: "Informs logistics (space, power, equipment)",
-        checkEmailTip: "Check email/texts weekly for PGL updates",
+        checkEmailTip: "Check email/texts weekly for program updates",
         critical: "Critical:", criticalWarning: "Without the Upcoming Market Form, you cannot participate!",
         batteryTip: "Bring devices charged; consider a backup battery",
         additionalResources: "Additional Resources (Optional)", resourceTypes: "Inventory, Visualizations, Tips",
@@ -2016,13 +2649,13 @@
         marketDayTitle: "Market Day", parts3: "3 parts", operations: "Operations",
         morningSetup: "Morning Setup (10AM–12:30PM)", arrive: "Arrive & set up your table",
         checkWifi: "Check Wi-Fi/data connection", openForm: "Open Transaction Form → enter Vendor PIN",
-        verifyProducts: "Verify products appear in pick-lists", checkIn: "Check in at PGL Table",
+        verifyProducts: "Verify products appear in pick-lists", checkIn: "Check in at Manager Table",
         duringMarket: "During Market (Log Every Sale!)", useTransaction: "Use Transaction Form for each sale",
         preferQR: "Prefer scanning attendee's QR code", orEnterNeighbor: "Or enter Neighbor ID manually",
         neighborFormat: "Neighbor ID format:", qrTip: "QR scanning is faster!",
         afterMarketEnds: "After Market Ends", packUp: "Pack up table & inventory",
         completeInvoice: "Complete End of Market Invoice Form", waitSuccess: 'Wait for "submitted successfully" message',
-        visitCheckout: "Visit PGL Check-out Table (required!)", mustCheckout: "You MUST check out at PGL table before leaving!",
+        visitCheckout: "Visit the Manager Check-out Table (required!)", mustCheckout: "You MUST check out at the manager table before leaving!",
         enhanceLearning: "Enhance Your Learning", notRequired: "Not Required",
         walletTitle: "Vendor Wallet View", walletDesc: "See live balance as transactions come in.",
         simTitle: "Simulation Environment", simDesc: "Practice forms safely before market day.",
@@ -2037,7 +2670,7 @@
         symbolsLegend: "Symbols / Legend:", repeatWeekly: "Repeat Weekly",
         // New User Selection Screen
         welcomeTitle: "Welcome to The People's Market",
-        selectRolePrompt: "Select your role to see your personalized journey map",
+        selectRolePrompt: "This tutorial will show you how to set up and navigate all parts of the Homegrown system that are relevant to you",
         selectUserType: "Select Your User Type",
         vendorType: "Vendor", vendorTypeDesc: "Farmer, VAP, Retailer, Hot Food, Educator, Aggregator",
         managerType: "Manager", managerTypeDesc: "Market operations, vendor & attendee management",
@@ -2048,23 +2681,23 @@
         managerVendor: "Manager-Vendor", sponsorManager: "Sponsor-Manager",
         vendorCustomer: "Vendor-Customer", customerTrainee: "Customer-Trainee", vendorTrainee: "Vendor-Trainee",
         selectProgram: "Select Your Program",
-        marketProgram: "Market Program (Weekly)", marketEvent: "Market Event (One-time)",
+        marketProgram: "Recurring Market", marketEvent: "Periodic Market",
         csaProgramBtn: "CSA Program", trainingProgram: "Training Program", supplyChainProgram: "Supply Chain",
-        viewJourneyMap: "View My Journey Map", backToSelection: "Back",
+        viewJourneyMap: "View My Tutorial", backToSelection: "Back",
         // Vendor specific
         vendorGettingStarted: "Vendor Registration (One-Time)", steps5: "5 steps",
         educator: "Educator", educatorTip: "Provides educational services/workshops",
         aggregator: "Aggregator", aggregatorTip: "Collects and distributes from multiple sources",
         hybridVendorTypes: "Hybrid vendor types available: Farmer-Educator, VAP-Educator, Farmer-Aggregator, VAP-Aggregator, Educator-Aggregator",
-        applyPGLREACH: "Apply to participate in PGL-REACH contract for The People's Market and/or REACH CSA",
+        applyPGLREACH: "Apply to participate in the contract for your program (e.g., The People's Market, REACH CSA, etc.)",
         receiveCredentials: "Receive Credentials", receiveVendorID: "Receive your",
         submitW9: "Submit W-9 via", vendorDocUploadForm: "Vendor Document Upload Form",
         uploadLicenses: "Upload licenses and certifications",
         completeTraining: "Complete Self-Paced Training",
-        reviewJourneyMap: "Review this Journey Map thoroughly",
+        reviewJourneyMap: "Review this Tutorial thoroughly",
         completeQuizzes: "Complete the quizzes in each section",
         familiarizeForms: "Familiarize yourself with forms and processes",
-        trainingNote: "This Journey Map serves as your self-paced training guide!",
+        trainingNote: "This Tutorial serves as your self-paced training guide!",
         vendorPreMarket: "Vendor Pre-Market (Weekly)",
         completeUpcomingForm: "Complete Upcoming Market Form",
         submitWeeklyForm: "Submit", upcomingMarketForm: "Upcoming Market Form",
@@ -2113,7 +2746,7 @@
         planLogistics: "Plan logistics (space, equipment)",
         personnelManagement: "Personnel Management",
         assignRolesVia: "Assign personnel roles via",
-        personnelCheckinForm: "PGL Personnel Market Check-in and Out Form",
+        personnelCheckinForm: "Personnel Market Check-in and Out Form",
         trackStaffVolunteer: "Track staff/volunteer time",
         managerMarketDay: "Market Day Operations",
         setupCheckinStation: "Set Up Check-in Station",
@@ -2239,11 +2872,11 @@
         adultDescription: "Adults in workforce development",
         mayBecomeVendor: "May transition to vendor status",
         // Journey titles
-        vendorJourneyTitle: "Vendor Journey Map",
-        managerJourneyTitle: "Manager Journey Map",
-        sponsorJourneyTitle: "Sponsor Journey Map",
-        customerJourneyTitle: "Customer Journey Map",
-        traineeJourneyTitle: "Trainee Journey Map",
+        vendorJourneyTitle: "Vendor Tutorial",
+        managerJourneyTitle: "Manager Tutorial",
+        sponsorJourneyTitle: "Sponsor Tutorial",
+        customerJourneyTitle: "Customer Tutorial",
+        traineeJourneyTitle: "Trainee Tutorial",
         // Learning components
         yourLearningProgress: "Your Learning Progress",
         complete: "Complete",
@@ -2302,14 +2935,14 @@
         csaDesc1: "Pre-venda acciones de temporada", csaDesc2: "Entregas semanales/quincenales", csaDesc3: "Construya relaciones con clientes",
         supplyChain: "Cadena de Suministro", supplyDesc1: "Asociaciones con restaurantes", supplyDesc2: "Ventas a escuelas e instituciones", supplyDesc3: "Opciones de pedidos al por mayor",
         trainings: "Capacitaciones y Más", trainDesc1: "Talleres de seguridad alimentaria", trainDesc2: "Desarrollo empresarial", trainDesc3: "Programas de certificación",
-        programsTip: "Estos programas tienen inscripción separada – pregunte al personal de PGL para detalles",
+        programsTip: "Estos programas tienen inscripción separada – pregunte a su gerente de programa para detalles",
         marketDayPrep: "Preparación del Día de Mercado: Qué hacer", weekly: "Semanal",
         completeForm: "Complete el Formulario del Próximo Mercado", dueBefore: "Vence antes de cada mercado (enviado semanalmente)",
         confirmAttendance: "Confirme asistencia y liste productos", requestEquipment: "Solicite cualquier equipo necesario",
         farmers: "Agricultores:", finalizeWed: "finalice productos para el miércoles por la noche",
         whatFormDoes: "Qué Hace Este Formulario", confirms: "Confirma su asistencia",
         preloads: "Precarga productos en el Formulario de Transacción", informs: "Informa logística (espacio, energía, equipo)",
-        checkEmailTip: "Revise email/textos semanalmente para actualizaciones de PGL",
+        checkEmailTip: "Revise email/textos semanalmente para actualizaciones del programa",
         critical: "Crítico:", criticalWarning: "¡Sin el Formulario del Próximo Mercado, no puede participar!",
         batteryTip: "Traiga dispositivos cargados; considere batería de respaldo",
         additionalResources: "Recursos Adicionales (Opcional)", resourceTypes: "Inventario, Visualizaciones, Consejos",
@@ -2321,13 +2954,13 @@
         marketDayTitle: "Día de Mercado", parts3: "3 partes", operations: "Operaciones",
         morningSetup: "Preparación Matutina (10AM–12:30PM)", arrive: "Llegue y prepare su mesa",
         checkWifi: "Verifique conexión Wi-Fi/datos", openForm: "Abra Formulario de Transacción → ingrese PIN de Vendedor",
-        verifyProducts: "Verifique que los productos aparezcan en las listas", checkIn: "Regístrese en la Mesa PGL",
+        verifyProducts: "Verifique que los productos aparezcan en las listas", checkIn: "Regístrese en la Mesa del Gerente",
         duringMarket: "Durante el Mercado (¡Registre Cada Venta!)", useTransaction: "Use Formulario de Transacción para cada venta",
         preferQR: "Prefiera escanear código QR del asistente", orEnterNeighbor: "O ingrese ID de Vecino manualmente",
         neighborFormat: "Formato de ID de Vecino:", qrTip: "¡Escanear QR es más rápido!",
         afterMarketEnds: "Después que Termina el Mercado", packUp: "Empaque mesa e inventario",
         completeInvoice: "Complete Formulario de Factura de Fin de Mercado", waitSuccess: 'Espere mensaje "enviado exitosamente"',
-        visitCheckout: "Visite Mesa de Salida PGL (¡requerido!)", mustCheckout: "¡DEBE registrar salida en mesa PGL antes de irse!",
+        visitCheckout: "Visite Mesa de Salida del Gerente (¡requerido!)", mustCheckout: "¡DEBE registrar salida en mesa del gerente antes de irse!",
         enhanceLearning: "Mejore su Aprendizaje", notRequired: "No Requerido",
         walletTitle: "Vista de Billetera del Vendedor", walletDesc: "Vea saldo en vivo conforme llegan las transacciones.",
         simTitle: "Ambiente de Simulación", simDesc: "Practique formularios de forma segura antes del día de mercado.",
@@ -2401,7 +3034,7 @@
         planLogistics: "Planifique logística (espacio, equipo)",
         personnelManagement: "Gestión de Personal",
         assignRolesVia: "Asigne roles de personal mediante",
-        personnelCheckinForm: "Formulario de Registro de Personal de PGL",
+        personnelCheckinForm: "Formulario de Registro de Personal del Mercado",
         trackStaffVolunteer: "Seguimiento de tiempo de personal/voluntarios",
         managerMarketDay: "Operaciones del Día de Mercado",
         setupCheckinStation: "Configurar Estación de Registro",
@@ -2496,14 +3129,14 @@
         csaDesc1: "Mósomer share áage bikri goró", csaDesc2: "Hóptay/dui hóptay delivery", csaDesc3: "Gráhok ar sathe sompórko bonáo",
         supplyChain: "Supply Chain", supplyDesc1: "Restaurant ar sathe kám", supplyDesc2: "School o institution bikri", supplyDesc3: "Boro order ar option",
         trainings: "Training o Aro", trainDesc1: "Kána surokkhá workshop", trainDesc2: "Byábsá unnoti", trainDesc3: "Certificate program",
-        programsTip: "Ei program gúla alada enroll goribá lage – PGL staff ré soal goró",
+        programsTip: "Ei program gúla alada enroll goribá lage – program manager ré soal goró",
         marketDayPrep: "Bazar Din Toyári: Ki goribo", weekly: "Hóptay",
         completeForm: "Aibár Bazar Form Ses Goró", dueBefore: "Hór bazar ar áage (hóptay pátáy)",
         confirmAttendance: "Ásá confirm goró o product list goró", requestEquipment: "Dorkar equipment request goró",
         farmers: "Cáçi:", finalizeWed: "Budhbár ráite product ses goró",
         whatFormDoes: "Ei Form Ki Goré", confirms: "Tuáñr ásá confirm goré",
         preloads: "Transaction Form te product load goré", informs: "Logistics jánay (jaiga, power, equipment)",
-        checkEmailTip: "PGL update ar lagi hóptay email/text dekko",
+        checkEmailTip: "program update ar lagi hóptay email/text dekko",
         critical: "Juri:", criticalWarning: "Aibár Bazar Form sára jogdán goribá ná faribá!",
         batteryTip: "Charge kora device ano; backup battery lao",
         additionalResources: "Aro Sompod (Icchá)", resourceTypes: "Inventory, Dekha, Tips",
@@ -2515,13 +3148,13 @@
         marketDayTitle: "Bazar Din", parts3: "3 bhag", operations: "Operations",
         morningSetup: "Bicál Toyári (10AM–12:30PM)", arrive: "Aso o table toyári goró",
         checkWifi: "Wi-Fi/data connection dekko", openForm: "Transaction Form kolo → Fendor PIN dio",
-        verifyProducts: "Product pick-list te dekko", checkIn: "PGL Table te check-in goró",
+        verifyProducts: "Product pick-list te dekko", checkIn: "Manager Table te check-in goró",
         duringMarket: "Bazar te (Sob Bikri Likho!)", useTransaction: "Hór bikri ar lagi Transaction Form use goró",
         preferQR: "Attendee ar QR code scan goró", orEnterNeighbor: "Bá Neighbor ID háte likko",
         neighborFormat: "Neighbor ID format:", qrTip: "QR scan gorottun jáldi!",
         afterMarketEnds: "Bazar Ses Óile", packUp: "Table o inventory páck goró",
         completeInvoice: "End of Market Invoice Form ses goró", waitSuccess: '"successfully submitted" message ar lagi roikko',
-        visitCheckout: "PGL Check-out Table te jáo (lage!)", mustCheckout: "PGL Table te check-out gorá LAGE jáibar áage!",
+        visitCheckout: "Manager Check-out Table te jáo (lage!)", mustCheckout: "Manager Table te check-out gorá LAGE jáibar áage!",
         enhanceLearning: "Tuáñr Hikkíba Baddáo", notRequired: "Lage Ná",
         walletTitle: "Fendor Wallet Dekha", walletDesc: "Transaction áile live balance dekko.",
         simTitle: "Obhyás Jaiga", simDesc: "Bazar din ar áage form obhyás goró.",
@@ -2613,14 +3246,14 @@
         csaDesc1: "ရာသီအလိုက် အစုအဝေးများ ကြိုတင်ရောင်းပါ", csaDesc2: "အပတ်စဉ်/နှစ်ပတ်တစ်ကြိမ် ပို့ဆောင်ခြင်း", csaDesc3: "ဖောက်သည်ဆက်ဆံရေး တည်ဆောက်ပါ",
         supplyChain: "ထောက်ပံ့ရေးကွင်းဆက်", supplyDesc1: "စားသောက်ဆိုင် မိတ်ဖက်များ", supplyDesc2: "ကျောင်းနှင့် အဖွဲ့အစည်း ရောင်းချမှုများ", supplyDesc3: "အစုလိုက် မှာယူမှု ရွေးချယ်စရာများ",
         trainings: "သင်တန်းများနှင့် အခြားများ", trainDesc1: "အစားအသောက် ဘေးကင်းရေး အလုပ်ရုံဆွေးနွေးပွဲများ", trainDesc2: "စီးပွားရေး ဖွံ့ဖြိုးတိုးတက်မှု", trainDesc3: "လက်မှတ် အစီအစဉ်များ",
-        programsTip: "ဤအစီအစဉ်များတွင် သီးခြားစာရင်းသွင်းရပါသည် - အသေးစိတ်အတွက် PGL ဝန်ထမ်းကို မေးပါ",
+        programsTip: "ဤအစီအစဉ်များတွင် သီးခြားစာရင်းသွင်းရပါသည် - အသေးစိတ်အတွက် ပရိုဂရမ်မန်နေဂျာကို မေးပါ",
         marketDayPrep: "ဈေးရက် ပြင်ဆင်မှု: ဘာလုပ်ရမည်", weekly: "အပတ်စဉ်",
         completeForm: "လာမည့်ဈေး ပုံစံကို ဖြည့်ပါ", dueBefore: "ဈေးတိုင်းမတိုင်မီ သတ်မှတ်ချိန် (အပတ်စဉ် ပို့ပေးသည်)",
         confirmAttendance: "တက်ရောက်မှုကို အတည်ပြုပြီး ထုတ်ကုန်များ စာရင်းပြုပါ", requestEquipment: "လိုအပ်သော ပစ္စည်းကိရိယာများ တောင်းဆိုပါ",
         farmers: "တောင်သူများ:", finalizeWed: "ဗုဒ္ဓဟူးညတွင် ထုတ်ကုန်များ အပြီးသတ်ပါ",
         whatFormDoes: "ဤပုံစံက ဘာလုပ်သလဲ", confirms: "သင့်တက်ရောက်မှုကို အတည်ပြုသည်",
         preloads: "Transaction Form တွင် ထုတ်ကုန်များ ကြိုတင်ထည့်သွင်းသည်", informs: "ထောက်ပံ့ပို့ဆောင်ရေးကို အသိပေးသည် (နေရာ၊ ပါဝါ၊ ပစ္စည်း)",
-        checkEmailTip: "PGL အပ်ဒိတ်များအတွက် အပတ်စဉ် အီးမေးလ်/စာတို စစ်ဆေးပါ",
+        checkEmailTip: "ပရိုဂရမ်အပ်ဒိတ်များအတွက် အပတ်စဉ် အီးမေးလ်/စာတို စစ်ဆေးပါ",
         critical: "အရေးကြီး:", criticalWarning: "လာမည့်ဈေးပုံစံမရှိဘဲ ပါဝင်၍မရပါ!",
         batteryTip: "အားသွင်းထားသော စက်ပစ္စည်း ယူလာပါ၊ အရန်ဘက်ထရီ စဉ်းစားပါ",
         additionalResources: "နောက်ထပ်အရင်းအမြစ်များ (ရွေးချယ်နိုင်သော)", resourceTypes: "စာရင်း၊ မြင်ကွင်း၊ အကြံပြုချက်များ",
@@ -2632,13 +3265,13 @@
         marketDayTitle: "ဈေးရက်", parts3: "အပိုင်း ၃ ခု", operations: "လုပ်ငန်းဆောင်ရွက်မှုများ",
         morningSetup: "နံနက်ပိုင်း ပြင်ဆင်ခြင်း (မနက် ၁၀-၁၂:၃၀)", arrive: "ရောက်ရှိပြီး သင့်စားပွဲ ပြင်ဆင်ပါ",
         checkWifi: "Wi-Fi/ဒေတာ ချိတ်ဆက်မှု စစ်ဆေးပါ", openForm: "Transaction Form ဖွင့်ပါ → Vendor PIN ရိုက်ထည့်ပါ",
-        verifyProducts: "ထုတ်ကုန်များ pick-list တွင် ပေါ်နေကြောင်း အတည်ပြုပါ", checkIn: "PGL စားပွဲတွင် check-in လုပ်ပါ",
+        verifyProducts: "ထုတ်ကုန်များ pick-list တွင် ပေါ်နေကြောင်း အတည်ပြုပါ", checkIn: "မန်နေဂျာစားပွဲတွင် check-in လုပ်ပါ",
         duringMarket: "ဈေးအတွင်း (ရောင်းမှုတိုင်း မှတ်ပါ!)", useTransaction: "ရောင်းမှုတိုင်းအတွက် Transaction Form သုံးပါ",
         preferQR: "တက်ရောက်သူ၏ QR ကုဒ် စကင်ဖတ်ခြင်းကို ဦးစားပေးပါ", orEnterNeighbor: "သို့မဟုတ် Neighbor ID ကိုယ်တိုင်ရိုက်ထည့်ပါ",
         neighborFormat: "Neighbor ID ပုံစံ:", qrTip: "QR စကင်ဖတ်ခြင်းက ပိုမြန်သည်!",
         afterMarketEnds: "ဈေးပြီးသည့်အခါ", packUp: "စားပွဲနှင့် ပစ္စည်းများ သိမ်းဆည်းပါ",
         completeInvoice: "End of Market Invoice Form ဖြည့်ပါ", waitSuccess: '"တင်သွင်းမှု အောင်မြင်ပါသည်" မက်ဆေ့ချ်ကို စောင့်ပါ',
-        visitCheckout: "PGL Check-out စားပွဲသို့ သွားပါ (လိုအပ်သည်!)", mustCheckout: "မထွက်ခွာမီ PGL စားပွဲတွင် checkout လုပ်ရမည်!",
+        visitCheckout: "မန်နေဂျာ Check-out စားပွဲသို့ သွားပါ (လိုအပ်သည်!)", mustCheckout: "မထွက်ခွာမီ မန်နေဂျာစားပွဲတွင် checkout လုပ်ရမည်!",
         enhanceLearning: "သင့်သင်ယူမှုကို မြှင့်တင်ပါ", notRequired: "မလိုအပ်ပါ",
         walletTitle: "ရောင်းချသူ ပိုက်ဆံအိတ် ကြည့်ရှုခြင်း", walletDesc: "ငွေလွှဲမှုများ ဝင်လာသည်နှင့် လက်ရှိလက်ကျန် ကြည့်ပါ။",
         simTitle: "လေ့ကျင့်ခန်း ပတ်ဝန်းကျင်", simDesc: "ဈေးရက်မတိုင်မီ ပုံစံများကို ဘေးကင်းစွာ လေ့ကျင့်ပါ။",
@@ -2730,14 +3363,14 @@
         csaDesc1: "Uza mapema hisa za msimu", csaDesc2: "Usambazaji wa kila wiki/wiki mbili", csaDesc3: "Jenga uhusiano na wateja",
         supplyChain: "Mlolongo wa Usambazaji", supplyDesc1: "Ubia na mikahawa", supplyDesc2: "Mauzo ya shule na taasisi", supplyDesc3: "Chaguzi za agizo kubwa",
         trainings: "Mafunzo na Zaidi", trainDesc1: "Warsha za usalama wa chakula", trainDesc2: "Maendeleo ya biashara", trainDesc3: "Programu za vyeti",
-        programsTip: "Programu hizi zina usajili tofauti - uliza wafanyakazi wa PGL kwa maelezo",
+        programsTip: "Programu hizi zina usajili tofauti - uliza meneja wa programu kwa maelezo",
         marketDayPrep: "Maandalizi ya Siku ya Soko: Nini cha kufanya", weekly: "Kila Wiki",
         completeForm: "Kamilisha Fomu ya Soko Lijalo", dueBefore: "Inapaswa kabla ya kila soko (inatumwa kila wiki)",
         confirmAttendance: "Thibitisha mahudhurio na orodhesha bidhaa", requestEquipment: "Omba vifaa vyovyote vinavyohitajika",
         farmers: "Wakulima:", finalizeWed: "maliza bidhaa kufikia usiku wa Jumatano",
         whatFormDoes: "Fomu Hii Inafanya Nini", confirms: "Inathibitisha mahudhurio yako",
         preloads: "Inapakia bidhaa kwenye Fomu ya Miamala mapema", informs: "Inajulisha usafirishaji (nafasi, umeme, vifaa)",
-        checkEmailTip: "Angalia barua pepe/ujumbe kila wiki kwa masasisho ya PGL",
+        checkEmailTip: "Angalia barua pepe/ujumbe kila wiki kwa masasisho ya programu",
         critical: "Muhimu:", criticalWarning: "Bila Fomu ya Soko Lijalo, huwezi kushiriki!",
         batteryTip: "Leta vifaa vilivyochajiwa; fikiria betri ya akiba",
         additionalResources: "Rasilimali za Ziada (Hiari)", resourceTypes: "Hesabu, Michoro, Vidokezo",
@@ -2749,13 +3382,13 @@
         marketDayTitle: "Siku ya Soko", parts3: "Sehemu 3", operations: "Shughuli",
         morningSetup: "Maandalizi ya Asubuhi (10AM-12:30PM)", arrive: "Fika na uandae meza yako",
         checkWifi: "Angalia muunganisho wa Wi-Fi/data", openForm: "Fungua Fomu ya Miamala → ingiza PIN ya Muuzaji",
-        verifyProducts: "Thibitisha bidhaa zinaonekana kwenye orodha", checkIn: "Jiandikishe kwenye Meza ya PGL",
+        verifyProducts: "Thibitisha bidhaa zinaonekana kwenye orodha", checkIn: "Jiandikishe kwenye Meza ya Meneja",
         duringMarket: "Wakati wa Soko (Rekodi Kila Uuzaji!)", useTransaction: "Tumia Fomu ya Miamala kwa kila uuzaji",
         preferQR: "Pendelea kuchanganua msimbo wa QR wa mhudhuria", orEnterNeighbor: "Au ingiza Kitambulisho cha Jirani kwa mkono",
         neighborFormat: "Umbizo la Kitambulisho cha Jirani:", qrTip: "Kuchanganua QR ni haraka zaidi!",
         afterMarketEnds: "Baada ya Soko Kuisha", packUp: "Funga meza na hesabu",
         completeInvoice: "Kamilisha Fomu ya Invoice ya Mwisho wa Soko", waitSuccess: 'Subiri ujumbe "umewasilishwa kwa mafanikio"',
-        visitCheckout: "Tembelea Meza ya Kuondoka ya PGL (inahitajika!)", mustCheckout: "LAZIMA uondoke kwenye meza ya PGL kabla ya kuondoka!",
+        visitCheckout: "Tembelea Meza ya Kuondoka ya Meneja (inahitajika!)", mustCheckout: "LAZIMA uondoke kwenye meza ya meneja kabla ya kuondoka!",
         enhanceLearning: "Boresha Ujifunzaji Wako", notRequired: "Haihitajiki",
         walletTitle: "Mtazamo wa Mkoba wa Muuzaji", walletDesc: "Ona salio la moja kwa moja miamala inapoingia.",
         simTitle: "Mazingira ya Mazoezi", simDesc: "Fanya mazoezi ya fomu kwa usalama kabla ya siku ya soko.",
@@ -2819,7 +3452,7 @@
         planLogistics: "Panga usafirishaji (nafasi, vifaa)",
         personnelManagement: "Usimamizi wa Wafanyakazi",
         assignRolesVia: "Teua majukumu ya wafanyakazi kupitia",
-        personnelCheckinForm: "Fomu ya Kujiandikisha kwa Wafanyakazi wa PGL",
+        personnelCheckinForm: "Fomu ya Kujiandikisha kwa Wafanyakazi wa Soko",
         trackStaffVolunteer: "Fuatilia muda wa wafanyakazi/kujitolea",
         managerMarketDay: "Shughuli za Siku ya Soko",
         setupCheckinStation: "Sanidi Kituo cha Kujiandikisha",
@@ -2905,14 +3538,14 @@
         csaDesc1: "Hore u iibii sahamiyada xilliga", csaDesc2: "Gaarsiinta toddobaadlaha/laba toddobaad", csaDesc3: "Dhis xiriir macaamiisha",
         supplyChain: "Silsiladda Sahayda", supplyDesc1: "Iskaashiga maqaayadaha", supplyDesc2: "Iibka dugsiyada & hay'adaha", supplyDesc3: "Ikhtiyaarada dalabka badan",
         trainings: "Tababarada & Wax kale", trainDesc1: "Aqoon-is-weydiinta badbaadada cuntada", trainDesc2: "Horumarinta ganacsiga", trainDesc3: "Barnaamijyada shahaadada",
-        programsTip: "Barnaamijyadan waxay leeyihiin diiwaangelin gaar ah - weydii shaqaalaha PGL faahfaahinta",
+        programsTip: "Barnaamijyadan waxay leeyihiin diiwaangelin gaar ah - weydii maamulaha barnaamijka faahfaahinta",
         marketDayPrep: "Diyaarinta Maalinta Suuqa: Maxaa la qaban", weekly: "Toddobaadlaha",
         completeForm: "Dhameystir Foomka Suuqa Soo Socda", dueBefore: "Waxaa la bixiyaa ka hor suuq kasta (waxaa la diraa toddobaadlaha)",
         confirmAttendance: "Xaqiiji imaanshaha & liis badeecadaha", requestEquipment: "Codso qalabka loo baahan yahay",
         farmers: "Beeraleyda:", finalizeWed: "dhammeystir badeecadaha habeenkii Arbacada",
         whatFormDoes: "Foomkan Maxuu Qabtaa", confirms: "Wuxuu xaqiijiyaa imaanshahaaga",
         preloads: "Hore ayuu u geliyaa badeecadaha Foomka Macaamilka", informs: "Wuxuu u sheegaa logistics (meel, awood, qalab)",
-        checkEmailTip: "Hubi iimayl/fariimaha toddobaadlaha cusbooneysiyaha PGL",
+        checkEmailTip: "Hubi iimayl/fariimaha toddobaadlaha cusbooneysiyaha barnaamijka",
         critical: "Muhiim:", criticalWarning: "Foomka Suuqa Soo Socda la'aantii, ma ka qaybgeli kartid!",
         batteryTip: "Keen aaladaha shixan; ka fikir baytari kaydka ah",
         additionalResources: "Kheyraadka Dheeraadka ah (Ikhtiyaari)", resourceTypes: "Liiska Alaabta, Muuqaalka, Talooyin",
@@ -2924,13 +3557,13 @@
         marketDayTitle: "Maalinta Suuqa", parts3: "3 qaybood", operations: "Hawlgalka",
         morningSetup: "Diyaarinta Subaxda (10AM-12:30PM)", arrive: "Yimaad oo diyaari miiskaaga",
         checkWifi: "Hubi xiriirka Wi-Fi/data", openForm: "Fur Foomka Macaamilka → geli PIN-ka Iibiyaha",
-        verifyProducts: "Xaqiiji in badeecadaha ay ka muuqdaan liisaska xulashada", checkIn: "Iska diiwaan geli Miiska PGL",
+        verifyProducts: "Xaqiiji in badeecadaha ay ka muuqdaan liisaska xulashada", checkIn: "Iska diiwaan geli Miiska Maamulaha",
         duringMarket: "Inta lagu jiro Suuqa (Diiwaan geli Iibka Kasta!)", useTransaction: "Isticmaal Foomka Macaamilka iibka kasta",
         preferQR: "Dooro in la sawiro code-ka QR ee imaansha", orEnterNeighbor: "Ama geli ID-ga Jaarka si gacanta ah",
         neighborFormat: "Qaabka ID-ga Jaarka:", qrTip: "Sawirista QR ayaa ka dhakhso badan!",
         afterMarketEnds: "Ka dib marka Suuqu Dhammaado", packUp: "Duub miiska & alaabta",
         completeInvoice: "Dhameystir Foomka Invoice-ka Dhammaadka Suuqa", waitSuccess: 'Sug fariinta "si guul leh ayaa loo diray"',
-        visitCheckout: "Booqo Miiska Bixitaanka PGL (waa lagama maarmaan!)", mustCheckout: "WAA INAAD ka baxdaa miiska PGL ka hor intaadan tegin!",
+        visitCheckout: "Booqo Miiska Bixitaanka Maamulaha (waa lagama maarmaan!)", mustCheckout: "WAA INAAD ka baxdaa miiska maamulaha ka hor intaadan tegin!",
         enhanceLearning: "Horumar Barashadaada", notRequired: "Looma Baahna",
         walletTitle: "Aragtida Jeebka Iibiyaha", walletDesc: "Arag haraagaaga tooska ah marka macaamiluhu yimaadaan.",
         simTitle: "Deegaanka Tababarka", simDesc: "Ku tababar foomamka si badbaado leh ka hor maalinta suuqa.",
@@ -3023,14 +3656,14 @@
         csaDesc1: "بيع حصص موسمية مسبقاً", csaDesc2: "توصيل أسبوعي/نصف أسبوعي", csaDesc3: "بناء علاقات مع العملاء",
         supplyChain: "سلسلة التوريد", supplyDesc1: "شراكات المطاعم", supplyDesc2: "مبيعات المدارس والمؤسسات", supplyDesc3: "خيارات الطلب بالجملة",
         trainings: "التدريبات والمزيد", trainDesc1: "ورش سلامة الغذاء", trainDesc2: "تطوير الأعمال", trainDesc3: "برامج الشهادات",
-        programsTip: "هذه البرامج لها تسجيل منفصل - اسأل موظفي PGL للتفاصيل",
+        programsTip: "هذه البرامج لها تسجيل منفصل - اسأل مدير البرنامج للتفاصيل",
         marketDayPrep: "التحضير ليوم السوق: ماذا تفعل", weekly: "أسبوعياً",
         completeForm: "أكمل نموذج السوق القادم", dueBefore: "مستحق قبل كل سوق (يُرسل أسبوعياً)",
         confirmAttendance: "أكد الحضور وأدرج المنتجات", requestEquipment: "اطلب أي معدات مطلوبة",
         farmers: "المزارعون:", finalizeWed: "أنهِ المنتجات بحلول ليلة الأربعاء",
         whatFormDoes: "ماذا يفعل هذا النموذج", confirms: "يؤكد حضورك",
         preloads: "يحمل المنتجات مسبقاً في نموذج المعاملات", informs: "يُعلم اللوجستيات (المساحة، الطاقة، المعدات)",
-        checkEmailTip: "تحقق من البريد/الرسائل أسبوعياً لتحديثات PGL",
+        checkEmailTip: "تحقق من البريد/الرسائل أسبوعياً لتحديثات البرنامج",
         critical: "مهم:", criticalWarning: "بدون نموذج السوق القادم، لا يمكنك المشاركة!",
         batteryTip: "أحضر أجهزة مشحونة؛ فكر في بطارية احتياطية",
         additionalResources: "موارد إضافية (اختياري)", resourceTypes: "المخزون، الرسوم البيانية، النصائح",
@@ -3042,13 +3675,13 @@
         marketDayTitle: "يوم السوق", parts3: "٣ أجزاء", operations: "العمليات",
         morningSetup: "الإعداد الصباحي (١٠ص-١٢:٣٠م)", arrive: "احضر وجهّز طاولتك",
         checkWifi: "تحقق من اتصال Wi-Fi/البيانات", openForm: "افتح نموذج المعاملات ← أدخل رمز البائع",
-        verifyProducts: "تحقق من ظهور المنتجات في القوائم", checkIn: "سجل الحضور في طاولة PGL",
+        verifyProducts: "تحقق من ظهور المنتجات في القوائم", checkIn: "سجل الحضور في طاولة المدير",
         duringMarket: "أثناء السوق (سجل كل عملية بيع!)", useTransaction: "استخدم نموذج المعاملات لكل عملية بيع",
         preferQR: "يُفضل مسح رمز QR للحضور", orEnterNeighbor: "أو أدخل معرف الجار يدوياً",
         neighborFormat: "تنسيق معرف الجار:", qrTip: "مسح QR أسرع!",
         afterMarketEnds: "بعد انتهاء السوق", packUp: "احزم الطاولة والمخزون",
         completeInvoice: "أكمل نموذج فاتورة نهاية السوق", waitSuccess: 'انتظر رسالة "تم الإرسال بنجاح"',
-        visitCheckout: "زر طاولة المغادرة PGL (مطلوب!)", mustCheckout: "يجب أن تسجل الخروج في طاولة PGL قبل المغادرة!",
+        visitCheckout: "زر طاولة المغادرة المدير (مطلوب!)", mustCheckout: "يجب أن تسجل الخروج في طاولة المدير قبل المغادرة!",
         enhanceLearning: "عزز تعلمك", notRequired: "غير مطلوب",
         walletTitle: "عرض محفظة البائع", walletDesc: "شاهد الرصيد المباشر عند ورود المعاملات.",
         simTitle: "بيئة المحاكاة", simDesc: "تدرب على النماذج بأمان قبل يوم السوق.",
@@ -3141,14 +3774,14 @@
         csaDesc1: "Bán trước cổ phần theo mùa", csaDesc2: "Giao hàng hàng tuần/hai tuần", csaDesc3: "Xây dựng quan hệ khách hàng",
         supplyChain: "Chuỗi Cung Ứng", supplyDesc1: "Hợp tác nhà hàng", supplyDesc2: "Bán cho trường học & tổ chức", supplyDesc3: "Tùy chọn đặt hàng số lượng lớn",
         trainings: "Đào Tạo và Hơn Nữa", trainDesc1: "Hội thảo an toàn thực phẩm", trainDesc2: "Phát triển kinh doanh", trainDesc3: "Chương trình chứng nhận",
-        programsTip: "Các chương trình này có đăng ký riêng - hỏi nhân viên PGL để biết chi tiết",
+        programsTip: "Các chương trình này có đăng ký riêng - hỏi quản lý chương trình để biết chi tiết",
         marketDayPrep: "Chuẩn Bị Ngày Chợ: Làm gì", weekly: "Hàng tuần",
         completeForm: "Hoàn Thành Mẫu Đơn Chợ Sắp Tới", dueBefore: "Hạn trước mỗi phiên chợ (gửi hàng tuần)",
         confirmAttendance: "Xác nhận tham dự và liệt kê sản phẩm", requestEquipment: "Yêu cầu thiết bị cần thiết",
         farmers: "Nông dân:", finalizeWed: "hoàn tất sản phẩm trước tối thứ Tư",
         whatFormDoes: "Mẫu Đơn Này Làm Gì", confirms: "Xác nhận sự tham dự của bạn",
         preloads: "Tải trước sản phẩm vào Mẫu Giao Dịch", informs: "Thông báo hậu cần (không gian, điện, thiết bị)",
-        checkEmailTip: "Kiểm tra email/tin nhắn hàng tuần để cập nhật PGL",
+        checkEmailTip: "Kiểm tra email/tin nhắn hàng tuần để cập nhật chương trình",
         critical: "Quan trọng:", criticalWarning: "Không có Mẫu Đơn Chợ Sắp Tới, bạn không thể tham gia!",
         batteryTip: "Mang thiết bị đã sạc; cân nhắc pin dự phòng",
         additionalResources: "Tài Nguyên Bổ Sung (Tùy chọn)", resourceTypes: "Kho hàng, Biểu đồ, Mẹo",
@@ -3160,13 +3793,13 @@
         marketDayTitle: "Ngày Chợ", parts3: "3 phần", operations: "Hoạt động",
         morningSetup: "Chuẩn Bị Buổi Sáng (10AM-12:30PM)", arrive: "Đến và chuẩn bị bàn của bạn",
         checkWifi: "Kiểm tra kết nối Wi-Fi/dữ liệu", openForm: "Mở Mẫu Giao Dịch → nhập mã PIN Người Bán",
-        verifyProducts: "Xác minh sản phẩm xuất hiện trong danh sách chọn", checkIn: "Đăng ký tại Bàn PGL",
+        verifyProducts: "Xác minh sản phẩm xuất hiện trong danh sách chọn", checkIn: "Đăng ký tại Bàn Quản lý",
         duringMarket: "Trong Chợ (Ghi Lại Mọi Giao Dịch!)", useTransaction: "Sử dụng Mẫu Giao Dịch cho mỗi lần bán",
         preferQR: "Ưu tiên quét mã QR của người tham dự", orEnterNeighbor: "Hoặc nhập ID Hàng Xóm thủ công",
         neighborFormat: "Định dạng ID Hàng Xóm:", qrTip: "Quét QR nhanh hơn!",
         afterMarketEnds: "Sau Khi Chợ Kết Thúc", packUp: "Thu dọn bàn và hàng tồn kho",
         completeInvoice: "Hoàn thành Mẫu Hóa Đơn Cuối Chợ", waitSuccess: 'Đợi thông báo "gửi thành công"',
-        visitCheckout: "Ghé thăm Bàn Checkout PGL (bắt buộc!)", mustCheckout: "BẠN PHẢI check-out tại bàn PGL trước khi rời đi!",
+        visitCheckout: "Ghé thăm Bàn Checkout Quản lý (bắt buộc!)", mustCheckout: "BẠN PHẢI check-out tại bàn quản lý trước khi rời đi!",
         enhanceLearning: "Nâng Cao Việc Học", notRequired: "Không Bắt Buộc",
         walletTitle: "Xem Ví Người Bán", walletDesc: "Xem số dư trực tiếp khi giao dịch đến.",
         simTitle: "Môi Trường Mô Phỏng", simDesc: "Thực hành các mẫu đơn an toàn trước ngày chợ.",
@@ -3342,6 +3975,47 @@
       // Setup hybrid tabs if needed
       setupHybridTabs();
 
+      // Reset filter buttons — set "All Phases" as active
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      const allPhasesBtn = document.querySelector('.filter-btn');
+      if (allPhasesBtn) {
+        allPhasesBtn.classList.add('active');
+        allPhasesBtn.setAttribute('aria-selected', 'true');
+      }
+
+      // Reset progress phase boxes — highlight "Prepare" as starting point
+      document.querySelectorAll('.progress-phase').forEach(el => {
+        el.classList.remove('active');
+        if (el.dataset.phase === 'prepare') el.classList.add('active');
+      });
+
+      // Set initial phase color on body
+      document.body.setAttribute('data-active-phase', 'prepare');
+
+      // Populate program name display (per image 15/25 feedback)
+      const programNames = {
+        'market-program': 'Recurring Market',
+        'market-event': 'Periodic Market',
+        'csa': 'CSA Program',
+        'training': 'Training Program',
+        'supply-chain': 'Supply Chain'
+      };
+      const pName = programNames[currentProgramType] || currentProgramType;
+      const programDisplay = document.getElementById('programNameDisplay');
+      const programLabel = document.getElementById('programNameLabel');
+      if (programDisplay && programLabel) {
+        programLabel.textContent = pName;
+        programDisplay.style.display = 'block';
+      }
+      // Also update Module 1 title with program name
+      const vendorProgramEl = document.getElementById('vendorProgramName');
+      const vendorProgramLO = document.getElementById('vendorProgramNameLO');
+      if (vendorProgramEl && currentUserType === 'vendor') vendorProgramEl.textContent = '— ' + pName;
+      if (vendorProgramLO && currentUserType === 'vendor') vendorProgramLO.textContent = '— ' + pName;
+
       // Show/hide sections based on user type (after hybrid tabs are set up)
       showUserTypeSections();
     }
@@ -3353,8 +4027,20 @@
       document.getElementById('roleTabs').classList.remove('visible');
       // Reset phase filter
       currentPhaseFilter = 'all';
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector('.filter-btn').classList.add('active');
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      const firstBtn = document.querySelector('.filter-btn');
+      if (firstBtn) {
+        firstBtn.classList.add('active');
+        firstBtn.setAttribute('aria-selected', 'true');
+      }
+      // Reset progress phase active states
+      document.querySelectorAll('.progress-phase').forEach(el => {
+        el.classList.remove('active');
+        if (el.dataset.phase === 'prepare') el.classList.add('active');
+      });
     }
 
     // Update Header Based on User Type
@@ -3367,15 +4053,15 @@
         trainee: ''
       };
       const titles = {
-        vendor: 'Vendor Journey Map',
-        manager: 'Manager Journey Map',
-        sponsor: 'Sponsor Journey Map',
-        customer: 'Customer Journey Map',
-        trainee: 'Trainee Journey Map'
+        vendor: 'Vendor Tutorial',
+        manager: 'Manager Tutorial',
+        sponsor: 'Sponsor Tutorial',
+        customer: 'Customer Tutorial',
+        trainee: 'Trainee Tutorial'
       };
 
       document.getElementById('headerIcon').textContent = icons[currentUserType] || '';
-      document.getElementById('headerTitle').textContent = translations[currentLanguage]?.[`${currentUserType}JourneyTitle`] || titles[currentUserType] || 'Journey Map';
+      document.getElementById('headerTitle').textContent = translations[currentLanguage]?.[`${currentUserType}JourneyTitle`] || titles[currentUserType] || 'Tutorial';
 
       // Show user indicator
       const indicator = document.getElementById('userIndicator');
@@ -3454,11 +4140,12 @@
         }
       });
 
-      // Also handle learning section and legend visibility
+      // Also handle learning section and legend visibility — show on All or After Market
       const learningSection = document.querySelector('.learning-section');
       const legend = document.querySelector('.legend');
-      if (learningSection) learningSection.style.display = 'block';
-      if (legend) legend.style.display = 'flex';
+      const showExtras = currentPhaseFilter === 'all' || currentPhaseFilter === 'postmarket';
+      if (learningSection) learningSection.style.display = showExtras ? 'block' : 'none';
+      if (legend) legend.style.display = showExtras ? 'flex' : 'none';
     }
 
     // Setup Hybrid Tabs
@@ -3527,18 +4214,90 @@
       // Update current phase filter
       currentPhaseFilter = phase;
 
-      // Update active button
+      // Update active state on filter buttons
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
         btn.setAttribute('aria-selected', 'false');
       });
-      if (evt && evt.target) {
-        evt.target.closest('.filter-btn').classList.add('active');
-        evt.target.closest('.filter-btn').setAttribute('aria-selected', 'true');
+      // Find the matching filter button by phase
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const phaseToIndex = { all: 0, prepare: 1, premarket: 2, marketday: 3, postmarket: 4 };
+      const idx = phaseToIndex[phase];
+      if (idx !== undefined && filterBtns[idx]) {
+        filterBtns[idx].classList.add('active');
+        filterBtns[idx].setAttribute('aria-selected', 'true');
+      } else if (evt && evt.target) {
+        const btn = evt.target.closest('.filter-btn');
+        if (btn) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+        }
       }
+
+      // Update active state on progress phase boxes
+      document.querySelectorAll('.progress-phase').forEach(el => {
+        el.classList.remove('active');
+        if (el.dataset.phase === phase || (phase === 'all' && el.dataset.phase === 'prepare')) {
+          el.classList.add('active');
+        }
+      });
+
+      // Set active phase on body for CSS color synchronization (per image 20 feedback)
+      document.body.setAttribute('data-active-phase', phase === 'all' ? 'prepare' : phase);
+
+      // Update linear flow indicator
+      updateLinearFlow(phase === 'all' ? 'prepare' : phase);
 
       // Re-apply section visibility with new phase filter
       showUserTypeSections();
+    }
+
+    // ===================== LINEAR FLOW INDICATOR =====================
+    function updateLinearFlow(activePhase) {
+      const phases = ['prepare', 'premarket', 'marketday', 'postmarket'];
+      const activeIdx = phases.indexOf(activePhase);
+      const userType = currentUserType || 'vendor';
+
+      // Update nodes
+      document.querySelectorAll('.linear-flow .flow-node').forEach(node => {
+        const nodePhase = node.dataset.phase;
+        const nodeIdx = phases.indexOf(nodePhase);
+        const dot = node.querySelector('.flow-node-dot');
+
+        node.classList.remove('active', 'past');
+        dot.classList.remove('active', 'completed');
+
+        // Check if phase is completed
+        const completedKey = `${userType}-${userType}-${nodePhase}`;
+        const altKey = `${userType}-${nodePhase}`;
+        const isCompleted = completedPhases[completedKey] || completedPhases[altKey];
+
+        if (nodeIdx === activeIdx) {
+          node.classList.add('active');
+          dot.classList.add('active');
+          if (isCompleted) dot.classList.add('completed');
+        } else if (isCompleted) {
+          node.classList.add('past');
+          dot.classList.add('completed');
+        } else if (nodeIdx < activeIdx) {
+          node.classList.add('past');
+        }
+      });
+
+      // Update connector segments (fill up to active phase)
+      const seg1 = document.getElementById('flowSeg1');
+      const seg2 = document.getElementById('flowSeg2');
+      const seg3 = document.getElementById('flowSeg3');
+      const arrow1 = document.getElementById('flowArrow1');
+      const arrow2 = document.getElementById('flowArrow2');
+      const arrow3 = document.getElementById('flowArrow3');
+
+      if (seg1) { seg1.classList.toggle('filled', activeIdx >= 1); }
+      if (seg2) { seg2.classList.toggle('filled', activeIdx >= 2); }
+      if (seg3) { seg3.classList.toggle('filled', activeIdx >= 3); }
+      if (arrow1) { arrow1.classList.toggle('filled', activeIdx >= 1); }
+      if (arrow2) { arrow2.classList.toggle('filled', activeIdx >= 2); }
+      if (arrow3) { arrow3.classList.toggle('filled', activeIdx >= 3); }
     }
 
     // ===================== QUIZZES =====================
@@ -3564,15 +4323,15 @@
         title: "Market Day Quiz",
         questions: [
           { q: "Correct Neighbor ID format?", opts: ["reach-12345", "REACH-12345", "12345"], ans: 1, exp: "Format: REACH-12345 (uppercase, hyphen)." },
-          { q: "Before leaving you must?", opts: ["Pack up", "Visit PGL Check-out", "Email"], ans: 1, exp: "You MUST check out at PGL table!" },
-          { q: "Preferred way to log sales?", opts: ["Type ID", "Scan QR code", "Call PGL"], ans: 1, exp: "QR scanning is faster and reduces errors." }
+          { q: "Before leaving you must?", opts: ["Pack up", "Visit Manager Check-out", "Email"], ans: 1, exp: "You MUST check out at the manager table!" },
+          { q: "Preferred way to log sales?", opts: ["Type ID", "Scan QR code", "Call Manager"], ans: 1, exp: "QR scanning is faster and reduces errors." }
         ]
       },
       programs: {
         title: "Programs Quiz (H-J)",
         questions: [
           { q: "What does CSA stand for?", opts: ["Community Sales", "Community Supported Agriculture", "Certified Seller"], ans: 1, exp: "CSA = Community Supported Agriculture." },
-          { q: "How to enroll in programs?", opts: ["Automatic", "Ask PGL staff", "Online only"], ans: 1, exp: "Ask PGL staff for details and eligibility." }
+          { q: "How to enroll in programs?", opts: ["Automatic", "Ask your program manager", "Online only"], ans: 1, exp: "Ask your program manager for details and eligibility." }
         ]
       },
       postmarket: {
@@ -3619,7 +4378,7 @@
         questions: [
           { q: "What form sets up a new contract?", opts: ["Vendor Form", "Contract Information Form", "Setup Form"], ans: 1, exp: "Use the Contract Information Form to set up contracts and programs." },
           { q: "Who can approve vendor applications?", opts: ["Vendors", "Managers", "Customers"], ans: 1, exp: "Managers manually approve, deny, or waitlist vendor applications." },
-          { q: "How do managers track staff/volunteer time?", opts: ["Email", "Personnel Check-in Form", "Text message"], ans: 1, exp: "Use the PGL Personnel Market Check-in and Out Form." }
+          { q: "How do managers track staff/volunteer time?", opts: ["Email", "Personnel Check-in Form", "Text message"], ans: 1, exp: "Use the Personnel Market Check-in and Out Form." }
         ]
       },
       'manager-forms': {
@@ -3717,16 +4476,16 @@
     // ===================== TOOLS =====================
     const tools = {
       wallet: { t: "Vendor Wallet View", c: "<p>See real-time balance as transactions process.</p><ul><li>Live balance updates</li><li>Payment history</li><li>Export summaries</li></ul>" },
-      simulation: { t: "Simulation Environment", c: "<p>Practice all forms safely.</p><ul><li>Test Transaction Form</li><li>Try QR scanning</li><li>Build confidence</li></ul><div class='alert warn'>Note: Simulation data is NOT saved!</div>" },
+      simulation: { t: "Simulation Environment", c: "<div class='alert warn' style='margin-bottom:16px;'><strong>🚧 Coming Soon</strong> — This feature is currently under development.</div><p>The simulation environment will allow you to practice all forms safely before market day.</p><ul><li>Test the Transaction Form with sample data</li><li>Try QR scanning workflow</li><li>Practice form submissions without affecting real data</li><li>Build confidence before your first market</li></ul><p style='margin-top:12px; font-size:13px; color:var(--text-muted);'>Simulation data is never saved to the live system.</p>" },
       enotes: { t: "eNotes / Recipes", c: "<p>Digital tools for product info.</p><ul><li>Recipe cards</li><li>Product descriptions</li><li>Personal notes</li></ul>" },
       transactions: { t: "Transaction Summaries", c: "<p>Review past transactions.</p><ul><li>Filter by date/product</li><li>Export to CSV</li><li>Compare markets</li></ul>" },
-      examples: { t: "Example Outputs", c: "<p>See system output samples.</p><ul><li>Receipts</li><li>Invoices</li><li>Reports</li></ul>" },
+      examples: { t: "Paperwork Practice", c: "<div class='alert warn' style='margin-bottom:16px;'><strong>🚧 Coming Soon</strong> — Annotated examples are being prepared.</div><p>This section will contain annotated example documents so you can see exactly what completed forms and outputs look like:</p><ul><li><strong>Receipts:</strong> Annotated sample receipts showing what each field means</li><li><strong>Vendor Invoices:</strong> Example end-of-market invoice (note: vendor invoices are only generated when subsidy-based benefits are used at the market — markets without benefits do not produce invoices)</li><li><strong>Transaction Summaries:</strong> Sample transaction reports by date and product</li><li><strong>Reports:</strong> Example analytics and sales reports</li></ul><p style='margin-top:12px; font-size:13px; color:var(--text-muted);'>Examples will be updated as forms are finalized.</p>" },
       analytics: { t: "Visual Analytics", c: "<p>Charts for business insights.</p><ul><li>Sales trends</li><li>Peak hours</li><li>Popular products</li></ul>" },
       casestudies: { t: "Case Studies", c: "<p>Learn from successful vendors.</p><ul><li>Success stories</li><li>Best practices</li><li>Growth strategies</li></ul>" },
-      videos: { t: "Video Tutorials", c: "<p>Step-by-step video guides.</p><ul><li>Form completion</li><li>QR scanning</li><li>Invoice submission</li></ul><div class='alert tip'>Available in multiple languages!</div>" },
-      faq: { t: "FAQ", c: "<p><strong>Form won't submit?</strong> Check internet, try again.<br><strong>Forgot PIN?</strong> Ask PGL staff.<br><strong>QR not working?</strong> Enable camera permissions.</p>" },
-      support: { t: "Support", c: "<p><strong>Market Day:</strong> Visit PGL Table<br><strong>Email:</strong> support@thepeoplesmarket.org<br><strong>Emergency:</strong> Text HELP to 55512</p>" },
-      achievements: { t: "Achievements", c: "<ul><li>First Sale</li><li>4 Markets Attended</li><li>Perfect Forms</li><li>Quiz Master</li></ul>" },
+      videos: { t: "Video Tutorials (Arcade Walkthroughs)", c: "<p>Interactive step-by-step video walkthroughs for each form and process in the Homegrown system. These Arcade-style guides walk you through each screen with annotations.</p><ul><li><strong>Transaction Form:</strong> How to log a sale, scan QR codes, and process benefits</li><li><strong>Upcoming Market Form:</strong> How to set items, prices, and confirm attendance</li><li><strong>Document Upload Form:</strong> How to navigate and submit required documents</li><li><strong>Vendor Request/Modification Form:</strong> How to update your registration info</li><li><strong>QR Scanning:</strong> How to scan customer QR codes quickly and accurately</li></ul><div class='alert tip'>Available in multiple languages! New Arcade walkthroughs are being added as forms are finalized.</div>" },
+      faq: { t: "FAQ & Common Issues", c: "<p><strong>Frequently Asked Questions</strong></p><ul><li><strong>Form won't submit?</strong> Check your internet connection and try again. Make sure all required fields are filled in.</li><li><strong>Forgot your Vendor PIN?</strong> Contact your market manager — they can look up your PIN or reset it for you.</li><li><strong>QR code not working?</strong> Enable camera permissions in your phone settings. Ensure the QR code is clearly visible and well-lit.</li><li><strong>Benefits not showing for a customer?</strong> The benefits displayed are accurate — the customer has only the benefits shown. They cannot spend more than what is allocated.</li><li><strong>Transaction Form not loading products?</strong> You must submit the Upcoming Market Form before market day for your products to pre-load into the Transaction Form.</li><li><strong>Document upload failed?</strong> Check file size and format. Try again or contact your market manager for assistance.</li><li><strong>Can't find my program information?</strong> Check the Program section in the app or website. Your Contract ID and Program ID are listed there along with manager contact info.</li></ul><p style='margin-top:12px; font-size:13px; color:var(--text-muted);'>This FAQ is regularly updated. Contact your market manager for issues not covered here.</p>" },
+      support: { t: "Support Contacts", c: "<p><strong>Your Primary Contacts</strong></p><p>Your support contacts are determined by your program contract. If you logged in with your ID, these will be auto-populated:</p><ul><li><strong>Market Manager:</strong> Listed in your contract — name, email, and phone number</li><li><strong>Primary Sponsor:</strong> Organization name, contact person, email</li><li><strong>On Market Day:</strong> Visit the manager check-in table onsite</li></ul><p style='margin-top:12px;'><strong>General Support</strong></p><ul><li><strong>Email:</strong> support@thepeoplesmarket.org</li><li><strong>Emergency:</strong> Text HELP to 55512</li></ul><div class='alert tip' style='margin-top:12px;'>Your manager and sponsor contact info can also be found in the <strong>Program section</strong> of the app or on the website under your program details.</div>" },
+      achievements: { t: "Achievements", c: "<p><strong>How Achievements Work</strong></p><p>Achievements are earned by completing the quizzes in each module of this tutorial. Click the orange <strong>Quiz</strong> button on each module section to test your knowledge.</p><ul><li><strong>Quiz Completion:</strong> Complete each module quiz at 90% or more to earn an achievement point</li><li><strong>Module Mastery:</strong> Earn points for all quizzes within a phase (Prepare, Pre-Market, Market Day, After Market)</li><li><strong>Tutorial Complete:</strong> Finish all modules and quizzes to earn full credit</li><li><strong>Perfect Score:</strong> Answer every quiz question correctly on the first attempt</li></ul><div class='alert tip' style='margin-top:12px;'>All quiz answers can be found within the corresponding module content. Review the material before attempting each quiz!</div>" },
       progress: { t: "Progress", c: "<ul><li>Account Created</li><li>Documents Uploaded</li><li>First Market</li><li>5 Markets Complete</li></ul>" }
     };
 
@@ -3808,6 +4567,10 @@
           el.classList.remove('completed');
         }
       });
+
+      // Sync linear flow indicator with completion state
+      const activePhase = document.body.getAttribute('data-active-phase') || 'prepare';
+      updateLinearFlow(activePhase);
     }
 
     function updateMilestones() {
@@ -3839,20 +4602,6 @@
       updateMilestones();
     }
 
-    // Update progress bar when phase filter changes
-    const originalFilterSections = filterSections;
-    filterSections = function(phase, evt) {
-      originalFilterSections(phase, evt);
-
-      // Update active state in progress phases
-      document.querySelectorAll('.progress-phase').forEach(el => {
-        el.classList.remove('active');
-        if (el.dataset.phase === phase || (phase === 'all' && el.dataset.phase === 'prepare')) {
-          el.classList.add('active');
-        }
-      });
-    };
-
     // Initialize progress tracking after journey starts
     const originalStartJourney = startJourney;
     startJourney = function() {
@@ -3862,9 +4611,73 @@
       }, 100);
     };
 
+    // Quick Login function - simulates ID-based auto-detection
+    function attemptQuickLogin() {
+      const idInput = document.getElementById('quickLoginId').value.trim().toUpperCase();
+      const msgEl = document.getElementById('quickLoginMsg');
+      
+      if (!idInput) {
+        msgEl.style.display = 'block';
+        msgEl.textContent = 'Please enter your ID to continue.';
+        return;
+      }
+
+      // Simulate ID pattern detection
+      let detectedType = null;
+      let detectedProgram = null;
+      
+      if (idInput.startsWith('VEND') || idInput.startsWith('V-')) {
+        detectedType = 'vendor';
+        detectedProgram = 'market-program';
+      } else if (idInput.startsWith('MGR') || idInput.startsWith('M-')) {
+        detectedType = 'manager';
+        detectedProgram = 'market-program';
+      } else if (idInput.startsWith('REACH') || idInput.startsWith('NB-') || idInput.startsWith('CUST')) {
+        detectedType = 'customer';
+        detectedProgram = 'market-program';
+      } else if (idInput.startsWith('CSA') || idInput.startsWith('ENR')) {
+        detectedType = 'customer';
+        detectedProgram = 'csa';
+      } else if (idInput.startsWith('SP-') || idInput.startsWith('SPON') || idInput.startsWith('FND')) {
+        detectedType = 'sponsor';
+        detectedProgram = 'market-program';
+      } else if (idInput.startsWith('TR-') || idInput.startsWith('TRAIN')) {
+        detectedType = 'trainee';
+        detectedProgram = 'training';
+      }
+
+      if (detectedType) {
+        // Auto-select and start journey
+        currentUserType = detectedType;
+        currentProgramType = detectedProgram;
+        
+        // Update UI selection states
+        document.querySelectorAll('.user-type-card').forEach(card => card.classList.remove('selected'));
+        const targetCard = document.querySelector(`.user-type-card[data-type="${detectedType}"]`);
+        if (targetCard) targetCard.classList.add('selected');
+        
+        document.querySelectorAll('.program-btn').forEach(btn => btn.classList.remove('selected'));
+        const targetProgram = document.querySelector(`.program-btn[data-program="${detectedProgram}"]`);
+        if (targetProgram) targetProgram.classList.add('selected');
+        
+        msgEl.style.display = 'block';
+        msgEl.style.color = 'var(--primary)';
+        msgEl.textContent = `Detected: ${detectedType.charAt(0).toUpperCase() + detectedType.slice(1)} (ID: ${idInput}). Loading your journey map...`;
+        
+        setTimeout(() => {
+          startJourney();
+        }, 800);
+      } else {
+        msgEl.style.display = 'block';
+        msgEl.style.color = 'var(--accent)';
+        msgEl.textContent = 'ID format not recognized. Please use the manual selection below, or check with your program manager for your correct ID.';
+      }
+    }
+
     // Initialize
     setLanguage('en');
     initializePhaseCompletionState();
+    updateLinearFlow('prepare');
   </script>
 </body>
 </html>
